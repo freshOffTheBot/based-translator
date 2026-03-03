@@ -1,0 +1,170 @@
+:root {
+	color-scheme: dark;
+	font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+	line-height: 1.4;
+	font-weight: 400;
+	background: #0a0a0a;
+	color: #f1f1f1;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	display: grid;
+	place-items: center;
+	background:
+		radial-gradient(circle at 20% 20%, #151515 0%, transparent 55%),
+		radial-gradient(circle at 80% 0%, #121212 0%, transparent 45%),
+		#0a0a0a;
+	padding: 24px;
+}
+
+#app {
+	width: 100%;
+	max-width: 760px;
+}
+
+.panel {
+	border: 1px solid #2f2f2f;
+	background: #101010;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 0 0 1px #161616 inset;
+}
+
+h1 {
+	margin: 0;
+	font-size: 1.5rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: 'Geist Pixel Square', "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+	letter-spacing: .1rem;
+}
+
+.subtitle {
+	margin: 8px 0 20px;
+	color: #b9b9b9;
+}
+
+.field {
+	display: block;
+	margin-bottom: 8px;
+}
+
+input {
+	width: 100%;
+	padding: 10px 12px;
+	border: 1px solid #343434;
+	border-radius: 6px;
+	background: #0d0d0d;
+	color: #f1f1f1;
+	font: inherit;
+	margin-bottom: 10px;
+}
+
+#save-key-btn {
+	padding: 4px 8px;
+	font-size: 0.82rem;
+}
+
+.actions {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+	margin-bottom: 14px;
+}
+
+button {
+	padding: 8px 12px;
+	border: 1px solid #3a3a3a;
+	border-radius: 6px;
+	background: #171717;
+	color: #efefef;
+	font-family: 'Geist Pixel Square', "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+	font-size: 1rem;
+	line-height: 1.2;
+	letter-spacing: .1rem;
+	cursor: pointer;
+}
+
+button:hover:enabled {
+	background: #202020;
+}
+
+button:disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
+}
+
+.status {
+	margin: 0;
+	padding: 0;
+	color: #c7c7c7;
+	display: block;
+}
+
+.status-wrap {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+	margin-bottom: 18px;
+}
+
+.status-info {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 6px;
+}
+
+.result {
+	border: 1px dashed #3a3a3a;
+	border-radius: 6px;
+	padding: 10px;
+	background: #0d0d0d;
+}
+
+.result-label {
+	margin: 0 0 8px;
+	color: #c8c8c8;
+}
+
+#result-text {
+	margin: 0;
+	white-space: pre-wrap;
+	word-break: break-word;
+	min-height: 72px;
+	color: #f2f2f2;
+}
+
+@media (max-width: 640px) {
+	body {
+		padding: 14px;
+	}
+
+	.panel {
+		padding: 14px;
+	}
+
+	h1 {
+		font-size: 1.2rem;
+	}
+
+	.status-wrap {
+		flex-direction: column;
+	}
+
+	#save-key-btn {
+		align-self: flex-end;
+	}
+}
