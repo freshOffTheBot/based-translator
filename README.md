@@ -2,36 +2,46 @@
 # BASED TRANSLATOR
 
 <p align="center">
-	<img src="docs/v0.1.0.png" width="800">
+	<img src="docs/v0.1.0.png" width="800" alt="BASED TRANSLATOR screenshot">
 </p>
 
-Speech-to-text translator using the OpenAI API.
-No server-side storage - everything stays in your browser.
+Speech-to-text + translation app using the OpenAI API.
+No server-side storage. Everything stays in your browser.
 
 
 
-## Features
-- Enter your OpenAI API key in the app.
-- Click `Start` to begin recording from your microphone.
-- Click `Finish` to transcribe your speech into text.
-- Click `Cancel` to stop and discard the current recording.
-- Your audio and text stay in your browser (no server-side storage).
+## What It Does
+- Takes microphone audio in the browser.
+- Sends audio to OpenAI Speech-to-Text API (`/v1/audio/transcriptions`).
+- Sends transcription text to OpenAI Responses API (`/v1/responses`) for translation.
+- Shows transcription and translation side-by-side.
 
 
 
-## Dev
+## Behavior Notes
+- API key, prompt, translation instructions, and advanced panel open/closed state are saved in `localStorage`.
+- Inputs and advanced toggle are locked while recording/transcribing/translating.
+- On cancel, recording data and outputs are cleared.
+- On translation error, transcription stays visible.
+- Request timeout is `60s` for both transcription and translation.
 
+
+
+## Run
 ```bash
-# Local developement:
 pnpm install
 pnpm run dev
+```
 
-# Build:
+
+
+## Build
+```bash
 pnpm run build
 ```
 
 
 
 ## Security Note
-- API key is stored in `localStorage` in the same browser profile on the same device.
-- Use a dedicated key with limited scope/credit when possible.
+- API key is stored in your browser `localStorage` for this origin.
+- Use a dedicated key with scoped limits when possible.
