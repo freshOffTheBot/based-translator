@@ -1,6 +1,6 @@
 
 # BASED TRANSLATOR
-01. Speech-to-text translator using the OpenAI API. No server-side storage - everything stays in your browser.
+01. Speech-to-text + translation app using the OpenAI API. No server-side storage - everything stays in your browser.
 02. Users bring their own OpenAI token, and everything stays in the user's browser.
 03. It uses pnpm, plain TypeScript, and Vite.
 
@@ -22,10 +22,13 @@
 04. Finish button.
 05. Cancel button.
 06. Prompt text input (optional).
-07. Transcription text label.
-08. Dark theme and minimal design.
-09. Use monospace font.
-10. Use ASCII art for UI components design.
+07. Transcription text label + output box.
+08. Downward arrow between transcription and translation input.
+09. Translation input text box (instructions for translation).
+10. Translation text label + output box.
+11. Dark theme and minimal design.
+12. Use monospace font.
+13. Use ASCII art for UI components design.
 
 
 
@@ -50,13 +53,23 @@ flowchart TD
 	G --> H{Internet working?}
 
 	H -- No --> H1[Show network error message] --> Z
-	H -- Yes --> I{API success?}
+	H -- Yes --> I{Transcription API success?}
 
-	I -- No --> I1[Show API error message] --> Z
-	I -- Timeout --> I2[Show timeout message] --> Z
-	I -- Yes --> J[Show text result]
+	I -- No --> I1[Show transcription API error message] --> Z
+	I -- Timeout --> I2[Show transcription timeout message] --> Z
+	I -- Yes --> J[Show transcription text]
 
-	J --> Z[Done]
+	J --> K[Build translation input from Translation input box + transcription text]
+	K --> L[Send request to OpenAI text generation API]
+
+	L --> M{Internet working?}
+	M -- No --> M1[Show network error message and keep transcription text] --> Z
+	M -- Yes --> N{Translation API success?}
+	N -- No --> N1[Show translation API error message and keep transcription text] --> Z
+	N -- Timeout --> N2[Show translation timeout message and keep transcription text] --> Z
+	N -- Yes --> O[Show translation text]
+
+	O --> Z[Done]
 ```
 
 
@@ -64,9 +77,14 @@ flowchart TD
 01. Prompt text is optional and persisted in browser localStorage.
 02. Prompt localStorage key: `based_translator_prompt`.
 03. API key localStorage key: `based_translator_openai_api_key`.
-04. API key and prompt inputs are disabled while recording/transcribing.
-05. Transcription request timeout is 60 seconds.
-06. Request payload always includes `file` and `model`, and includes `prompt` only when non-empty.
+04. Translation input is persisted in browser localStorage.
+05. Translation input localStorage key: `based_translator_translation_input`.
+06. API key, prompt input, and translation input are disabled while recording/transcribing/translating.
+07. Transcription request timeout is 60 seconds.
+08. Translation request timeout is 60 seconds.
+09. Transcription payload always includes `file` and `model`, and includes `prompt` only when non-empty.
+10. Translation payload uses Responses API with `model: ...` and `input`.
+11. Translation output parsing should support both `output_text` and nested `output[].content[].text`.
 
 
 
@@ -85,9 +103,13 @@ flowchart TD
 
 
 
-## 6. OpenAI Speech To Text
-01. The project uses OpenAI's speech-to-text API.
-02. Example code from the official document:
+## 6. OpenAI APIs
+01. The project uses OpenAI's APIs.
+02. After transcription succeeds, the project sends another request to OpenAI Responses API to translate text.
+
+
+### 6-1. Speech To Text API
+01. Example code from the official document:
 
 ```js
 import fs from "fs";
@@ -105,4 +127,26 @@ const transcription = await openai.audio.transcriptions.create({
 console.log(transcription.text);
 ```
 
-03. The example code uses `.mp3`, but we use in-memory in browser.
+02. The example code uses `.mp3`, but we use in-memory in browser.
+
+
+### 6-2. Text Generation API (Translation)
+01. Example code from the official document:
+
+```js
+import OpenAI from "openai";
+const client = new OpenAI();
+
+const response = await client.responses.create({
+	model: "gpt-5.2",
+	input: "..."
+});
+
+console.log(response.output_text);
+```
+
+02. `input` is built from:
+	02-01. translation instructions from the translation text input.
+	02-02. transcription text from speech-to-text result.
+
+
