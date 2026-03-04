@@ -1,6 +1,22 @@
+@font-face {
+	font-family: "Cascadia Mono NF";
+	src: url("./assets/fonts/cascadia-mono/CascadiaMonoNF.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Cascadia Mono NF";
+	src: url("./assets/fonts/cascadia-mono/CascadiaMonoNFItalic.woff2") format("woff2");
+	font-weight: 400;
+	font-style: italic;
+	font-display: swap;
+}
+
 :root {
 	color-scheme: dark;
-	font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+	font-family: "Cascadia Mono NF", "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 	line-height: 1.4;
 	font-weight: 400;
 	background: #0a0a0a;
@@ -46,7 +62,7 @@ h3,
 h4,
 h5,
 h6 {
-	font-family: 'Geist Pixel Square', "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+	font-family: "Cascadia Mono NF", "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 	letter-spacing: .1rem;
 }
 
@@ -89,7 +105,7 @@ button {
 	border-radius: 6px;
 	background: #171717;
 	color: #efefef;
-	font-family: 'Geist Pixel Square', "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+	font-family: "Cascadia Mono NF", "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 	font-size: 1rem;
 	line-height: 1.2;
 	letter-spacing: .1rem;

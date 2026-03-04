@@ -61,6 +61,8 @@ flowchart TD
 ## 4. Rules
 01. Let's use simple and easy-to-understand codes.
 02. Let's have comments so that other dev frens understand the codes super easy.
+03. Use single-source-of-truth approach.
+04. Add semicolons in the source codes.
 
 
 
