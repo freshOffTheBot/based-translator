@@ -10,6 +10,7 @@ const REQUEST_TIMEOUT_MS = 60_000;
 const API_KEY_STORAGE_KEY = 'based_translator_openai_api_key';
 const PROMPT_STORAGE_KEY = 'based_translator_prompt';
 const TRANSLATION_INPUT_STORAGE_KEY = 'based_translator_translation_input';
+const ADVANCED_OPEN_STORAGE_KEY = 'based_translator_advanced_open';
 
 const app = document.querySelector<HTMLDivElement>('#app');
 
@@ -20,52 +21,48 @@ if (!app) {
 app.innerHTML = `
 	<main class="panel">
 		<h1>BASED TRANSLATOR</h1>
-		<p class="subtitle">Speech-to-text translator using the OpenAI API. No server-side storage - everything stays in your browser.</p>
+		<p class="subtitle">Speech-to-text translator using the OpenAI API. Everything stays in your browser.</p>
 
 		<label class="field" for="api-key">OpenAI API Key</label>
-		<input id="api-key" type="password" autocomplete="off" placeholder="sk-..." />
-		<div class="status-wrap">
-			<div class="status-info">
-				<p id="status" class="status" role="status" aria-live="polite">Status: idle</p>
-			</div>
+		<div class="key-row">
+			<input id="api-key" type="password" autocomplete="off" placeholder="sk-..." />
 			<button id="save-key-btn" type="button">[ Save API Key ]</button>
 		</div>
-
-		<label class="field" for="prompt-text">Prompt (optional)</label>
-		<textarea id="prompt-text" rows="3" placeholder="Give optional transcription hints (language, terms, style)."></textarea>
+		<p id="status" class="status" role="status" aria-live="polite">Status: idle</p>
 
 		<section class="actions" aria-label="Controls">
-			<button id="start-btn" type="button">[ Start ]</button>
-			<button id="finish-btn" type="button" disabled>[ Finish ]</button>
-			<button id="cancel-btn" type="button" disabled>[ Cancel ]</button>
+			<button id="record-btn" type="button">[ Start Recording ]</button>
+			<button id="cancel-btn" type="button" class="text-btn" hidden>[ Cancel ]</button>
 		</section>
 
-		<section class="transcription" aria-live="polite">
-			<p class="transcription-label">Transcription text:</p>
-			<pre id="transcription-text">(empty)</pre>
-		</section>
+		<details id="advanced-panel" class="advanced">
+			<summary>[ Advanced ]</summary>
+			<label class="field" for="prompt-text">Prompt (optional)</label>
+			<textarea id="prompt-text" rows="3" placeholder="Give optional transcription hints (language, terms, style)."></textarea>
+			<label class="field" for="translation-input-text">Translation instructions</label>
+			<textarea id="translation-input-text" rows="3" placeholder="Example: Translate to Korean. Keep it natural and concise."></textarea>
+		</details>
 
-		<div class="flow-arrow" aria-hidden="true">
-			<pre>↓</pre>
-		</div>
-
-		<label class="field" for="translation-input-text">Translation input (instructions)</label>
-		<textarea id="translation-input-text" rows="3" placeholder="Example: Translate to Korean. Keep it natural and concise."></textarea>
-
-		<section class="translation" aria-live="polite">
-			<p class="translation-label">Translation text:</p>
-			<pre id="translation-text">(empty)</pre>
+		<section class="results">
+			<section class="result" aria-live="polite">
+				<p class="result-label">Transcription text:</p>
+				<pre id="transcription-text">(empty)</pre>
+			</section>
+			<section class="result" aria-live="polite">
+				<p class="result-label">Translation text:</p>
+				<pre id="translation-text">(empty)</pre>
+			</section>
 		</section>
 	</main>
 `;
 
 const apiKeyInput = document.querySelector<HTMLInputElement>('#api-key');
 const saveKeyButton = document.querySelector<HTMLButtonElement>('#save-key-btn');
-const startButton = document.querySelector<HTMLButtonElement>('#start-btn');
-const finishButton = document.querySelector<HTMLButtonElement>('#finish-btn');
+const recordButton = document.querySelector<HTMLButtonElement>('#record-btn');
 const cancelButton = document.querySelector<HTMLButtonElement>('#cancel-btn');
 const promptTextInput = document.querySelector<HTMLTextAreaElement>('#prompt-text');
 const translationInputText = document.querySelector<HTMLTextAreaElement>('#translation-input-text');
+const advancedPanel = document.querySelector<HTMLDetailsElement>('#advanced-panel');
 const statusText = document.querySelector<HTMLParagraphElement>('#status');
 const transcriptionText = document.querySelector<HTMLPreElement>('#transcription-text');
 const translationText = document.querySelector<HTMLPreElement>('#translation-text');
@@ -73,11 +70,11 @@ const translationText = document.querySelector<HTMLPreElement>('#translation-tex
 if (
 	!apiKeyInput ||
 	!saveKeyButton ||
-	!startButton ||
-	!finishButton ||
+	!recordButton ||
 	!cancelButton ||
 	!promptTextInput ||
 	!translationInputText ||
+	!advancedPanel ||
 	!statusText ||
 	!transcriptionText ||
 	!translationText
@@ -88,6 +85,8 @@ if (
 let currentState: AppState = 'idle';
 let mediaRecorder: MediaRecorder | null = null;
 let recordedChunks: Blob[] = [];
+let advancedPanelLocked = false;
+let lastAdvancedOpen = false;
 
 const setState = (next: AppState): void => {
 	currentState = next;
@@ -95,14 +94,35 @@ const setState = (next: AppState): void => {
 	const isRecording = next === 'recording';
 	const isTranscribing = next === 'transcribing';
 	const isTranslating = next === 'translating';
+	const isBusy = isRecording || isTranscribing || isTranslating;
 
-	startButton.disabled = !isIdle;
-	finishButton.disabled = !isRecording;
+	saveKeyButton.disabled = isBusy;
+	apiKeyInput.disabled = isBusy;
+	promptTextInput.disabled = isBusy;
+	translationInputText.disabled = isBusy;
+
+	cancelButton.hidden = !isRecording;
 	cancelButton.disabled = !isRecording;
-	saveKeyButton.disabled = isRecording || isTranscribing || isTranslating;
-	apiKeyInput.disabled = isRecording || isTranscribing || isTranslating;
-	promptTextInput.disabled = isRecording || isTranscribing || isTranslating;
-	translationInputText.disabled = isRecording || isTranscribing || isTranslating;
+
+	recordButton.disabled = isTranscribing || isTranslating;
+	if (isIdle) {
+		recordButton.textContent = '[ Start Recording ]';
+	} else if (isRecording) {
+		recordButton.textContent = '[ Finish Recording ]';
+	} else if (isTranscribing) {
+		recordButton.textContent = '[ Transcribing... ]';
+	} else {
+		recordButton.textContent = '[ Translating... ]';
+	}
+
+	if (isBusy && !advancedPanelLocked) {
+		lastAdvancedOpen = advancedPanel.open;
+		advancedPanelLocked = true;
+		advancedPanel.classList.add('locked');
+	} else if (!isBusy && advancedPanelLocked) {
+		advancedPanelLocked = false;
+		advancedPanel.classList.remove('locked');
+	}
 };
 
 const setStatus = (message: string): void => {
@@ -173,14 +193,24 @@ const saveTranslationInput = (): void => {
 	localStorage.setItem(TRANSLATION_INPUT_STORAGE_KEY, translationInput);
 };
 
+const loadSavedAdvancedPanelState = (): void => {
+	const savedState = localStorage.getItem(ADVANCED_OPEN_STORAGE_KEY);
+	advancedPanel.open = savedState === '1';
+	lastAdvancedOpen = advancedPanel.open;
+};
+
+const saveAdvancedPanelState = (): void => {
+	localStorage.setItem(ADVANCED_OPEN_STORAGE_KEY, advancedPanel.open ? '1' : '0');
+};
+
 const stopTracks = (recorder: MediaRecorder): void => {
 	for (const track of recorder.stream.getTracks()) {
 		track.stop();
 	}
 };
 
-const createAudioFile = (chunks: Blob[]): File => {
-	const mimeType = mediaRecorder?.mimeType || 'audio/webm';
+const createAudioFile = (chunks: Blob[], mimeTypeHint: string): File => {
+	const mimeType = mimeTypeHint || 'audio/webm';
 	const ext = mimeType.includes('ogg') ? 'ogg' : 'webm';
 	return new File(chunks, `recording.${ext}`, { type: mimeType });
 };
@@ -381,7 +411,7 @@ const startRecording = async (): Promise<void> => {
 
 		mediaRecorder.start();
 		setState('recording');
-		setStatus('recording... click Finish or Cancel');
+		setStatus('recording... click finish or cancel');
 	} catch (error) {
 		if (error instanceof DOMException && error.name === 'NotAllowedError') {
 			setStatus('Permission error: microphone access denied.');
@@ -402,7 +432,7 @@ const cancelRecording = (): void => {
 	recordedChunks = [];
 
 	setState('idle');
-	setStatus('Recording canceled. Audio deleted.');
+	setStatus('recording canceled. audio deleted.');
 	setTranscription('(empty)');
 	setTranslation('(empty)');
 };
@@ -434,19 +464,19 @@ const finishRecording = async (): Promise<void> => {
 
 	const apiKey = apiKeyInput.value.trim();
 	const prompt = promptTextInput.value.trim();
-	const audioFile = createAudioFile(recordedChunks);
+	const audioFile = createAudioFile(recordedChunks, recorder.mimeType);
 	recordedChunks = [];
 
 	try {
-		setStatus('sending audio to OpenAI...');
+		setStatus('transcribing...');
 		const transcription = await transcribeAudio(audioFile, apiKey, prompt);
 		setTranscription(transcription);
 		setState('translating');
-		setStatus('translating transcription with OpenAI...');
+		setStatus('translating...');
 		const translationInstruction = translationInputText.value.trim();
 		const translation = await translateText(transcription, apiKey, translationInstruction);
 		setTranslation(translation);
-		setStatus('Done');
+		setStatus('done');
 	} catch (error) {
 		const message = error instanceof Error ? error.message : 'Unknown error.';
 		setStatus(message);
@@ -455,20 +485,31 @@ const finishRecording = async (): Promise<void> => {
 	}
 };
 
-startButton.addEventListener('click', () => {
-	void startRecording();
+recordButton.addEventListener('click', () => {
+	if (currentState === 'idle') {
+		void startRecording();
+		return;
+	}
+	if (currentState === 'recording') {
+		void finishRecording();
+	}
 });
 
 saveKeyButton.addEventListener('click', () => {
 	saveApiKey();
 });
 
-finishButton.addEventListener('click', () => {
-	void finishRecording();
-});
-
 cancelButton.addEventListener('click', () => {
 	cancelRecording();
+});
+
+advancedPanel.addEventListener('toggle', () => {
+	if (advancedPanelLocked) {
+		advancedPanel.open = lastAdvancedOpen;
+		return;
+	}
+	lastAdvancedOpen = advancedPanel.open;
+	saveAdvancedPanelState();
 });
 
 promptTextInput.addEventListener('input', () => {
@@ -483,3 +524,4 @@ setState('idle');
 loadSavedApiKey();
 loadSavedPrompt();
 loadSavedTranslationInput();
+loadSavedAdvancedPanelState();

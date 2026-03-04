@@ -1,4 +1,3 @@
-
 # BASED TRANSLATOR
 01. Speech-to-text + translation app using the OpenAI API. No server-side storage - everything stays in your browser.
 02. Users bring their own OpenAI token, and everything stays in the user's browser.
@@ -18,17 +17,21 @@
 ## 2. UI/UX
 01. OpenAI API key input form.
 02. Save API Key button.
-03. Start button.
-04. Finish button.
-05. Cancel button.
-06. Prompt text input (optional).
-07. Transcription text label + output box.
-08. Downward arrow between transcription and translation input.
-09. Translation input text box (instructions for translation).
-10. Translation text label + output box.
-11. Dark theme and minimal design.
-12. Use monospace font.
-13. Use ASCII art for UI components design.
+03. One stateful recording button:
+	03-01. Idle: `[ Start Recording ]`
+	03-02. Recording: `[ Finish Recording ]`
+	03-03. Transcribing / Translating: disabled with phase label.
+04. Cancel button shown only while recording.
+05. Compact single-line status text.
+06. Advanced panel (`<details>`) for optional settings.
+07. Prompt text input (optional) inside Advanced panel.
+08. Translation input text box (instructions for translation) inside Advanced panel.
+09. Two equal output panels:
+	09-01. Transcription text label + output box.
+	09-02. Translation text label + output box.
+10. Dark theme and minimal design.
+11. Use monospace font.
+12. Use ASCII-style labels/components where practical.
 
 
 
@@ -36,7 +39,7 @@
 
 ```mermaid
 flowchart TD
-	A[User enters optional Prompt text] --> B[User clicks Start button]
+	A[User checks API key setup] --> B[User clicks stateful Start Recording button]
 	B --> C{Microphone allowed?}
 
 	C -- No --> C1[Show permission error message] --> Z[End]
@@ -44,10 +47,10 @@ flowchart TD
 
 	D --> E{User action}
 
-	E -- Clicks Finish --> F[Stop recording]
+	E -- Clicks Finish Recording --> F[Stop recording]
 	E -- Clicks Cancel --> D1[Cancel recording and delete audio] --> Z
 
-	F --> F1[Build API prompt from Prompt text input]
+	F --> F1[Build API prompt from optional Prompt input]
 	F1 --> G[Send audio + optional prompt to OpenAI speech-to-text API]
 
 	G --> H{Internet working?}
@@ -60,7 +63,7 @@ flowchart TD
 	I -- Yes --> J[Show transcription text]
 
 	J --> K[Build translation input from Translation input box + transcription text]
-	K --> L[Send request to OpenAI text generation API]
+	K --> L[Send request to OpenAI Responses API]
 
 	L --> M{Internet working?}
 	M -- No --> M1[Show network error message and keep transcription text] --> Z
@@ -79,12 +82,17 @@ flowchart TD
 03. API key localStorage key: `based_translator_openai_api_key`.
 04. Translation input is persisted in browser localStorage.
 05. Translation input localStorage key: `based_translator_translation_input`.
-06. API key, prompt input, and translation input are disabled while recording/transcribing/translating.
-07. Transcription request timeout is 60 seconds.
-08. Translation request timeout is 60 seconds.
-09. Transcription payload always includes `file` and `model`, and includes `prompt` only when non-empty.
-10. Translation payload uses Responses API with `model: ...` and `input`.
-11. Translation output parsing should support both `output_text` and nested `output[].content[].text`.
+06. Advanced panel open/closed state is persisted in browser localStorage.
+07. Advanced panel localStorage key: `based_translator_advanced_open`.
+08. API key input, Save button, prompt input, and translation input are disabled while recording/transcribing/translating.
+09. Advanced panel toggle is locked while recording/transcribing/translating.
+10. Transcription request timeout is 60 seconds.
+11. Translation request timeout is 60 seconds.
+12. Transcription payload always includes `file` and `model`, and includes `prompt` only when non-empty.
+13. Translation payload uses Responses API with `model: ...` and `input`.
+14. Translation output parsing should support both `output_text` and nested `output[].content[].text`.
+15. On cancel, audio/transcription/translation are cleared.
+16. On translation error, transcription stays visible.
 
 
 
@@ -148,5 +156,3 @@ console.log(response.output_text);
 02. `input` is built from:
 	02-01. translation instructions from the translation text input.
 	02-02. transcription text from speech-to-text result.
-
-
