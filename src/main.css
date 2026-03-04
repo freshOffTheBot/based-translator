@@ -156,19 +156,52 @@ button:disabled {
 	gap: 6px;
 }
 
-.result {
+.transcription {
 	border: 1px dashed #3a3a3a;
 	border-radius: 6px;
 	padding: 10px;
 	background: #0d0d0d;
 }
 
-.result-label {
+.transcription-label {
 	margin: 0 0 8px;
 	color: #c8c8c8;
 }
 
-#result-text {
+#transcription-text {
+	margin: 0;
+	white-space: pre-wrap;
+	word-break: break-word;
+	min-height: 72px;
+	color: #f2f2f2;
+}
+
+.flow-arrow {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 10px 0 12px;
+	color: #7a7a7a;
+}
+
+.flow-arrow pre {
+	margin: 0;
+	font: inherit;
+}
+
+.translation {
+	border: 1px dashed #3a3a3a;
+	border-radius: 6px;
+	padding: 10px;
+	background: #0d0d0d;
+}
+
+.translation-label {
+	margin: 0 0 8px;
+	color: #c8c8c8;
+}
+
+#translation-text {
 	margin: 0;
 	white-space: pre-wrap;
 	word-break: break-word;
