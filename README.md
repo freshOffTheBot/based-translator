@@ -2,7 +2,7 @@
 # BASED TRANSLATOR
 
 <p align="center">
-	<img src="docs/v0.0.0.png" width="800">
+	<img src="docs/v0.1.0.png" width="800">
 </p>
 
 Speech-to-text translator using the OpenAI API.
