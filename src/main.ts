@@ -6,6 +6,7 @@ const TRANSCRIBE_URL = 'https://api.openai.com/v1/audio/transcriptions';
 const TRANSCRIBE_MODEL = 'gpt-4o-transcribe';
 const REQUEST_TIMEOUT_MS = 60_000;
 const API_KEY_STORAGE_KEY = 'based_translator_openai_api_key';
+const PROMPT_STORAGE_KEY = 'based_translator_prompt';
 
 const app = document.querySelector<HTMLDivElement>('#app');
 
@@ -27,6 +28,9 @@ app.innerHTML = `
 			<button id="save-key-btn" type="button">[ Save API Key ]</button>
 		</div>
 
+		<label class="field" for="prompt-text">Prompt (optional)</label>
+		<textarea id="prompt-text" rows="3" placeholder="Give optional transcription hints (language, terms, style)."></textarea>
+
 		<section class="actions" aria-label="Controls">
 			<button id="start-btn" type="button">[ Start ]</button>
 			<button id="finish-btn" type="button" disabled>[ Finish ]</button>
@@ -45,10 +49,11 @@ const saveKeyButton = document.querySelector<HTMLButtonElement>('#save-key-btn')
 const startButton = document.querySelector<HTMLButtonElement>('#start-btn');
 const finishButton = document.querySelector<HTMLButtonElement>('#finish-btn');
 const cancelButton = document.querySelector<HTMLButtonElement>('#cancel-btn');
+const promptTextInput = document.querySelector<HTMLTextAreaElement>('#prompt-text');
 const statusText = document.querySelector<HTMLParagraphElement>('#status');
 const resultText = document.querySelector<HTMLPreElement>('#result-text');
 
-if (!apiKeyInput || !saveKeyButton || !startButton || !finishButton || !cancelButton || !statusText || !resultText) {
+if (!apiKeyInput || !saveKeyButton || !startButton || !finishButton || !cancelButton || !promptTextInput || !statusText || !resultText) {
 	throw new Error('Cannot find required UI elements.');
 }
 
@@ -67,6 +72,7 @@ const setState = (next: AppState): void => {
 	cancelButton.disabled = !isRecording;
 	saveKeyButton.disabled = isRecording || isTranscribing;
 	apiKeyInput.disabled = isRecording || isTranscribing;
+	promptTextInput.disabled = isRecording || isTranscribing;
 };
 
 const setStatus = (message: string): void => {
@@ -97,6 +103,24 @@ const saveApiKey = (): void => {
 	setStatus('API key saved in this browser.');
 };
 
+const loadSavedPrompt = (): void => {
+	// Load prompt from browser storage so users can keep reusable hints.
+	const savedPrompt = localStorage.getItem(PROMPT_STORAGE_KEY);
+	if (savedPrompt) {
+		promptTextInput.value = savedPrompt;
+	}
+};
+
+const savePrompt = (): void => {
+	// Save prompt as user types. Remove key when prompt is empty.
+	const prompt = promptTextInput.value.trim();
+	if (!prompt) {
+		localStorage.removeItem(PROMPT_STORAGE_KEY);
+		return;
+	}
+	localStorage.setItem(PROMPT_STORAGE_KEY, prompt);
+};
+
 const stopTracks = (recorder: MediaRecorder): void => {
 	for (const track of recorder.stream.getTracks()) {
 		track.stop();
@@ -109,7 +133,7 @@ const createAudioFile = (chunks: Blob[]): File => {
 	return new File(chunks, `recording.${ext}`, { type: mimeType });
 };
 
-const transcribeAudio = async (audioFile: File, apiKey: string): Promise<string> => {
+const transcribeAudio = async (audioFile: File, apiKey: string, prompt: string): Promise<string> => {
 	const controller = new AbortController();
 	const timeoutId = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
 
@@ -117,6 +141,9 @@ const transcribeAudio = async (audioFile: File, apiKey: string): Promise<string>
 		const formData = new FormData();
 		formData.append('file', audioFile);
 		formData.append('model', TRANSCRIBE_MODEL);
+		if (prompt) {
+			formData.append('prompt', prompt);
+		}
 
 		const response = await fetch(TRANSCRIBE_URL, {
 			method: 'POST',
@@ -245,12 +272,13 @@ const finishRecording = async (): Promise<void> => {
 	}
 
 	const apiKey = apiKeyInput.value.trim();
+	const prompt = promptTextInput.value.trim();
 	const audioFile = createAudioFile(recordedChunks);
 	recordedChunks = [];
 
 	try {
 		setStatus('sending audio to OpenAI...');
-		const text = await transcribeAudio(audioFile, apiKey);
+		const text = await transcribeAudio(audioFile, apiKey, prompt);
 		setResult(text);
 		setStatus('Done');
 	} catch (error) {
@@ -277,5 +305,10 @@ cancelButton.addEventListener('click', () => {
 	cancelRecording();
 });
 
+promptTextInput.addEventListener('input', () => {
+	savePrompt();
+});
+
 setState('idle');
 loadSavedApiKey();
+loadSavedPrompt();

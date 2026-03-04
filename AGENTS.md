@@ -17,13 +17,15 @@
 
 ## 2. UI/UX
 01. OpenAI API key input form.
-02. Start button.
-03. Finish button.
-04. Cancel button.
-05. Translation text label.
-06. Dark theme and minimal design.
-07. Use monospace font.
-08. Use ASCII characters for design.
+02. Save API Key button.
+03. Start button.
+04. Finish button.
+05. Cancel button.
+06. Prompt text input (optional).
+07. Transcription text label.
+08. Dark theme and minimal design.
+09. Use monospace font.
+10. Use ASCII art for UI components design.
 
 
 
@@ -31,30 +33,40 @@
 
 ```mermaid
 flowchart TD
-	A[User clicks Start button] --> B{Microphone allowed?}
+	A[User enters optional Prompt text] --> B[User clicks Start button]
+	B --> C{Microphone allowed?}
 
-	B -- No --> B1[Show permission error message] --> Z[End]
+	C -- No --> C1[Show permission error message] --> Z[End]
+	C -- Yes --> D[Browser starts recording]
 
-	B -- Yes --> C[Browser starts recording]
+	D --> E{User action}
 
-	C --> D{User action}
+	E -- Clicks Finish --> F[Stop recording]
+	E -- Clicks Cancel --> D1[Cancel recording and delete audio] --> Z
 
-	D -- Clicks Finish --> E[Stop recording]
-	D -- Clicks Cancel --> C1[Cancel recording and delete audio] --> Z
+	F --> F1[Build API prompt from Prompt text input]
+	F1 --> G[Send audio + optional prompt to OpenAI speech-to-text API]
 
-	E --> F[Send audio to OpenAI speech-to-text API]
+	G --> H{Internet working?}
 
-	F --> G{Internet working?}
+	H -- No --> H1[Show network error message] --> Z
+	H -- Yes --> I{API success?}
 
-	G -- No --> G1[Show network error message] --> Z
-	G -- Yes --> H{API success?}
+	I -- No --> I1[Show API error message] --> Z
+	I -- Timeout --> I2[Show timeout message] --> Z
+	I -- Yes --> J[Show text result]
 
-	H -- No --> H1[Show API error message] --> Z
-	H -- Timeout --> H2[Show timeout message] --> Z
-	H -- Yes --> I[Show text result]
-
-	I --> Z[Done]
+	J --> Z[Done]
 ```
+
+
+### 3-1. Implementation Notes
+01. Prompt text is optional and persisted in browser localStorage.
+02. Prompt localStorage key: `based_translator_prompt`.
+03. API key localStorage key: `based_translator_openai_api_key`.
+04. API key and prompt inputs are disabled while recording/transcribing.
+05. Transcription request timeout is 60 seconds.
+06. Request payload always includes `file` and `model`, and includes `prompt` only when non-empty.
 
 
 
@@ -87,6 +99,7 @@ const transcription = await openai.audio.transcriptions.create({
 	file: fs.createReadStream("/path/to/file/speech.mp3"),
 	model: "gpt-4o-transcribe",
 	response_format: "text",
+	prompt:"...",
 });
 
 console.log(transcription.text);
