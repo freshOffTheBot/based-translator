@@ -1,5 +1,10 @@
 
 # BASED TRANSLATOR
+
+<p align="center">
+	<img src="docs/v0.0.0.png" width="800">
+</p>
+
 Speech-to-text translator using the OpenAI API.
 No server-side storage - everything stays in your browser.
 
