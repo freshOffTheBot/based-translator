@@ -1,5 +1,5 @@
 # BASED TRANSLATOR
-01. Speech-to-text + translation app using the OpenAI API. No server-side storage - everything stays in your browser.
+01. Speech-to-text + translation app using the OpenAI API. No server-side storage - everything stays in user's browser.
 02. Users bring their own OpenAI token, and everything stays in the user's browser.
 03. It uses pnpm, plain TypeScript, and Vite.
 
@@ -15,84 +15,132 @@
 
 
 ## 2. UI/UX
-01. OpenAI API key input form.
-02. Save API Key button.
-03. One stateful recording button:
-	03-01. Idle: `[ Start Recording ]`
-	03-02. Recording: `[ Finish Recording ]`
-	03-03. Transcribing / Translating: disabled with phase label.
-04. Cancel button shown only while recording.
-05. Compact single-line status text.
-06. Advanced panel (`<details>`) for optional settings.
-07. Prompt text input (optional) inside Advanced panel.
-08. Translation input text box (instructions for translation) inside Advanced panel.
-09. Two equal output panels:
-	09-01. Transcription text label + output box.
-	09-02. Translation text label + output box.
-10. Dark theme and minimal design.
-11. Use monospace font.
-12. Use ASCII-style labels/components where practical.
+
+```text
++--------------------------------------------+
+|  BASED TRANSLATOR                          |
+|  - Short description                       |
++--------------------------------------------+
+
++--------------------------------------------+
+|  Configuration                             |
+|                                            |
+|  OpenAI API key:                           |
+|  [ sk-...                              ]   |
+|                                            |
+|  Transcription Prompt:                     |
+|  [ Enter prompt for speech-to-text ... ]   |
+|  [                                     ]   |
+|                                            |
+|  Translation Template:                     |
+|  [ Translate transcription into ...    ]   |
+|  [                                     ]   |
+|                                            |
++--------------------------------------------+
+
++--------------------------------------------+
+|  Recording                                 |
+|                                            |
+|            [ Start Recording ]             |
+|                                            |
+|  Status: idle                              |
+|                                            |
+|  Transcription Output:                     |
+|  +------------------------------------+    |
+|  |                                    |    |
+|  |                                    |    |
+|  +------------------------------------+    |
+|                                            |
+|  Translation Output:                       |
+|  +------------------------------------+    |
+|  |                                    |    |
+|  |                                    |    |
+|  +------------------------------------+    |
+|                                            |
++--------------------------------------------+
+```
+
+
+01. The ASCII wireframe is a visual spec as well as a layout guide.
+	01-01. Implement the wireframe using semantic HTML structure and CSS borders/spacing.
+02. OpenAI API key input form.
+	02-01. The API key is stored only in `localStorage`.
+03. Transcription prompt textarea.
+	03-01. The input is used for `prompt` from `openai.audio.transcriptions.create`.
+	03-02. The transcription prompt is stored in `localStorage`.
+	03-03. Small font-size.
+04. Translation template textarea.
+	04-01. The input is used for `input` from `openai.responses.create`.
+	04-02. The translation template is stored in `localStorage`.
+	04-03. Small font-size.
+05. One stateful recording button:
+	05-01. Idle: `[ Start Recording ]`
+	05-02. Recording: `[ Finish Recording ]`
+06. Cancel button shown only while recording.
+07. Status label.
+	07-01. `idle`: Start button visible, Cancel hidden, prompts enabled, status `idle`.
+	07-02. `recording`: Finish button visible, Cancel visible, prompts enabled, status `recording`.
+	07-03. `transcribing`: Record button disabled, Cancel hidden, prompts disabled, status `transcribing audio...`.
+	07-04. `translating`: Record button disabled, Cancel hidden, prompts disabled, status `translating text...`.
+	07-05. `success`: Start button visible, prompts enabled, status `done`.
+	07-06. `error`: Start button visible, prompts enabled, status shows error message.
+	07-07. extra-small font-size.
+08. Transcription output box.
+	08-01. It shows the result output from `openai.audio.transcriptions.create`.
+09. Translation output box.
+	09-01. It shows the result output from `openai.responses.create`.
+10. Dark theme.
 
 
 
 ## 3. Logic Flow
 
-```mermaid
-flowchart TD
-	A[User checks API key setup] --> B[User clicks stateful Start Recording button]
-	B --> C{Microphone allowed?}
+```text
+function onClickStartRecordingButton() {
+	if (microphone not allowed) {
+		[Show permission error message]
+		[exit]
+	}
 
-	C -- No --> C1[Show permission error message] --> Z[End]
-	C -- Yes --> D[Browser starts recording]
+	[Browser starts recording]
+	[Hide 'Start Recording' button]
+	[Show 'Finish Recording' button]
+	[Show 'Cancel' button]
 
-	D --> E{User action}
+	if (user clicks 'Cancel' button) {
+		[Cancel recording and delete audio]
+		[exit]
+	}
+	else if (user Clicks 'Finish Recording' button) {
+		[Stop recording]
+		[Send audio + transcription prompt textarea to OpenAI speech-to-text API]
+	}
+	
+	if (error occurs) {
+		[Show error message]
+		[exit]
+	}
 
-	E -- Clicks Finish Recording --> F[Stop recording]
-	E -- Clicks Cancel --> D1[Cancel recording and delete audio] --> Z
+	[Show transcription result in the transcription output box]
+	[Build translation input from the transcription output box + translation template]
+	[Send request to OpenAI Responses API]
 
-	F --> F1[Build API prompt from optional Prompt input]
-	F1 --> G[Send audio + optional prompt to OpenAI speech-to-text API]
+	if (error occurs) {
+		[Show error message]
+		[exit]
+	}
 
-	G --> H{Internet working?}
-
-	H -- No --> H1[Show network error message] --> Z
-	H -- Yes --> I{Transcription API success?}
-
-	I -- No --> I1[Show transcription API error message] --> Z
-	I -- Timeout --> I2[Show transcription timeout message] --> Z
-	I -- Yes --> J[Show transcription text]
-
-	J --> K[Build translation input from Translation input box + transcription text]
-	K --> L[Send request to OpenAI Responses API]
-
-	L --> M{Internet working?}
-	M -- No --> M1[Show network error message and keep transcription text] --> Z
-	M -- Yes --> N{Translation API success?}
-	N -- No --> N1[Show translation API error message and keep transcription text] --> Z
-	N -- Timeout --> N2[Show translation timeout message and keep transcription text] --> Z
-	N -- Yes --> O[Show translation text]
-
-	O --> Z[Done]
+	[Show translation result in the translation output box]
+}
 ```
 
 
-### 3-1. Implementation Notes
-01. Prompt text is optional and persisted in browser localStorage.
-02. Prompt localStorage key: `based_translator_prompt`.
-03. API key localStorage key: `based_translator_openai_api_key`.
-04. Translation input is persisted in browser localStorage.
-05. Translation input localStorage key: `based_translator_translation_input`.
-06. Advanced panel open/closed state is persisted in browser localStorage.
-07. Advanced panel localStorage key: `based_translator_advanced_open`.
-08. API key input, Save button, prompt input, and translation input are disabled while recording/transcribing/translating.
-09. Advanced panel toggle is locked while recording/transcribing/translating.
-10. Transcription request timeout is 60 seconds.
-11. Translation request timeout is 60 seconds.
-12. Transcription payload always includes `file` and `model`, and includes `prompt` only when non-empty.
-13. Translation payload uses Responses API with `model: ...` and `input`.
-14. Translation output parsing should support both `output_text` and nested `output[].content[].text`.
-15. On cancel, audio/transcription/translation are cleared.
-16. On translation error, transcription stays visible.
+01. We want to treat the transcription process and the translation process as a single process.
+	01-01. All configuration inputs are disabled during the request is in progress.
+02. Combine transcription output text with the translation template before calling Responses API:
+	02-01. Format: `Translate {{transcription}} into English.`
+	02-02. If `{{transcription}}` is not in the translation template on click 'Start Recording' button, then show the error message.
+03. Enable the components AFTER every request is done.
 
 
 
@@ -116,7 +164,7 @@ flowchart TD
 02. After transcription succeeds, the project sends another request to OpenAI Responses API to translate text.
 
 
-### 6-1. Speech To Text API
+### 6-1. Speech-To-Text API
 01. Example code from the official document:
 
 ```js
@@ -143,9 +191,10 @@ console.log(transcription.text);
 
 ```js
 import OpenAI from "openai";
-const client = new OpenAI();
 
-const response = await client.responses.create({
+const openai = new OpenAI();
+
+const response = await openai.responses.create({
 	model: "gpt-5.2",
 	input: "..."
 });
@@ -153,6 +202,4 @@ const response = await client.responses.create({
 console.log(response.output_text);
 ```
 
-02. `input` is built from:
-	02-01. translation instructions from the translation text input.
-	02-02. transcription text from speech-to-text result.
+02. `input` is built from translation template + transcription.
