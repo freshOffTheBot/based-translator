@@ -1,7 +1,7 @@
 # BASED TRANSLATOR
 01. Speech-to-text + translation app using the OpenAI API. No server-side storage - everything stays in user's browser.
 02. Users bring their own OpenAI token, and everything stays in the user's browser.
-03. It uses pnpm, plain TypeScript, and Vite.
+03. It uses pnpm, plain TypeScript/CSS/html, and Vite.
 
 
 
@@ -9,8 +9,15 @@
 01. `package.json`: for pnpm.
 02. `tsconfig.json`: for TypeScript.
 03. `vite.config.ts`: for Vite.
-04. `src/`: project source files.
-05. `.editorconfig`: project coding style.
+04. `.editorconfig`: project coding style.
+05. `src/`: the folder contains all project source files.
+06. `src/components`: the folder contains component files.
+	06-01. `src/components/typography/typography.component.css`: (read-only file) fonts, colors, and CSS related variables.
+	06-02. `src/components/card/card.component.css`: card component CSS file.
+	06-03. `src/components/form/form.component.css`: form component CSS file.
+07. `src/dev/dev.html`: dev docs for all components.
+08. `src/main.css`: the main CSS file.
+09. `src/main.ts`: the main TypeScript file.
 
 
 
@@ -145,10 +152,11 @@ function onClickStartRecordingButton() {
 
 
 ## 4. Rules
-01. Let's use simple and easy-to-understand codes.
-02. Let's have comments so that other dev frens understand the codes super easy.
+01. Use simple and easy-to-understand codes.
+02. Add useful comments so that other dev frens understand the codes super easy.
 03. Use single-source-of-truth approach.
-04. Add semicolons in the source codes.
+04. Great code structure is easy-to-delete.
+05. Add semicolons in the source codes.
 
 
 
