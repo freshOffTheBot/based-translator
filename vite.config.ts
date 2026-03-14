@@ -17,7 +17,7 @@ export default defineConfig({
 	},
 	plugins: [
 		{
-			name: 'dev-page-rewrite',
+			name: 'dev-route',
 			configureServer(server) {
 				server.middlewares.use((request: any, _response, next) => {
 					const requestUrl = request.url;
