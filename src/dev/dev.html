@@ -322,6 +322,55 @@
 				</article>
 			</div>
 		</section>
+
+		<section class="dev-section" aria-labelledby="tab-title">
+			<h2 class="dev-section-title" id="tab-title">Components &gt; Tab</h2>
+			<p class="dev-section-text">
+				Tabs use the same compact surface language as buttons and cards: quiet by default, then clearly active
+				when a section is selected.
+			</p>
+
+			<div class="dev-example">
+				<div class="dev-example-preview">
+					<div class="dev-stack">
+						<div class="c-tab">
+							<div class="c-tab-list" role="tablist" aria-label="Translator views">
+								<button class="c-tab-button c-tab-button-active" type="button" role="tab" aria-selected="true">
+									Recording
+								</button>
+								<button class="c-tab-button" type="button" role="tab" aria-selected="false">
+									Configuration
+								</button>
+								<button class="c-tab-button" type="button" role="tab" aria-selected="false">
+									History
+								</button>
+							</div>
+							<div class="c-tab-panel" role="tabpanel">
+								<p class="c-card-eyebrow">Active Panel</p>
+								<h3 class="c-card-title">Recording stays the default workflow</h3>
+								<p class="c-card-text">
+									Use the active tab to anchor the current context, then render the matching content in
+									the panel below.
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="dev-example-code">
+<pre><code>&lt;div class="c-tab"&gt;
+	&lt;div class="c-tab-list" role="tablist" aria-label="Translator views"&gt;
+		&lt;button class="c-tab-button c-tab-button-active" type="button" role="tab" aria-selected="true"&gt;Recording&lt;/button&gt;
+		&lt;button class="c-tab-button" type="button" role="tab" aria-selected="false"&gt;Configuration&lt;/button&gt;
+	&lt;/div&gt;
+
+	&lt;div class="c-tab-panel" role="tabpanel"&gt;
+		&lt;h3 class="c-card-title"&gt;Recording stays the default workflow&lt;/h3&gt;
+		&lt;p class="c-card-text"&gt;Render the matching panel content here.&lt;/p&gt;
+	&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+				</div>
+			</div>
+		</section>
 	</main>
 
 	<script type="module" src="/src/dev/dev.ts"></script>

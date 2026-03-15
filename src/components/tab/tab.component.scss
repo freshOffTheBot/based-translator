@@ -1,0 +1,79 @@
+
+@use '../../common/scss/app.variable.scss' as appVariable;
+
+.c-tab {
+	display: grid;
+	gap: appVariable.$spacing-400;
+}
+
+.c-tab-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: appVariable.$spacing-300;
+	padding: appVariable.$spacing-300;
+	border: 1px solid appVariable.$color-white-10;
+	border-radius: appVariable.$border-radius-800;
+	background: linear-gradient(180deg, appVariable.$color-slate-700 0%, appVariable.$color-dark-600 100%);
+}
+
+.c-tab-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	min-height: 2.25rem;
+	padding: 0 .875rem;
+	border: 1px solid transparent;
+	border-radius: appVariable.$border-radius-700;
+	background: transparent;
+	color: appVariable.$color-white-60;
+	font: inherit;
+	font-size: appVariable.$font-size-400;
+	font-weight: appVariable.$font-weight-bold;
+	letter-spacing: appVariable.$letter-spacing-300;
+	text-decoration: none;
+	transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
+
+	&:hover {
+		border-color: appVariable.$color-white-10;
+		background: appVariable.$color-grey-800;
+		color: appVariable.$color-white-90;
+	}
+
+	&:focus-visible {
+		outline: none;
+		border-color: appVariable.$color-blue-400;
+		box-shadow: 0 0 0 .1875rem appVariable.$color-blue-50;
+		color: appVariable.$color-white-500;
+	}
+}
+
+.c-tab-button-active {
+	border-color: appVariable.$color-grey-600;
+	background: linear-gradient(180deg, appVariable.$color-grey-800 0%, appVariable.$color-grey-900 100%);
+	color: appVariable.$color-white-500;
+	box-shadow: inset 0 .0625rem 0 appVariable.$color-white-10;
+
+	&:hover {
+		background: linear-gradient(180deg, appVariable.$color-grey-800 0%, appVariable.$color-grey-900 100%);
+	}
+}
+
+.c-tab-panel {
+	padding: appVariable.$spacing-500;
+	border: 1px solid appVariable.$color-white-10;
+	border-radius: appVariable.$border-radius-800;
+	background: appVariable.$color-black-20;
+	color: appVariable.$color-white-80;
+}
+
+@media (max-width: 47.99rem) {
+	.c-tab-list {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+	}
+
+	.c-tab-button {
+		width: 100%;
+	}
+}
