@@ -62,51 +62,91 @@ if (!appRoot) {
 
 appRoot.innerHTML = `
 	<main class="app-shell">
-		<header class="panel app-header">
-			<h1>BASED TRANSLATOR</h1>
-			<p>Speech-to-text + translation app using your OpenAI token in-browser only.</p>
+		<header class="c-card app-hero">
+			<div class="c-card-body">
+				<p class="c-card-eyebrow">Based Translator</p>
+				<h1 class="c-card-title app-hero-title">BASED TRANSLATOR</h1>
+				<p class="c-card-text">
+					Speech-to-text + translation app using your OpenAI token in-browser only.
+				</p>
+			</div>
 		</header>
 
-		<section class="panel" aria-labelledby="configuration-title">
-			<h2 id="configuration-title">Configuration</h2>
-
-			<div class="field-group">
-				<label for="api-key-input">OpenAI API key:</label>
-				<input id="api-key-input" type="password" placeholder="sk-..." autocomplete="off" spellcheck="false" />
+		<section class="c-card" aria-labelledby="configuration-title">
+			<div class="c-card-header">
+				<h2 id="configuration-title" class="c-card-title app-section-title">Configuration</h2>
+				<p class="c-card-text">
+					Your key and prompt templates stay in this browser only.
+				</p>
 			</div>
+			<div class="c-card-body">
+				<form class="c-form">
+					<div class="c-form-field">
+						<label class="c-form-label" for="api-key-input">OpenAI API key:</label>
+						<input
+							id="api-key-input"
+							class="c-form-control"
+							type="password"
+							placeholder="sk-..."
+							autocomplete="off"
+							spellcheck="false"
+						/>
+						<p class="c-form-help">Stored only in localStorage on this browser.</p>
+					</div>
 
-			<div class="field-group">
-				<label for="transcription-prompt-input">Transcription Prompt:</label>
-				<textarea id="transcription-prompt-input" class="small-text" rows="3" placeholder="Enter prompt for speech-to-text ..."></textarea>
-			</div>
+					<div class="c-form-field">
+						<label class="c-form-label" for="transcription-prompt-input">Transcription Prompt:</label>
+						<textarea
+							id="transcription-prompt-input"
+							class="c-form-control app-form-control-compact"
+							rows="3"
+							placeholder="Enter prompt for speech-to-text ..."
+						></textarea>
+						<p class="c-form-help">
+							Used as <code class="c-text-inline-code">prompt</code> for transcription.
+						</p>
+					</div>
 
-			<div class="field-group">
-				<label for="translation-template-input">Translation Template:</label>
-				<textarea id="translation-template-input" class="small-text" rows="3" placeholder="Translate transcription into ..."></textarea>
+					<div class="c-form-field">
+						<label class="c-form-label" for="translation-template-input">Translation Template:</label>
+						<textarea
+							id="translation-template-input"
+							class="c-form-control app-form-control-compact"
+							rows="3"
+							placeholder="Translate transcription into ..."
+						></textarea>
+						<p class="c-form-help">
+							Must include <code class="c-text-inline-code">${TRANSLATION_PLACEHOLDER}</code>.
+						</p>
+					</div>
+				</form>
 			</div>
 		</section>
 
-		<section class="panel" aria-labelledby="recording-title">
-			<h2 id="recording-title">Recording</h2>
-
-			<div class="recording-actions">
-				<button id="record-button" type="button" class="action-button action-primary">Start Recording</button>
-				<button id="cancel-button" type="button" class="action-button action-danger hidden">Cancel</button>
+		<section class="c-card" aria-labelledby="recording-title">
+			<div class="c-card-header">
+				<h2 id="recording-title" class="c-card-title app-section-title">Recording</h2>
 			</div>
+			<div class="c-card-body">
+				<div class="app-actions">
+					<button id="record-button" type="button" class="c-button">Start Recording</button>
+					<button id="cancel-button" type="button" class="c-button c-button-danger hidden">Cancel</button>
+				</div>
 
-			<p class="status-line">
-				<span>Status:</span>
-				<span id="status-text" class="status-text">idle</span>
-			</p>
+				<p class="c-form-status app-status-line">
+					<span class="c-text-muted">Status:</span>
+					<span id="status-text" class="status-text tone-neutral">idle</span>
+				</p>
 
-			<div class="field-group">
-				<p class="output-title">Transcription Output:</p>
-				<pre id="transcription-output" class="output-box" aria-live="polite"></pre>
-			</div>
+				<div class="app-output-group">
+					<p class="c-form-label app-output-title">Transcription Output:</p>
+					<pre id="transcription-output" class="app-output-box" aria-live="polite"></pre>
+				</div>
 
-			<div class="field-group">
-				<p class="output-title">Translation Output:</p>
-				<pre id="translation-output" class="output-box" aria-live="polite"></pre>
+				<div class="app-output-group">
+					<p class="c-form-label app-output-title">Translation Output:</p>
+					<pre id="translation-output" class="app-output-box" aria-live="polite"></pre>
+				</div>
 			</div>
 		</section>
 	</main>

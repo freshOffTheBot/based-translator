@@ -1,6 +1,6 @@
 
 // Common
-@use './common/scss/app.variable.scss';
+@use './common/scss/app.variable.scss' as appVariable;
 
 
 // Components
@@ -8,3 +8,132 @@
 @use './components/card/card.component.scss';
 @use './components/form/form.component.scss';
 @use './components/typography/typography.component.scss';
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	background: appVariable.$color-black-400;
+}
+
+body {
+	margin: 0;
+	background:
+		radial-gradient(circle at top, appVariable.$color-slate-600 0%, transparent 30%),
+		linear-gradient(180deg, appVariable.$color-black-400 0%, appVariable.$color-dark-600 100%);
+	color: appVariable.$color-white-90;
+	font-family: appVariable.$fontMono;
+	font-size: appVariable.$font-size-450;
+	line-height: 1.6;
+}
+
+code,
+pre {
+	font-family: appVariable.$fontMono;
+}
+
+#app {
+	min-height: 100vh;
+}
+
+.app-shell {
+	display: grid;
+	width: min(100%, 48rem);
+	margin: 0 auto;
+	padding: appVariable.$spacing-700 appVariable.$spacing-500;
+	gap: appVariable.$spacing-500;
+}
+
+.app-hero {
+	position: relative;
+	overflow: hidden;
+}
+
+.app-hero::before {
+	content: '';
+	position: absolute;
+	inset: 0 auto auto 0;
+	width: 100%;
+	height: .125rem;
+	background: linear-gradient(90deg, appVariable.$color-green-400 0%, transparent 100%);
+}
+
+.app-hero-title,
+.app-section-title {
+	font-size: appVariable.$font-size-800;
+}
+
+.app-form-control-compact {
+	min-height: 6rem;
+	font-size: appVariable.$font-size-350;
+}
+
+.app-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: appVariable.$spacing-400;
+}
+
+.app-status-line {
+	display: flex;
+	align-items: center;
+	gap: appVariable.$spacing-300;
+	margin: 0;
+}
+
+.status-text {
+	font-size: appVariable.$font-size-300;
+	letter-spacing: appVariable.$letter-spacing-300;
+	text-transform: lowercase;
+}
+
+.tone-neutral,
+.tone-info {
+	color: appVariable.$color-white-80;
+}
+
+.tone-success {
+	color: appVariable.$color-success-400;
+}
+
+.tone-danger {
+	color: appVariable.$color-danger-400;
+}
+
+.app-output-group {
+	display: grid;
+	gap: appVariable.$spacing-300;
+}
+
+.app-output-title {
+	margin: 0;
+}
+
+.app-output-box {
+	min-height: 9rem;
+	margin: 0;
+	padding: appVariable.$spacing-500;
+	border: 1px solid appVariable.$color-white-10;
+	border-radius: appVariable.$border-radius-700;
+	background: appVariable.$color-black-20;
+	color: appVariable.$color-white-80;
+	font-size: appVariable.$font-size-400;
+	line-height: 1.7;
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.hidden {
+	display: none;
+}
+
+@media (max-width: 47.99rem) {
+	.app-shell {
+		padding: appVariable.$spacing-600 appVariable.$spacing-400;
+	}
+
+	.app-actions .c-button {
+		width: 100%;
+	}
+}
