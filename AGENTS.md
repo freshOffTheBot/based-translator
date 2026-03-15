@@ -27,28 +27,29 @@
 
 ## 2. UI/UX
 
+
+
+### 2-1. On Startup
+
+<ui-on-startup>
+```text
+
+// The initial view is the same as the recording tab.
+
+```
+</ui-on-startup>
+
+
+
+### 2-2. Recording tab
+
+<ui-recording-tab>
 ```text
 +--------------------------------------------+
 |  BASED TRANSLATOR                          |
 |  - Short description                       |
 +--------------------------------------------+
-
-+--------------------------------------------+
-|  Configuration                             |
-|                                            |
-|  OpenAI API key:                           |
-|  [ sk-...                              ]   |
-|                                            |
-|  Transcription Prompt:                     |
-|  [ Enter prompt for speech-to-text ... ]   |
-|  [                                     ]   |
-|                                            |
-|  Translation Template:                     |
-|  [ Translate transcription into ...    ]   |
-|  [                                     ]   |
-|                                            |
-+--------------------------------------------+
-
+|  [ Recording ]  [ Configuration ]          |
 +--------------------------------------------+
 |  Recording                                 |
 |                                            |
@@ -70,38 +71,70 @@
 |                                            |
 +--------------------------------------------+
 ```
+</ui-recording-tab>
+
+
+
+### 2-3. Configuration tab
+<ui-configuration-tab>
+```text
++--------------------------------------------+
+|  BASED TRANSLATOR                          |
+|  - Short description                       |
++--------------------------------------------+
+|  [ Recording ]  [ Configuration ]          |
++--------------------------------------------+
+|  Configuration                             |
+|                                            |
+|  OpenAI API key:                           |
+|  [ sk-...                              ]   |
+|                                            |
+|  Transcription Prompt:                     |
+|  [ Enter prompt for speech-to-text ... ]   |
+|  [                                     ]   |
+|                                            |
+|  Translation Template:                     |
+|  [ Translate transcription into ...    ]   |
+|  [                                     ]   |
+|                                            |
++--------------------------------------------+
+```
+</ui-configuration-tab>
 
 
 01. The ASCII wireframe is a visual spec as well as a layout guide.
 	01-01. Implement the wireframe using semantic HTML structure and CSS borders/spacing.
-02. OpenAI API key input form.
-	02-01. The API key is stored only in `localStorage`.
-03. Transcription prompt textarea.
-	03-01. The input is used for `prompt` from `openai.audio.transcriptions.create`.
-	03-02. The transcription prompt is stored in `localStorage`.
-	03-03. Small font-size.
-04. Translation template textarea.
-	04-01. The input is used for `input` from `openai.responses.create`.
-	04-02. The translation template is stored in `localStorage`.
+02. There are two tabs: "Recording" and "Configuration".
+	02-01. "Recording" tab: the default view.
+	02-02. "Configuration" tab: the config view.
+03. OpenAI API key input form.
+	03-01. The API key is stored only in `localStorage`.
+04. Transcription prompt textarea.
+	04-01. The input is used for `prompt` from `openai.audio.transcriptions.create`.
+	04-02. The transcription prompt is stored in `localStorage`.
 	04-03. Small font-size.
-05. One stateful recording button:
-	05-01. Idle: `[ Start Recording ]`
-	05-02. Recording: `[ Finish Recording ]`
-06. Cancel button shown only while recording.
-07. Status label.
-	07-01. `idle`: Start button visible, Cancel hidden, prompts enabled, status `idle`.
-	07-02. `recording`: Finish button visible, Cancel visible, prompts enabled, status `recording`.
-	07-03. `transcribing`: Record button disabled, Cancel hidden, prompts disabled, status `transcribing audio...`.
-	07-04. `translating`: Record button disabled, Cancel hidden, prompts disabled, status `translating text...`.
-	07-05. `success`: Start button visible, prompts enabled, status `done`.
-	07-06. `error`: Start button visible, prompts enabled, status shows error message.
-	07-07. extra-small font-size.
-08. Transcription output box.
-	08-01. It shows the result output from `openai.audio.transcriptions.create`.
-09. Translation output box.
-	09-01. It shows the result output from `openai.responses.create`.
-10. Dark theme.
-11. Compact design components.
+05. Translation template textarea.
+	05-01. The input is used for `input` from `openai.responses.create`.
+	05-02. The translation template is stored in `localStorage`.
+	05-03. Small font-size.
+06. One stateful recording button:
+	06-01. Idle: `[ Start Recording ]`
+	06-02. Recording: `[ Finish Recording ]`
+07. Cancel button shown only while recording.
+08. Status label.
+	08-01. `idle`: Start button visible, Cancel hidden, prompts enabled, status `idle`.
+	08-02. `recording`: Finish button visible, Cancel visible, prompts enabled, status `recording`.
+	08-03. `transcribing`: Record button disabled, Cancel hidden, prompts disabled, status `transcribing audio...`.
+	08-04. `translating`: Record button disabled, Cancel hidden, prompts disabled, status `translating text...`.
+	08-05. `success`: Start button visible, prompts enabled, status `done`.
+	08-06. `error`: Start button visible, prompts enabled, status shows error message.
+	08-07. extra-small font-size.
+09. Transcription output box.
+	09-01. It shows the result output from `openai.audio.transcriptions.create`.
+10. Translation output box.
+	10-01. It shows the result output from `openai.responses.create`.
+11. Dark theme.
+12. Compact design components.
 
 
 
@@ -158,10 +191,11 @@ function onClickStartRecordingButton() {
 
 ## 4. Rules
 01. Use simple and easy-to-understand codes.
-02. Add useful comments so that other dev frens understand the codes super easy.
-03. Use single-source-of-truth approach.
-04. Great code structure is easy-to-delete.
-05. Add semicolons in the source codes.
+02. Use single-source-of-truth approach.
+03. Great code structure is easy-to-delete.
+04. Respect the existing code style.
+05. Add useful comments so that other dev frens understand the codes super easy.
+06. Add semicolons in the source codes.
 
 
 

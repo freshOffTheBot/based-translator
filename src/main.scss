@@ -65,6 +65,20 @@ pre {
 	font-size: appVariable.$font-size-800;
 }
 
+.app-tab-shell {
+	gap: appVariable.$spacing-400;
+}
+
+.app-tab-panel-stack {
+	display: grid;
+	gap: appVariable.$spacing-500;
+}
+
+.app-panel-header {
+	padding-bottom: appVariable.$spacing-400;
+	border-bottom: 1px solid appVariable.$color-white-10;
+}
+
 .app-form-control-compact {
 	min-height: 6rem;
 	font-size: appVariable.$font-size-350;
