@@ -1,0 +1,51 @@
+
+@use '../../common/scss/app.variable.scss' as appVariable;
+
+.c-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	min-height: 2.5rem;
+	padding: 0 1rem;
+	border: 1px solid appVariable.$color-green-400;
+	border-radius: appVariable.$border-radius-700;
+	background: linear-gradient(180deg, appVariable.$color-green-400 0%, appVariable.$color-green-600 100%);
+	color: appVariable.$color-black-500;
+	font: inherit;
+	font-size: appVariable.$font-size-400;
+	font-weight: appVariable.$font-weight-bold;
+	text-decoration: none;
+	transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+
+	&:hover {
+		transform: translateY(-1px);
+	}
+
+	&:focus-visible {
+		outline: none;
+		box-shadow: 0 0 0 .1875rem appVariable.$color-green-50;
+	}
+}
+
+.c-button-ghost {
+	border-color: appVariable.$color-white-10;
+	background: transparent;
+	color: appVariable.$color-white-80;
+}
+
+.c-button-muted {
+	border-color: appVariable.$color-white-10;
+	background: linear-gradient(180deg, appVariable.$color-slate-600 0%, appVariable.$color-slate-700 100%);
+	color: appVariable.$color-white-90;
+}
+
+.c-button-danger {
+	border-color: appVariable.$color-danger-400;
+	background: linear-gradient(180deg, appVariable.$color-danger-400 0%, appVariable.$color-danger-700 100%);
+	color: appVariable.$color-white-500;
+}
+
+.c-button-block {
+	width: 100%;
+}

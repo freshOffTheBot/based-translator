@@ -1,0 +1,62 @@
+
+@use '../../common/scss/app.variable.scss' as appVariable;
+
+.c-text-showcase {
+	display: grid;
+	gap: appVariable.$spacing-500;
+}
+
+.c-text-group {
+	padding-bottom: appVariable.$spacing-500;
+	border-bottom: 1px solid appVariable.$color-white-10;
+}
+
+.c-text-group:last-child {
+	padding-bottom: 0;
+	border-bottom: 0;
+}
+
+.c-text-label {
+	display: block;
+	margin-bottom: appVariable.$spacing-300;
+	color: appVariable.$color-white-60;
+	font-size: appVariable.$font-size-350;
+	letter-spacing: appVariable.$letter-spacing-400;
+	text-transform: uppercase;
+}
+
+.c-text-group h1,
+.c-text-group h2,
+.c-text-group h3,
+.c-text-group p {
+	margin: 0;
+}
+
+.c-text-group h1 {
+	font-size: appVariable.$font-size-h2;
+}
+
+.c-text-group h2 {
+	font-size: appVariable.$font-size-h4;
+}
+
+.c-text-group h3 {
+	font-size: appVariable.$font-size-700;
+}
+
+.c-text-group p {
+	color: appVariable.$color-white-80;
+}
+
+.c-text-muted {
+	color: appVariable.$color-white-60;
+}
+
+.c-text-inline-code {
+	display: inline-block;
+	padding: .125rem .375rem;
+	border: 1px solid appVariable.$color-white-10;
+	border-radius: appVariable.$border-radius-500;
+	background: appVariable.$color-black-20;
+	color: appVariable.$color-green-300;
+}

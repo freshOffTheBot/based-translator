@@ -5,10 +5,324 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>BASED TRANSLATOR DEV</title>
+	<title>BASED TRANSLATOR - DEV</title>
 </head>
 
 <body>
+	<main class="dev-page">
+		<header class="dev-hero">
+			<span class="dev-kicker">Dev Docs</span>
+			<h1 class="dev-title">Minimal dark components for dev frens.</h1>
+			<p class="dev-lead">
+				A compact reference page for the shared dark theme, typography scale, cards, and text-form
+				controls. Each block shows the live component and the exact HTML needed to reuse it.
+			</p>
+		</header>
+
+		<section class="dev-section" aria-labelledby="colors-title">
+			<h2 class="dev-section-title" id="colors-title">Colors</h2>
+			<p class="dev-section-text">
+				Use these semantic tokens to keep the dark theme consistent. The examples below map directly to the
+				existing variables in <code class="c-text-inline-code">app.variable.scss</code>.
+			</p>
+
+			<div class="dev-token-grid">
+				<article class="dev-token">
+					<div class="dev-token-swatch" style="background:#0A0A0A;"></div>
+					<strong class="dev-token-name">Background</strong>
+					<p class="dev-token-value">$color-black-350</p>
+				</article>
+				<article class="dev-token">
+					<div class="dev-token-swatch" style="background:#34363c;"></div>
+					<strong class="dev-token-name">Surface</strong>
+					<p class="dev-token-value">$color-slate-600</p>
+				</article>
+				<article class="dev-token">
+					<div class="dev-token-swatch" style="background:rgba(255,255,255,.9);"></div>
+					<strong class="dev-token-name">Foreground</strong>
+					<p class="dev-token-value">$color-white-90</p>
+				</article>
+				<article class="dev-token">
+					<div class="dev-token-swatch" style="background:rgba(255,255,255,.2);"></div>
+					<strong class="dev-token-name">Border</strong>
+					<p class="dev-token-value">$color-white-20</p>
+				</article>
+				<article class="dev-token">
+					<div class="dev-token-swatch" style="background:#82fba0;"></div>
+					<strong class="dev-token-name">Primary</strong>
+					<p class="dev-token-value">$color-green-400</p>
+				</article>
+				<article class="dev-token">
+					<div class="dev-token-swatch" style="background:#26A69A;"></div>
+					<strong class="dev-token-name">Success</strong>
+					<p class="dev-token-value">$color-teal-400</p>
+				</article>
+				<article class="dev-token">
+					<div class="dev-token-swatch" style="background:#ff7a86;"></div>
+					<strong class="dev-token-name">Danger</strong>
+					<p class="dev-token-value">$color-danger-400</p>
+				</article>
+				<article class="dev-token">
+					<div class="dev-token-swatch" style="background:#f7d359;"></div>
+					<strong class="dev-token-name">Warning</strong>
+					<p class="dev-token-value">$color-warning-400</p>
+				</article>
+				<article class="dev-token">
+					<div class="dev-token-swatch" style="background:#29cfff;"></div>
+					<strong class="dev-token-name">Info</strong>
+					<p class="dev-token-value">$color-blue-400</p>
+				</article>
+				<article class="dev-token">
+					<div class="dev-token-swatch" style="background:#CBCBCB;"></div>
+					<strong class="dev-token-name">Muted</strong>
+					<p class="dev-token-value">$color-grey-300</p>
+				</article>
+			</div>
+		</section>
+
+		<section class="dev-section" aria-labelledby="typography-title">
+			<h2 class="dev-section-title" id="typography-title">Typography</h2>
+			<p class="dev-section-text">
+				The current design system is driven by the existing font families and type scale variables. Keep body
+				copy clean, compact, and highly readable on dark surfaces.
+			</p>
+
+			<div class="dev-example">
+				<div class="dev-example-preview">
+					<div class="c-text-showcase">
+						<div class="c-text-group">
+							<span class="c-text-label">Display</span>
+							<h1>Build readable interfaces fast.</h1>
+						</div>
+						<div class="c-text-group">
+							<span class="c-text-label">Heading</span>
+							<h2>Cards and controls share the same quiet visual rhythm.</h2>
+						</div>
+						<div class="c-text-group">
+							<span class="c-text-label">Body</span>
+							<p>JetBrains Mono gives the docs a precise, technical voice while staying easy to scan.</p>
+						</div>
+						<div class="c-text-group">
+							<span class="c-text-label">Muted</span>
+							<p class="c-text-muted">Use muted text for metadata, hints, and supporting context.</p>
+						</div>
+						<div class="c-text-group">
+							<span class="c-text-label">Code</span>
+							<p><code class="c-text-inline-code">.c-form-control</code> and <code class="c-text-inline-code">.c-card-title</code></p>
+						</div>
+					</div>
+				</div>
+				<div class="dev-example-code">
+<pre><code>&lt;h1&gt;Build readable interfaces fast.&lt;/h1&gt;
+&lt;h2&gt;Cards and controls share the same quiet visual rhythm.&lt;/h2&gt;
+&lt;p&gt;JetBrains Mono gives the docs a precise, technical voice.&lt;/p&gt;
+&lt;p class="c-text-muted"&gt;Use muted text for supporting context.&lt;/p&gt;
+&lt;code class="c-text-inline-code"&gt;.c-form-control&lt;/code&gt;</code></pre>
+				</div>
+			</div>
+		</section>
+
+		<section class="dev-section" aria-labelledby="card-title">
+			<h2 class="dev-section-title" id="card-title">Components &gt; Card</h2>
+			<p class="dev-section-text">
+				Cards are intentionally minimal: one surface, one border, compact spacing, and small metadata helpers.
+			</p>
+
+			<div class="dev-example-grid">
+				<article class="dev-example">
+					<div class="dev-example-preview">
+						<div class="c-card">
+							<div class="c-card-body">
+								<p class="c-card-eyebrow">Default</p>
+								<h3 class="c-card-title">Simple content container</h3>
+								<p class="c-card-text">
+									Use the base card when you only need a title, body copy, and a quiet surface.
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="dev-example-code">
+<pre><code>&lt;div class="c-card"&gt;
+	&lt;div class="c-card-body"&gt;
+		&lt;p class="c-card-eyebrow"&gt;Default&lt;/p&gt;
+		&lt;h3 class="c-card-title"&gt;Simple content container&lt;/h3&gt;
+		&lt;p class="c-card-text"&gt;Use the base card...&lt;/p&gt;
+	&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+					</div>
+				</article>
+
+				<article class="dev-example">
+					<div class="dev-example-preview">
+						<div class="c-card">
+							<div class="c-card-header">
+								<p class="c-card-eyebrow">Structured</p>
+								<h3 class="c-card-title">Header, body, footer</h3>
+							</div>
+							<div class="c-card-body">
+								<p class="c-card-text">
+									Compose sections when the card needs hierarchy, metadata, or actions.
+								</p>
+								<div class="c-card-surface-muted">
+									<div class="c-card-meta">
+										<span>Build #204</span>
+										<span>Updated 2 min ago</span>
+									</div>
+								</div>
+							</div>
+							<div class="c-card-footer">
+								<span>Stable component</span>
+								<span class="dev-badge">Minimal</span>
+							</div>
+						</div>
+					</div>
+					<div class="dev-example-code">
+<pre><code>&lt;div class="c-card"&gt;
+	&lt;div class="c-card-header"&gt;
+		&lt;p class="c-card-eyebrow"&gt;Structured&lt;/p&gt;
+		&lt;h3 class="c-card-title"&gt;Header, body, footer&lt;/h3&gt;
+	&lt;/div&gt;
+	&lt;div class="c-card-body"&gt;...&lt;/div&gt;
+	&lt;div class="c-card-footer"&gt;...&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+					</div>
+				</article>
+			</div>
+		</section>
+
+		<section class="dev-section" aria-labelledby="button-title">
+			<h2 class="dev-section-title" id="button-title">Components &gt; Button</h2>
+			<p class="dev-section-text">
+				Buttons use the same minimal dark surface language: one clear primary action, one quiet ghost option,
+				and a few semantic alternatives for utility cases.
+			</p>
+
+			<div class="dev-example-grid">
+				<article class="dev-example">
+					<div class="dev-example-preview">
+						<div class="dev-stack">
+							<div class="dev-actions">
+								<button class="c-button" type="button">Primary</button>
+								<button class="c-button c-button-ghost" type="button">Ghost</button>
+								<button class="c-button c-button-muted" type="button">Muted</button>
+								<button class="c-button c-button-danger" type="button">Danger</button>
+							</div>
+							<button class="c-button c-button-block" type="button">Block Button</button>
+						</div>
+					</div>
+					<div class="dev-example-code">
+<pre><code>&lt;button class="c-button" type="button"&gt;Primary&lt;/button&gt;
+&lt;button class="c-button c-button-ghost" type="button"&gt;Ghost&lt;/button&gt;
+&lt;button class="c-button c-button-muted" type="button"&gt;Muted&lt;/button&gt;
+&lt;button class="c-button c-button-danger" type="button"&gt;Danger&lt;/button&gt;
+
+&lt;button class="c-button c-button-block" type="button"&gt;Block Button&lt;/button&gt;</code></pre>
+					</div>
+				</article>
+
+				<article class="dev-example">
+					<div class="dev-example-preview">
+						<div class="c-card">
+							<div class="c-card-body">
+								<p class="c-card-eyebrow">Usage</p>
+								<h3 class="c-card-title">Pair actions with clear priority</h3>
+								<p class="c-card-text">
+									Reserve the green button for the main action, then use muted or ghost styles for
+									secondary flows.
+								</p>
+								<div class="dev-actions">
+									<button class="c-button" type="button">Save changes</button>
+									<button class="c-button c-button-ghost" type="button">Cancel</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="dev-example-code">
+<pre><code>&lt;div class="dev-actions"&gt;
+	&lt;button class="c-button" type="button"&gt;Save changes&lt;/button&gt;
+	&lt;button class="c-button c-button-ghost" type="button"&gt;Cancel&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+					</div>
+				</article>
+			</div>
+		</section>
+
+		<section class="dev-section" aria-labelledby="form-title">
+			<h2 class="dev-section-title" id="form-title">Form &gt; Overview</h2>
+			<p class="dev-section-text">
+				Text controls stay compact and neutral by default, then use semantic status colors only when the field
+				needs feedback.
+			</p>
+
+			<div class="dev-example-grid">
+				<article class="dev-example">
+					<div class="dev-example-preview">
+						<form class="c-form">
+							<div class="c-form-row">
+								<div class="c-form-field">
+									<label class="c-form-label" for="demo-name">Name</label>
+									<input class="c-form-control" id="demo-name" type="text" placeholder="Park Jiyoon" />
+									<p class="c-form-help">Use plain labels and brief hints.</p>
+								</div>
+								<div class="c-form-field">
+									<label class="c-form-label" for="demo-email">Email</label>
+									<input class="c-form-control c-form-control-success" id="demo-email" type="email" value="fren@example.com" />
+									<p class="c-form-status c-form-status-success">Looks good.</p>
+								</div>
+							</div>
+							<div class="c-form-field">
+								<label class="c-form-label" for="demo-role">Role</label>
+								<select class="c-form-control" id="demo-role">
+									<option>Frontend Developer</option>
+									<option>Designer</option>
+									<option>Product Manager</option>
+								</select>
+							</div>
+							<div class="c-form-field">
+								<label class="c-form-label" for="demo-message">Notes</label>
+								<textarea class="c-form-control c-form-control-danger" id="demo-message" placeholder="Write a short update for the team."></textarea>
+								<p class="c-form-status c-form-status-danger">This field still needs a clearer message.</p>
+							</div>
+						</form>
+					</div>
+					<div class="dev-example-code">
+<pre><code>&lt;form class="c-form"&gt;
+	&lt;div class="c-form-field"&gt;
+		&lt;label class="c-form-label" for="demo-name"&gt;Name&lt;/label&gt;
+		&lt;input class="c-form-control" id="demo-name" type="text" /&gt;
+		&lt;p class="c-form-help"&gt;Use plain labels and brief hints.&lt;/p&gt;
+	&lt;/div&gt;
+&lt;/form&gt;</code></pre>
+					</div>
+				</article>
+
+				<article class="dev-example">
+					<div class="dev-example-preview">
+						<div class="dev-stack">
+							<div class="c-form-field">
+								<label class="c-form-label" for="demo-disabled">Disabled input</label>
+								<input class="c-form-control" id="demo-disabled" type="text" value="Read only snapshot" disabled />
+							</div>
+							<div class="c-form-field">
+								<label class="c-form-label" for="demo-search">Search</label>
+								<input class="c-form-control" id="demo-search" type="search" placeholder="Search components" />
+							</div>
+							<div class="dev-actions">
+								<button class="c-button" type="button">Primary action</button>
+								<button class="c-button c-button-ghost" type="button">Secondary action</button>
+							</div>
+						</div>
+					</div>
+					<div class="dev-example-code">
+<pre><code>&lt;label class="c-form-label" for="demo-search"&gt;Search&lt;/label&gt;
+&lt;input class="c-form-control" id="demo-search" type="search" placeholder="Search components" /&gt;
+
+&lt;input class="c-form-control" value="Read only snapshot" disabled /&gt;</code></pre>
+					</div>
+				</article>
+			</div>
+		</section>
+	</main>
 
 	<script type="module" src="/src/dev/dev.ts"></script>
 </body>

@@ -1,4 +1,122 @@
 
+@use '../../common/scss/app.variable.scss' as appVariable;
+
 .c-form {
-	
+	display: flex;
+	flex-direction: column;
+	gap: appVariable.$spacing-500;
+}
+
+.c-form-field {
+	display: flex;
+	flex-direction: column;
+	gap: appVariable.$spacing-300;
+}
+
+.c-form-row {
+	display: grid;
+	gap: appVariable.$spacing-500;
+}
+
+.c-form-label {
+	color: appVariable.$color-white-90;
+	font-size: appVariable.$font-size-400;
+	font-weight: appVariable.$font-weight-bold;
+	letter-spacing: appVariable.$letter-spacing-300;
+}
+
+.c-form-control {
+	width: 100%;
+	min-height: 2.75rem;
+	padding: .75rem .875rem;
+	border: 1px solid appVariable.$color-white-10;
+	border-radius: appVariable.$border-radius-700;
+	background: appVariable.$color-black-20;
+	color: appVariable.$color-white-90;
+	font-family: inherit;
+	font-size: appVariable.$font-size-450;
+	line-height: 1.4;
+	transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+
+	&::placeholder {
+		color: appVariable.$color-white-40;
+	}
+
+	&:hover {
+		border-color: appVariable.$color-white-20;
+	}
+
+	&:focus {
+		outline: none;
+		border-color: appVariable.$color-green-400;
+		box-shadow: 0 0 0 .1875rem appVariable.$color-green-50;
+		background: appVariable.$color-dark-500;
+	}
+
+	&:disabled {
+		cursor: not-allowed;
+		border-color: appVariable.$color-white-10;
+		background: appVariable.$color-black-40;
+		color: appVariable.$color-white-40;
+	}
+}
+
+textarea.c-form-control {
+	min-height: 7rem;
+	resize: vertical;
+}
+
+select.c-form-control {
+	appearance: none;
+	background-image: linear-gradient(45deg, transparent 50%, appVariable.$color-white-60 50%), linear-gradient(135deg, appVariable.$color-white-60 50%, transparent 50%);
+	background-position: calc(100% - 1rem) calc(50% - .125rem), calc(100% - .6875rem) calc(50% - .125rem);
+	background-size: .3125rem .3125rem, .3125rem .3125rem;
+	background-repeat: no-repeat;
+	padding-right: 2.5rem;
+}
+
+.c-form-help {
+	margin: 0;
+	color: appVariable.$color-white-60;
+	font-size: appVariable.$font-size-350;
+	line-height: 1.5;
+}
+
+.c-form-status {
+	margin: 0;
+	font-size: appVariable.$font-size-350;
+	font-weight: appVariable.$font-weight-bold;
+	line-height: 1.5;
+}
+
+.c-form-status-success {
+	color: appVariable.$color-success-400;
+}
+
+.c-form-status-danger {
+	color: appVariable.$color-danger-400;
+}
+
+.c-form-control-danger {
+	border-color: appVariable.$color-danger-400;
+
+	&:focus {
+		border-color: appVariable.$color-danger-400;
+		box-shadow: 0 0 0 .1875rem appVariable.$color-danger-50;
+	}
+}
+
+.c-form-control-success {
+	border-color: appVariable.$color-success-400;
+
+	&:focus {
+		border-color: appVariable.$color-success-400;
+		box-shadow: 0 0 0 .1875rem appVariable.$color-success-50;
+	}
+}
+
+@media (min-width: 48rem) {
+	.c-form-row {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
 }

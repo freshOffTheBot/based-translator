@@ -1,2 +1,189 @@
 
+@use '../common/scss/app.variable.scss' as appVariable;
+@use '../components/button/button.component.scss';
+@use '../components/card/card.component.scss';
+@use '../components/form/form.component.scss';
+@use '../components/typography/typography.component.scss';
 
+* {
+	box-sizing: border-box;
+}
+
+html {
+	background: appVariable.$color-black-400;
+}
+
+body {
+	margin: 0;
+	background:
+		radial-gradient(circle at top, appVariable.$color-slate-600 0%, transparent 30%),
+		linear-gradient(180deg, appVariable.$color-black-400 0%, appVariable.$color-dark-600 100%);
+	color: appVariable.$color-white-90;
+	font-family: appVariable.$fontMono;
+	font-size: appVariable.$font-size-450;
+	line-height: 1.6;
+}
+
+code,
+pre {
+	font-family: appVariable.$fontMono;
+}
+
+.dev-page {
+	width: min(100%, 78rem);
+	margin: 0 auto;
+	padding: appVariable.$spacing-700 appVariable.$spacing-500;
+}
+
+.dev-hero {
+	margin-bottom: appVariable.$spacing-700;
+}
+
+.dev-kicker {
+	display: inline-block;
+	margin-bottom: appVariable.$spacing-400;
+	color: appVariable.$color-green-400;
+	font-size: appVariable.$font-size-350;
+	font-weight: appVariable.$font-weight-bold;
+	letter-spacing: appVariable.$letter-spacing-500;
+	text-transform: uppercase;
+}
+
+.dev-title {
+	margin: 0;
+	color: appVariable.$color-white-500;
+	font-size: clamp(2rem, 5vw, appVariable.$font-size-h2);
+	line-height: 1.1;
+}
+
+.dev-lead {
+	max-width: 48rem;
+	margin: appVariable.$spacing-500 0 0;
+	color: appVariable.$color-white-60;
+}
+
+.dev-section {
+	padding-top: appVariable.$spacing-700;
+	border-top: 1px solid appVariable.$color-white-10;
+}
+
+.dev-section + .dev-section {
+	margin-top: appVariable.$spacing-700;
+}
+
+.dev-section-title {
+	margin: 0 0 appVariable.$spacing-300;
+	color: appVariable.$color-white-500;
+	font-size: appVariable.$font-size-900;
+}
+
+.dev-section-text {
+	max-width: 42rem;
+	margin: 0 0 appVariable.$spacing-600;
+	color: appVariable.$color-white-60;
+}
+
+.dev-token-grid,
+.dev-example-grid {
+	display: grid;
+	gap: appVariable.$spacing-500;
+}
+
+.dev-token-grid {
+	grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+}
+
+.dev-token {
+	padding: appVariable.$spacing-500;
+	border: 1px solid appVariable.$color-white-10;
+	border-radius: appVariable.$border-radius-800;
+	background: appVariable.$color-slate-700;
+}
+
+.dev-token-swatch {
+	height: 4rem;
+	margin-bottom: appVariable.$spacing-400;
+	border: 1px solid appVariable.$color-white-10;
+	border-radius: appVariable.$border-radius-700;
+}
+
+.dev-token-name {
+	display: block;
+	margin-bottom: .125rem;
+	color: appVariable.$color-white-500;
+	font-size: appVariable.$font-size-400;
+	font-weight: appVariable.$font-weight-bold;
+}
+
+.dev-token-value {
+	margin: 0;
+	color: appVariable.$color-white-60;
+	font-size: appVariable.$font-size-350;
+}
+
+.dev-example-grid {
+	grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+	align-items: start;
+}
+
+.dev-example {
+	border: 1px solid appVariable.$color-white-10;
+	border-radius: appVariable.$border-radius-900;
+	background: linear-gradient(180deg, appVariable.$color-slate-700 0%, appVariable.$color-dark-600 100%);
+	overflow: hidden;
+}
+
+.dev-example-preview,
+.dev-example-code {
+	padding: appVariable.$spacing-500;
+}
+
+.dev-example-preview {
+	border-bottom: 1px solid appVariable.$color-white-10;
+}
+
+.dev-example-code {
+	background: appVariable.$color-black-20;
+}
+
+.dev-example-title {
+	margin: 0 0 appVariable.$spacing-400;
+	color: appVariable.$color-white-500;
+	font-size: appVariable.$font-size-500;
+}
+
+.dev-example-code pre {
+	margin: 0;
+	overflow-x: auto;
+	color: appVariable.$color-green-300;
+	font-size: appVariable.$font-size-350;
+	line-height: 1.7;
+}
+
+.dev-stack {
+	display: grid;
+	gap: appVariable.$spacing-400;
+}
+
+.dev-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: appVariable.$spacing-400;
+}
+
+.dev-badge {
+	display: inline-flex;
+	align-items: center;
+	padding: .25rem .5rem;
+	border: 1px solid appVariable.$color-white-10;
+	border-radius: 999px;
+	background: appVariable.$color-black-20;
+	color: appVariable.$color-white-60;
+	font-size: appVariable.$font-size-350;
+}
+
+@media (max-width: 47.99rem) {
+	.dev-page {
+		padding: appVariable.$spacing-600 appVariable.$spacing-400;
+	}
+}
