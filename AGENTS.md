@@ -62,7 +62,7 @@
 
 01. The main card:
 	01-01. Header: `BASED TRANSLATOR`
-	01-02. Sub-header: `Speech-to-text + translation app using the OpenAI API. No server-side storage - everything stays in your browser.`
+	01-02. Sub-header: `Speech-to-text + translation app using the OpenAI API.<br>No server-side storage - everything stays in your browser.`
 02. There are two tabs - `Recording` and `Configuration`:
 	02-01. `Recording` tab: the default view.
 	02-02. `Configuration` tab: the config view.

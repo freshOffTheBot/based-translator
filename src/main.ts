@@ -76,7 +76,7 @@ appRoot.innerHTML = `
 			<header class="app-card-header">
 				<h1 class="c-card-title app-hero-title">BASED TRANSLATOR</h1>
 				<p class="c-card-text app-hero-text">
-					Speech-to-text + translation app using the OpenAI API. No server-side storage - everything stays in your browser.
+					Speech-to-text + translation app using the OpenAI API.<br>No server-side storage - everything stays in your browser.
 				</p>
 			</header>
 
