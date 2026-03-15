@@ -8,10 +8,10 @@
 	cursor: pointer;
 	min-height: 2.5rem;
 	padding: 0 1rem;
-	border: 1px solid appVariable.$color-green-400;
+	border: 1px solid appVariable.$color-green-600;
 	border-radius: appVariable.$border-radius-700;
-	background: linear-gradient(180deg, appVariable.$color-green-400 0%, appVariable.$color-green-600 100%);
-	color: appVariable.$color-black-500;
+	background: linear-gradient(180deg, appVariable.$color-green-800 0%, appVariable.$color-green-900 100%);
+	color: appVariable.$color-white-80;
 	font: inherit;
 	font-size: appVariable.$font-size-400;
 	font-weight: appVariable.$font-weight-bold;
@@ -42,7 +42,7 @@
 
 .c-button-danger {
 	border-color: appVariable.$color-danger-400;
-	background: linear-gradient(180deg, appVariable.$color-danger-400 0%, appVariable.$color-danger-700 100%);
+	background: linear-gradient(180deg, appVariable.$color-danger-800 0%, appVariable.$color-danger-900 100%);
 	color: appVariable.$color-white-500;
 }
 
