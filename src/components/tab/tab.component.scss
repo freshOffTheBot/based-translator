@@ -63,7 +63,7 @@
 	padding: appVariable.$spacing-500;
 	border: 1px solid appVariable.$color-white-10;
 	border-radius: appVariable.$border-radius-800;
-	background: appVariable.$color-black-20;
+	background: linear-gradient(180deg, appVariable.$color-slate-700 0%, appVariable.$color-dark-600 100%);
 	color: appVariable.$color-white-80;
 }
 
