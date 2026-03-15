@@ -1,6 +1,6 @@
 
 import OpenAI from 'openai';
-import './main.css';
+import './main.scss';
 
 const STORAGE_KEY_API = 'based-translator.api-key';
 const STORAGE_KEY_TRANSCRIPTION_PROMPT = 'based-translator.transcription-prompt';

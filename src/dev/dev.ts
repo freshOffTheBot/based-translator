@@ -1,3 +1,2 @@
 
-import '../main.css';
-import './dev.css';
+import './dev.scss';
