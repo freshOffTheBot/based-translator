@@ -11,13 +11,17 @@
 03. `vite.config.ts`: for Vite.
 04. `.editorconfig`: project coding style.
 05. `src/`: the folder contains all project source files.
-06. `src/components`: the folder contains component files.
-	06-01. `src/components/typography/typography.component.css`: (read-only file) fonts, colors, and CSS related variables.
-	06-02. `src/components/card/card.component.css`: card component CSS file.
-	06-03. `src/components/form/form.component.css`: form component CSS file.
-07. `src/dev/dev.html`: dev docs for all components.
-08. `src/main.css`: the main CSS file.
-09. `src/main.ts`: the main TypeScript file.
+06. `src/common`: the folder contains globally-used files.
+	06-01. `src/common/scss/app.variable.scss`: global SCSS variables.
+07. `src/components`: the folder contains component files.
+	07-01. `src/components/typography/typography.component.scss`: text-related components SCSS file.
+	07-02. `src/components/button/button.component.scss`: button component SCSS file.
+	07-03. `src/components/card/card.component.scss`: card component SCSS file.
+	07-04. `src/components/form/form.component.scss`: form component SCSS file.
+08. `src/dev/dev.html`: dev docs for all components.
+	08-01. This page shows atomic component and its HTML code.
+09. `src/main.scss`: the main SCSS entry file.
+10. `src/main.ts`: the main TypeScript entry file.
 
 
 
@@ -97,6 +101,7 @@
 09. Translation output box.
 	09-01. It shows the result output from `openai.responses.create`.
 10. Dark theme.
+11. Compact design components.
 
 
 
