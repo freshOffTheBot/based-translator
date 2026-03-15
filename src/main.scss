@@ -20,9 +20,7 @@ html {
 
 body {
 	margin: 0;
-	background:
-		radial-gradient(circle at top, appVariable.$color-slate-600 0%, transparent 30%),
-		linear-gradient(180deg, appVariable.$color-black-400 0%, appVariable.$color-dark-600 100%);
+	background: radial-gradient(circle at top, #34363c 0%, transparent 30%), linear-gradient(180deg, #070707 0%, #1C1D20 100%);
 	color: appVariable.$color-white-90;
 	font-family: appVariable.$fontMono;
 	font-size: appVariable.$font-size-450;
@@ -46,12 +44,20 @@ pre {
 	gap: appVariable.$spacing-500;
 }
 
-.app-hero {
+.app-card {
 	position: relative;
 	overflow: hidden;
+	gap: appVariable.$spacing-500;
+	border-color: appVariable.$color-white-20;
+	background:
+		linear-gradient(180deg, rgba(255, 255, 255, .03) 0%, rgba(255, 255, 255, 0) 12%),
+		linear-gradient(180deg, appVariable.$color-slate-700 0%, appVariable.$color-dark-600 100%);
+	box-shadow:
+		0 1.5rem 4rem rgba(0, 0, 0, .35),
+		inset 0 .0625rem 0 rgba(255, 255, 255, .04);
 }
 
-.app-hero::before {
+.app-card::before {
 	content: '';
 	position: absolute;
 	inset: 0 auto auto 0;
@@ -60,13 +66,46 @@ pre {
 	background: linear-gradient(90deg, appVariable.$color-green-400 0%, transparent 100%);
 }
 
-.app-hero-title,
-.app-section-title {
-	font-size: appVariable.$font-size-800;
+.app-card-header {
+	display: grid;
+	gap: appVariable.$spacing-300;
+	padding-bottom: appVariable.$spacing-500;
+	border-bottom: 1px solid appVariable.$color-white-10;
+}
+
+.app-hero-title {
+	color: appVariable.$color-white-500;
+	font-family: appVariable.$fontPixel;
+	font-size: appVariable.$font-size-900;
+	font-weight: appVariable.$font-weight;
+	letter-spacing: appVariable.$letter-spacing-400;
+}
+
+.app-hero-text {
+	max-width: 40rem;
+	color: appVariable.$color-white-80;
+	font-size: appVariable.$font-size-300;
+	line-height: 1.7;
 }
 
 .app-tab-shell {
 	gap: appVariable.$spacing-400;
+}
+
+.app-tab-list {
+	padding: .25rem;
+	border-radius: appVariable.$border-radius-700;
+	background:
+		linear-gradient(180deg, rgba(255, 255, 255, .02) 0%, rgba(255, 255, 255, 0) 100%),
+		appVariable.$color-black-20;
+}
+
+.app-panel {
+	padding: appVariable.$spacing-500;
+	border-radius: appVariable.$border-radius-700;
+	background:
+		linear-gradient(180deg, rgba(255, 255, 255, .02) 0%, rgba(255, 255, 255, 0) 100%),
+		appVariable.$color-black-20;
 }
 
 .app-tab-panel-stack {
@@ -79,15 +118,38 @@ pre {
 	border-bottom: 1px solid appVariable.$color-white-10;
 }
 
+.app-section-title {
+	color: appVariable.$color-white-500;
+	font-family: appVariable.$fontPixel;
+	font-size: appVariable.$font-size-700;
+	font-weight: appVariable.$font-weight;
+	letter-spacing: appVariable.$letter-spacing-300;
+}
+
 .app-form-control-compact {
 	min-height: 6rem;
 	font-size: appVariable.$font-size-350;
+	line-height: 1.55;
+}
+
+.app-help-text {
+	font-size: appVariable.$font-size-300;
 }
 
 .app-actions {
 	display: flex;
 	flex-wrap: wrap;
+	align-items: center;
 	gap: appVariable.$spacing-400;
+}
+
+.app-actions-centered {
+	justify-content: center;
+	padding: appVariable.$spacing-400 0;
+}
+
+.app-record-button {
+	min-width: 12.5rem;
 }
 
 .app-status-line {
@@ -95,6 +157,7 @@ pre {
 	align-items: center;
 	gap: appVariable.$spacing-300;
 	margin: 0;
+	font-size: appVariable.$font-size-300;
 }
 
 .status-text {
@@ -123,20 +186,24 @@ pre {
 
 .app-output-title {
 	margin: 0;
+	font-size: appVariable.$font-size-350;
 }
 
 .app-output-box {
-	min-height: 9rem;
+	min-height: 8.5rem;
 	margin: 0;
-	padding: appVariable.$spacing-500;
+	padding: appVariable.$spacing-400 appVariable.$spacing-500;
 	border: 1px solid appVariable.$color-white-10;
 	border-radius: appVariable.$border-radius-700;
-	background: appVariable.$color-black-20;
+	background:
+		linear-gradient(180deg, rgba(255, 255, 255, .02) 0%, rgba(255, 255, 255, 0) 100%),
+		rgba(0, 0, 0, .3);
 	color: appVariable.$color-white-80;
-	font-size: appVariable.$font-size-400;
-	line-height: 1.7;
+	font-size: appVariable.$font-size-350;
+	line-height: 1.75;
 	white-space: pre-wrap;
 	word-break: break-word;
+	box-shadow: inset 0 .0625rem 0 rgba(255, 255, 255, .04);
 }
 
 .hidden {
@@ -148,7 +215,20 @@ pre {
 		padding: appVariable.$spacing-600 appVariable.$spacing-400;
 	}
 
+	.app-card {
+		padding: appVariable.$spacing-400;
+	}
+
+	.app-card-header,
+	.app-panel {
+		padding-bottom: appVariable.$spacing-400;
+	}
+
 	.app-actions .c-button {
 		width: 100%;
+	}
+
+	.app-actions-centered {
+		padding: appVariable.$spacing-300 0;
 	}
 }

@@ -19,9 +19,9 @@
 }
 
 .c-form-label {
-	color: appVariable.$color-white-90;
+	color: appVariable.$color-white-80;
 	font-size: appVariable.$font-size-400;
-	font-weight: appVariable.$font-weight-bold;
+	font-weight: appVariable.$font-weight;
 	letter-spacing: appVariable.$letter-spacing-300;
 }
 
@@ -85,7 +85,7 @@ select.c-form-control {
 .c-form-status {
 	margin: 0;
 	font-size: appVariable.$font-size-350;
-	font-weight: appVariable.$font-weight-bold;
+	font-weight: appVariable.$font-weight;
 	line-height: 1.5;
 }
 

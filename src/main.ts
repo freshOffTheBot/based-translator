@@ -41,6 +41,9 @@ interface ViewElements {
 	recordButton: HTMLButtonElement;
 	cancelButton: HTMLButtonElement;
 	statusText: HTMLElement;
+	recordingActions: HTMLElement;
+	transcriptionOutputGroup: HTMLElement;
+	translationOutputGroup: HTMLElement;
 	transcriptionOutput: HTMLElement;
 	translationOutput: HTMLElement;
 }
@@ -69,125 +72,122 @@ if (!appRoot) {
 
 appRoot.innerHTML = `
 	<main class="app-shell">
-		<header class="c-card app-hero">
-			<div class="c-card-body">
-				<p class="c-card-eyebrow">Based Translator</p>
+		<section class="c-card app-card">
+			<header class="app-card-header">
 				<h1 class="c-card-title app-hero-title">BASED TRANSLATOR</h1>
-				<p class="c-card-text">
-					Speech-to-text + translation app using your OpenAI token in-browser only.
+				<p class="c-card-text app-hero-text">
+					Speech-to-text + translation app using the OpenAI API. No server-side storage - everything stays in your browser.
 				</p>
-			</div>
-		</header>
+			</header>
 
-		<section class="c-tab app-tab-shell" aria-label="Translator views">
-			<div class="c-tab-list" role="tablist" aria-label="Translator views">
-				<button
-					id="recording-tab"
-					class="c-tab-button"
-					type="button"
-					role="tab"
-					aria-selected="true"
-					aria-controls="recording-panel"
-				>
-					Recording
-				</button>
-				<button
-					id="configuration-tab"
-					class="c-tab-button"
-					type="button"
-					role="tab"
-					aria-selected="false"
-					aria-controls="configuration-panel"
-				>
-					Configuration
-				</button>
-			</div>
-
-			<section
-				id="recording-panel"
-				class="c-tab-panel"
-				role="tabpanel"
-				aria-labelledby="recording-tab"
-			>
-				<div class="app-tab-panel-stack">
-					<header class="app-panel-header">
-						<h2 class="c-card-title app-section-title">Recording</h2>
-					</header>
-
-					<div class="app-actions">
-						<button id="record-button" type="button" class="c-button">Start Recording</button>
-						<button id="cancel-button" type="button" class="c-button c-button-danger hidden">Cancel</button>
-					</div>
-
-					<p class="c-form-status app-status-line">
-						<span class="c-text-muted">Status:</span>
-						<span id="status-text" class="status-text tone-neutral">idle</span>
-					</p>
-
-					<div class="app-output-group">
-						<p class="c-form-label app-output-title">Transcription Output:</p>
-						<pre id="transcription-output" class="app-output-box" aria-live="polite"></pre>
-					</div>
-
-					<div class="app-output-group">
-						<p class="c-form-label app-output-title">Translation Output:</p>
-						<pre id="translation-output" class="app-output-box" aria-live="polite"></pre>
-					</div>
+			<section class="c-tab app-tab-shell" aria-label="Translator views">
+				<div class="c-tab-list app-tab-list" role="tablist" aria-label="Translator views">
+					<button
+						id="recording-tab"
+						class="c-tab-button"
+						type="button"
+						role="tab"
+						aria-selected="true"
+						aria-controls="recording-panel"
+					>
+						Recording
+					</button>
+					<button
+						id="configuration-tab"
+						class="c-tab-button"
+						type="button"
+						role="tab"
+						aria-selected="false"
+						aria-controls="configuration-panel"
+					>
+						Configuration
+					</button>
 				</div>
-			</section>
 
-			<section
-				id="configuration-panel"
-				class="c-tab-panel hidden"
-				role="tabpanel"
-				aria-labelledby="configuration-tab"
-			>
-				<div class="app-tab-panel-stack">
-					<header class="app-panel-header">
-						<h2 class="c-card-title app-section-title">Configuration</h2>
-					</header>
+				<section
+					id="recording-panel"
+					class="c-tab-panel app-panel"
+					role="tabpanel"
+					aria-labelledby="recording-tab"
+				>
+					<div class="app-tab-panel-stack">
+						<header class="app-panel-header">
+							<h2 class="c-card-title app-section-title">Recording</h2>
+						</header>
 
-					<form class="c-form">
-						<div class="c-form-field">
-							<label class="c-form-label" for="api-key-input">OpenAI API key:</label>
-							<input
-								id="api-key-input"
-								class="c-form-control"
-								type="password"
-								placeholder="sk-..."
-								autocomplete="off"
-								spellcheck="false"
-							/>
-							<p class="c-form-help">Stored only in localStorage on this browser.</p>
+						<div id="recording-actions" class="app-actions app-actions-centered">
+							<button id="record-button" type="button" class="c-button app-record-button">Start Recording</button>
+							<button id="cancel-button" type="button" class="c-button c-button-danger hidden">Cancel</button>
 						</div>
 
-						<div class="c-form-field">
-							<label class="c-form-label" for="transcription-prompt-input">Transcription Prompt:</label>
-							<textarea
-								id="transcription-prompt-input"
-								class="c-form-control app-form-control-compact"
-								rows="3"
-								placeholder="Enter prompt for speech-to-text ..."
-							></textarea>
-							<p class="c-form-help">
-								Used as <code class="c-text-inline-code">prompt</code> for transcription.
-							</p>
+						<p class="c-form-status app-status-line">
+							<span class="c-text-muted">Status:</span>
+							<span id="status-text" class="status-text tone-neutral">idle</span>
+						</p>
+
+						<div id="transcription-output-group" class="app-output-group hidden">
+							<p class="c-form-label app-output-title">Transcription Output:</p>
+							<pre id="transcription-output" class="app-output-box" aria-live="polite"></pre>
 						</div>
 
-						<div class="c-form-field">
-							<label class="c-form-label" for="translation-template-input">Translation Template:</label>
-							<textarea
-								id="translation-template-input"
-								class="c-form-control app-form-control-compact"
-								rows="3"
-								placeholder="Translate transcription into ..."
-							></textarea>
-							<p class="c-form-help">
-								Must include <code class="c-text-inline-code">${TRANSLATION_PLACEHOLDER}</code>.
-							</p>
+						<div id="translation-output-group" class="app-output-group hidden">
+							<p class="c-form-label app-output-title">Translation Output:</p>
+							<pre id="translation-output" class="app-output-box" aria-live="polite"></pre>
 						</div>
-					</form>
-				</div>
+					</div>
+				</section>
+
+				<section
+					id="configuration-panel"
+					class="c-tab-panel app-panel hidden"
+					role="tabpanel"
+					aria-labelledby="configuration-tab"
+				>
+					<div class="app-tab-panel-stack">
+						<header class="app-panel-header">
+							<h2 class="c-card-title app-section-title">Configuration</h2>
+						</header>
+
+						<form class="c-form">
+							<div class="c-form-field">
+								<label class="c-form-label" for="api-key-input">OpenAI API key:</label>
+								<input
+									id="api-key-input"
+									class="c-form-control"
+									type="password"
+									placeholder="sk-..."
+									autocomplete="off"
+									spellcheck="false"
+								/>
+								<p class="c-form-help app-help-text">Stored only in your browser. Never sent to any server. You’re SAFU!</p>
+							</div>
+
+							<div class="c-form-field">
+								<label class="c-form-label" for="transcription-prompt-input">Transcription Prompt:</label>
+								<textarea
+									id="transcription-prompt-input"
+									class="c-form-control app-form-control-compact"
+									rows="3"
+									placeholder="Use this to help catch tricky words like names, acronyms, brands, or niche terms."
+								></textarea>
+								<p class="c-form-help app-help-text">Fren, NEET, Based, Cringe, NPC, ...</p>
+							</div>
+
+							<div class="c-form-field">
+								<label class="c-form-label" for="translation-template-input">Translation Template:</label>
+								<textarea
+									id="translation-template-input"
+									class="c-form-control app-form-control-compact"
+									rows="3"
+									placeholder="Translate {{transcription}} into English."
+								></textarea>
+								<p class="c-form-help app-help-text">
+									Must include <code class="c-text-inline-code">${TRANSLATION_PLACEHOLDER}</code>.
+								</p>
+							</div>
+						</form>
+					</div>
+				</section>
 			</section>
 		</section>
 	</main>
@@ -479,8 +479,15 @@ function render(): void {
 
 	view.statusText.textContent = state.statusMessage;
 	view.statusText.className = `status-text tone-${state.statusTone}`;
+	view.recordingActions.classList.toggle('app-actions-centered', !isRecording);
 	view.transcriptionOutput.textContent = state.transcriptionOutput;
 	view.translationOutput.textContent = state.translationOutput;
+
+	const shouldShowOutputs =
+		isRecording || Boolean(state.transcriptionOutput.trim()) || Boolean(state.translationOutput.trim());
+
+	view.transcriptionOutputGroup.classList.toggle('hidden', !shouldShowOutputs);
+	view.translationOutputGroup.classList.toggle('hidden', !shouldShowOutputs);
 }
 
 function getViewElements(): ViewElements {
@@ -494,6 +501,9 @@ function getViewElements(): ViewElements {
 	const recordButton = document.querySelector<HTMLButtonElement>('#record-button');
 	const cancelButton = document.querySelector<HTMLButtonElement>('#cancel-button');
 	const statusText = document.querySelector<HTMLElement>('#status-text');
+	const recordingActions = document.querySelector<HTMLElement>('#recording-actions');
+	const transcriptionOutputGroup = document.querySelector<HTMLElement>('#transcription-output-group');
+	const translationOutputGroup = document.querySelector<HTMLElement>('#translation-output-group');
 	const transcriptionOutput = document.querySelector<HTMLElement>('#transcription-output');
 	const translationOutput = document.querySelector<HTMLElement>('#translation-output');
 
@@ -508,6 +518,9 @@ function getViewElements(): ViewElements {
 		!recordButton ||
 		!cancelButton ||
 		!statusText ||
+		!recordingActions ||
+		!transcriptionOutputGroup ||
+		!translationOutputGroup ||
 		!transcriptionOutput ||
 		!translationOutput
 	) {
@@ -525,6 +538,9 @@ function getViewElements(): ViewElements {
 		recordButton,
 		cancelButton,
 		statusText,
+		recordingActions,
+		transcriptionOutputGroup,
+		translationOutputGroup,
 		transcriptionOutput,
 		translationOutput,
 	};
