@@ -1,0 +1,16 @@
+{
+	"name": "based-translator",
+	"version": "0.0.0",
+	"description": "A speech-to-text web app using OpenAI audio transcriptions API.",
+	"private": true,
+	"scripts": {
+		"webapp:install": "cd ./src/01_webapp && npm ci",
+		"webapp:dev": "cd ./src/01_webapp && npm run dev",
+		"webapp:build": "cd ./src/01_webapp && npm run build",
+		"webapp:preview": "cd ./src/01_webapp && npm run preview",
+
+		"electron:install": "cd ./src/02_electron && npm ci",
+		"electron:dev": "cd ./src/02_electron && npm run lint && npm run start",
+		"electron:build": "cd ./src/02_electron && npm run package"
+	}
+}
