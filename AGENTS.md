@@ -3,7 +3,13 @@
 
 01. Speech-to-text + translation app using the OpenAI API. No server-side storage - everything stays in user's browser.
 02. Users bring their own OpenAI token, and everything stays in the user's browser.
-03. It uses pnpm, plain TypeScript/CSS/html, and Vite.
+03. It uses npm, plain TypeScript/CSS/html, and Vite.
+
+
+
+
+
+---
 
 
 
@@ -11,23 +17,53 @@
 
 ## 1. Project Structure
 
-01. `package.json`: for pnpm.
-02. `tsconfig.json`: for TypeScript.
-03. `vite.config.ts`: for Vite.
-04. `.editorconfig`: project coding style.
-05. `src/`: the folder contains all project source files.
-06. `src/common`: the folder contains globally-used files.
-	06-01. `src/common/scss/app.variable.scss`: global SCSS variables.
-07. `src/components`: the folder contains component files.
-	07-01. `src/components/typography/typography.component.scss`: text-related components SCSS file.
-	07-02. `src/components/button/button.component.scss`: button component SCSS file.
-	07-03. `src/components/card/card.component.scss`: card component SCSS file.
-	07-04. `src/components/form/form.component.scss`: form component SCSS file.
-	07-05. `src/components/tab/tab.component.scss`: tab component SCSS file.
-08. `src/dev/dev.html`: dev docs for all components.
-	08-01. This page shows atomic component and its HTML code.
-09. `src/main.scss`: the main SCSS entry file.
-10. `src/main.ts`: the main TypeScript entry file.
+01. `src/`: the folder contains all project source files.
+02. `src/01_webapp/`: the folder that contains the web app source files that form the foundation of based-translator.
+03. `src/02_electron/`: the folder that contains the Electron source files that contain the logic for building based-translator as a native app (TODO).
+
+
+
+
+
+### 1-1. Project Root
+
+01. `.editorconfig`: project coding style.
+
+
+
+
+
+### 1-2. Web App
+
+01. `src/01_webapp/package.json`: for npm.
+02. `src/01_webapp/tsconfig.json`: for TypeScript.
+03. `src/01_webapp/vite.config.ts`: for Vite.
+04. `src/01_webapp/common`: the folder contains globally-used files.
+	04-01. `src/01_webapp/common/scss/app.variable.scss`: global SCSS variables.
+05. `src/01_webapp/components`: the folder contains component files.
+	05-01. `src/01_webapp/components/typography/typography.component.scss`: text-related components SCSS file.
+	05-02. `src/01_webapp/components/button/button.component.scss`: button component SCSS file.
+	05-03. `src/01_webapp/components/card/card.component.scss`: card component SCSS file.
+	05-04. `src/01_webapp/components/form/form.component.scss`: form component SCSS file.
+	05-05. `src/01_webapp/components/tab/tab.component.scss`: tab component SCSS file.
+06. `src/01_webapp/dev/dev.html`: dev docs for all components.
+	06-01. This page shows atomic component and its HTML code.
+07. `src/01_webapp/main.scss`: the main SCSS entry file.
+08. `src/01_webapp/main.ts`: the main TypeScript entry file.
+
+
+
+
+
+### 1-3. Electron
+
+01. TODO.
+
+
+
+
+
+---
 
 
 
@@ -169,6 +205,12 @@
 
 
 
+---
+
+
+
+
+
 ## 3. Logic Flow
 
 ```text
@@ -229,6 +271,12 @@ function onClickStartRecordingButton() {
 
 
 
+---
+
+
+
+
+
 ## 4. Rules
 
 01. Use simple and easy-to-understand codes.
@@ -242,11 +290,23 @@ function onClickStartRecordingButton() {
 
 
 
+---
+
+
+
+
+
 ## 5. Build / Run / Test
 
-01. Build: `$ pnpm run build`
-02. Run: `$ pnpm run dev`
+01. Build: `$ npm run build`
+02. Run: `$ npm run dev`
 03. Test: No test needed because this is a simple project.
+
+
+
+
+
+---
 
 
 

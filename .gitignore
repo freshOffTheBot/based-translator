@@ -144,6 +144,3 @@ vite.config.ts.timestamp-*
 
 # CUSTOM
 .state
-
-# Ignore pnpm related files
-.pnpm-store

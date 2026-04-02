@@ -11,7 +11,7 @@ export default defineConfig({
 		rollupOptions: {
 			input: {
 				main: './index.html',
-				dev: './src/dev/dev.html',
+				dev: './dev/dev.html',
 			},
 		},
 	},
@@ -29,7 +29,7 @@ export default defineConfig({
 
 					// Keep the dev docs page on the expected URL while serving the src HTML file.
 					if (requestUrl === '/dev' || requestUrl === '/dev.html') {
-						request.url = '/src/dev/dev.html';
+						request.url = './dev/dev.html';
 					}
 
 					next();

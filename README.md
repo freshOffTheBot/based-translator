@@ -20,11 +20,11 @@ No server-side storage - everything stays in user's browser.
 ## Quick Start
 ```bash
 # Dev
-$ pnpm install
-$ pnpm run dev
+$ npm install
+$ npm run dev
 # Then, open: `http://localhost:9999`
 
 
 # Build
-$ pnpm run build
+$ npm run build
 ```
