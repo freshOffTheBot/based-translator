@@ -57,7 +57,7 @@
 
 ### 1-3. Electron
 
-01. TODO.
+01. TODO: Add a feature where a translated text follows the mouse cursor globally.
 
 
 
