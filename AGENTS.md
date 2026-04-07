@@ -40,12 +40,12 @@
 03. `src/01_webapp/vite.config.ts`: for Vite.
 04. `src/01_webapp/common`: the folder contains globally-used files.
 	04-01. `src/01_webapp/common/scss/app.variable.scss`: global SCSS variables.
-05. `src/01_webapp/components`: the folder contains component files.
-	05-01. `src/01_webapp/components/typography/typography.component.scss`: text-related components SCSS file.
-	05-02. `src/01_webapp/components/button/button.component.scss`: button component SCSS file.
-	05-03. `src/01_webapp/components/card/card.component.scss`: card component SCSS file.
-	05-04. `src/01_webapp/components/form/form.component.scss`: form component SCSS file.
-	05-05. `src/01_webapp/components/tab/tab.component.scss`: tab component SCSS file.
+05. `src/01_webapp/component`: the folder contains component files.
+	05-01. `src/01_webapp/component/typography/typography.component.scss`: text-related components SCSS file.
+	05-02. `src/01_webapp/component/button/button.component.scss`: button component SCSS file.
+	05-03. `src/01_webapp/component/card/card.component.scss`: card component SCSS file.
+	05-04. `src/01_webapp/component/form/form.component.scss`: form component SCSS file.
+	05-05. `src/01_webapp/component/tab/tab.component.scss`: tab component SCSS file.
 06. `src/01_webapp/dev/dev.html`: dev docs for all components.
 	06-01. This page shows atomic component and its HTML code.
 07. `src/01_webapp/main.scss`: the main SCSS entry file.

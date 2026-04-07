@@ -4,11 +4,11 @@
 
 
 // Components
-@use './components/button/button.component.scss';
-@use './components/card/card.component.scss';
-@use './components/form/form.component.scss';
-@use './components/tab/tab.component.scss';
-@use './components/typography/typography.component.scss';
+@use './component/button/button.component.scss';
+@use './component/card/card.component.scss';
+@use './component/form/form.component.scss';
+@use './component/tab/tab.component.scss';
+@use './component/typography/typography.component.scss';
 
 * {
 	box-sizing: border-box;
