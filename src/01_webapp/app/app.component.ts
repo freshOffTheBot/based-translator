@@ -3,6 +3,7 @@ import { buildAudioFile, buildTranslationInput, createOpenAIClient, getValidated
 import { cancelMicRecording, startMicRecording, stopMicRecordingAndCreateBlob } from '../common/recording-mic/recording-mic.service';
 import { clearOutputs, createAppState, setActiveTab, setErrorStatus, setPhase, setRecordingSession, setStatus, setTranscriptionOutput, setTranslationOutput, type AppState } from './common/app-state.service';
 import { saveApiKey, saveTranscriptionPrompt, saveTranslationTemplate } from '../common/localStorage/localStorage.service';
+import { dispatchNativeTranslationOutputEvent } from '../common/native-event/native-event.service';
 import { initializeAppConfigComponent, type AppConfigComponent } from './component/config/app-config.component';
 import { initializeAppRecordingComponent, type AppRecordingComponent } from './component/recording/app-recording.component';
 import appHtml from './app.html?raw';
@@ -146,6 +147,7 @@ export function initializeAppComponent(root: HTMLElement): void {
 			const translationOutput = await translateText(openai, translationInput);
 
 			setTranslationOutput(state, translationOutput);
+			dispatchNativeTranslationOutputEvent(translationOutput);
 			setPhase(state, 'success');
 			setStatus(state, 'done', 'success');
 			render();
