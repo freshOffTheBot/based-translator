@@ -1,12 +1,14 @@
-import {
-	STORAGE_KEY_API,
-	STORAGE_KEY_TRANSCRIPTION_PROMPT,
-	STORAGE_KEY_TRANSLATION_TEMPLATE,
-} from './localStorage.constant';
-import {
-	DEFAULT_TRANSCRIPTION_PROMPT,
-	DEFAULT_TRANSLATION_TEMPLATE,
-} from '../openai/openai.constant';
+
+import { STORAGE_KEY_API, STORAGE_KEY_TRANSCRIPTION_PROMPT, STORAGE_KEY_TRANSLATION_TEMPLATE } from './localStorage.constant';
+import { DEFAULT_TRANSCRIPTION_PROMPT, DEFAULT_TRANSLATION_TEMPLATE } from '../openai/openai.constant';
+
+
+/**
+ * # LOCAL STORAGE SERVICE
+ * - Reads and writes user configuration in the browser only.
+ * - Provides safe defaults when optional prompt settings have not been saved yet.
+ */
+
 
 export function loadApiKey(): string {
 	return localStorage.getItem(STORAGE_KEY_API) ?? '';

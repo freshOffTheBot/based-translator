@@ -1,3 +1,9 @@
+
+/**
+ * # OPENAI CONSTANTS
+ * - Defines model names and default prompt text for OpenAI requests.
+ * - Keeps request defaults shared by the OpenAI service and config state.
+ */
 export const TRANSCRIPTION_MODEL = 'gpt-4o-transcribe';
 export const TRANSLATION_MODEL = 'gpt-5.2';
 export const TRANSLATION_PLACEHOLDER = '{{transcription}}';

@@ -1,6 +1,13 @@
+
 import { initializeAppComponent } from '../app/app.component';
 import homeHtml from './home.html?raw';
 
+
+/**
+ * # HOME COMPONENT
+ * - Loads the home HTML into the Vite app root.
+ * - Mounts the main based-translator app inside the home page shell.
+ */
 export function initializeHome(): void {
 	const appRoot = document.querySelector<HTMLDivElement>('#app');
 

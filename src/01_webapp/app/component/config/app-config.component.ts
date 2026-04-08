@@ -1,22 +1,42 @@
+
 import appConfigHtml from './app-config.html?raw';
 import type { AppConfigModel } from './app-config.model';
 
+
+/**
+ * # APP CONFIG COMPONENT
+ * - Owns the Configuration tab DOM.
+ * - Sends input changes up to the app component through event callbacks.
+ * - Renders config values from AppConfigModel.
+ */
+
+
 interface AppConfigEvents {
+	// Called when the API key input changes.
 	onApiKeyInput: (apiKey: string) => void;
+	// Called when the transcription prompt textarea changes.
 	onTranscriptionPromptInput: (transcriptionPrompt: string) => void;
+	// Called when the translation template textarea changes.
 	onTranslationTemplateInput: (translationTemplate: string) => void;
 }
 
 interface AppConfigElements {
+	// API key input element.
 	apiKeyInput: HTMLInputElement;
+	// Transcription prompt textarea element.
 	transcriptionPromptInput: HTMLTextAreaElement;
+	// Translation template textarea element.
 	translationTemplateInput: HTMLTextAreaElement;
 }
 
 export interface AppConfigComponent {
+	// Updates the Configuration tab from the latest app model.
 	render: (model: AppConfigModel) => void;
 }
 
+/**
+ * Creates the Configuration tab controller and wires DOM events to the app.
+ */
 export function initializeAppConfigComponent(root: HTMLElement, events: AppConfigEvents): AppConfigComponent {
 	root.innerHTML = appConfigHtml;
 
@@ -35,6 +55,9 @@ export function initializeAppConfigComponent(root: HTMLElement, events: AppConfi
 	});
 
 	return {
+		/**
+		 * Renders config input values and disables them while requests are running.
+		 */
 		render(model: AppConfigModel): void {
 			view.apiKeyInput.value = model.apiKey;
 			view.transcriptionPromptInput.value = model.transcriptionPrompt;
@@ -47,6 +70,9 @@ export function initializeAppConfigComponent(root: HTMLElement, events: AppConfi
 	};
 }
 
+/**
+ * Finds required Configuration tab elements and fails early if the HTML changed.
+ */
 function getAppConfigElements(root: HTMLElement): AppConfigElements {
 	const apiKeyInput = root.querySelector<HTMLInputElement>('#api-key-input');
 	const transcriptionPromptInput = root.querySelector<HTMLTextAreaElement>('#transcription-prompt-input');

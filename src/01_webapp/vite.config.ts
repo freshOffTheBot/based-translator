@@ -1,6 +1,12 @@
 
 import { defineConfig } from 'vite';
 
+
+/**
+ * # VITE CONFIG
+ * - Configures the local webapp dev server and production build output.
+ * - Adds a small dev-only route so `/dev` opens the component docs page.
+ */
 export default defineConfig({
 	server: {
 		host: '0.0.0.0',
@@ -18,6 +24,10 @@ export default defineConfig({
 	plugins: [
 		{
 			name: 'dev-route',
+
+			/**
+			 * Registers local dev middleware before Vite serves files.
+			 */
 			configureServer(server) {
 				server.middlewares.use((request: any, _response, next) => {
 					const requestUrl = request.url;
