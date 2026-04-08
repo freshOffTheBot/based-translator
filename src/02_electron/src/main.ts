@@ -1,6 +1,7 @@
-import { app, BrowserWindow, screen } from 'electron';
+import { app, BrowserWindow, ipcMain, screen } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
+import { NATIVE_TRANSLATION_OUTPUT_IPC_CHANNEL } from './native-translation.constant';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
@@ -13,8 +14,8 @@ const MAIN_WINDOW_DIMENSIONS = {
 };
 
 const OVERLAY_WINDOW_DIMENSIONS = {
-	width: 220,
-	height: 64,
+	width: 360,
+	height: 160,
 };
 
 const CURSOR_OFFSET = {
@@ -96,6 +97,26 @@ const startCursorTracking = () => {
 	cursorTracker = setInterval(syncOverlayPosition, CURSOR_POLL_INTERVAL_MS);
 };
 
+const showOverlayWindow = () => {
+	if (!overlayWindow || overlayWindow.isDestroyed()) {
+		return;
+	}
+
+	syncOverlayPosition();
+	overlayWindow.showInactive();
+};
+
+const bindNativeTranslationEvents = () => {
+	ipcMain.on(NATIVE_TRANSLATION_OUTPUT_IPC_CHANNEL, (_event, translationOutput: string) => {
+		if (!translationOutput || !overlayWindow || overlayWindow.isDestroyed()) {
+			return;
+		}
+
+		overlayWindow.webContents.send(NATIVE_TRANSLATION_OUTPUT_IPC_CHANNEL, translationOutput);
+		showOverlayWindow();
+	});
+};
+
 const createMainWindow = async () => {
 	mainWindow = new BrowserWindow({
 		...MAIN_WINDOW_DIMENSIONS,
@@ -142,7 +163,7 @@ const createOverlayWindow = async () => {
 	overlayWindow.setAlwaysOnTop(true, 'screen-saver', 1);
 
 	overlayWindow.once('ready-to-show', () => {
-		overlayWindow?.showInactive();
+		syncOverlayPosition();
 	});
 
 	overlayWindow.on('closed', () => {
@@ -163,6 +184,7 @@ const createWindows = async () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
+	bindNativeTranslationEvents();
 	void createWindows();
 });
 

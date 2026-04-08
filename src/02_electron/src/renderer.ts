@@ -1,58 +1,43 @@
+import './index.css';
+import { NATIVE_TRANSLATION_OUTPUT_EVENT } from '../../01_webapp/common/native-event/native-event.constant';
+import type { NativeTranslationOutputEventDetail } from '../../01_webapp/common/native-event/native-event.model';
+
+
 /**
- * This file will automatically be loaded by vite and run in the "renderer" context.
- * To learn more about the differences between the "main" and the "renderer" context in
- * Electron, visit:
- *
- * https://electronjs.org/docs/tutorial/process-model
- *
- * By default, Node.js integration in this file is disabled. When enabling Node.js integration
- * in a renderer process, please be aware of potential security implications. You can read
- * more about security risks here:
- *
- * https://electronjs.org/docs/tutorial/security
- *
- * To enable Node.js integration in this file, open up `main.ts` and enable the `nodeIntegration`
- * flag:
- *
- * ```
- *  // Create the browser window.
- *  mainWindow = new BrowserWindow({
- *    width: 800,
- *    height: 600,
- *    webPreferences: {
- *      nodeIntegration: true
- *    }
- *  });
- * ```
+ * # ELECTRON RENDERER
+ * - Runs the shared webapp in the main window.
+ * - Runs a tiny translated-text label in the overlay window.
  */
 
-import './index.css';
 
-const FLOATING_LABEL_TEXT = 'Cursor Label';
-
-const renderMainWindow = () => {
-	document.body.classList.add('main-window');
-	document.body.innerHTML = `
-		<main class="app-shell">
-			<p class="eyebrow">Electron Forge + Vite</p>
-			<h1>Global Cursor Label</h1>
-			<p class="lede">
-				A transparent overlay window is running and tracking the mouse cursor
-				across the desktop.
-			</p>
-			<p class="status-pill">Floating label active</p>
-		</main>
-	`;
-};
-
-const renderOverlayWindow = () => {
+function renderOverlayWindow(): void {
 	document.body.classList.add('overlay-window');
 	document.body.innerHTML = `
 		<div class="overlay-stage" aria-hidden="true">
-			<div class="cursor-label">${FLOATING_LABEL_TEXT}</div>
+			<div id="cursor-label" class="cursor-label"></div>
 		</div>
 	`;
-};
+
+	const cursorLabel = document.querySelector<HTMLElement>('#cursor-label');
+
+	if (!cursorLabel) {
+		throw new Error('Cursor label element is missing.');
+	}
+
+	window.addEventListener(NATIVE_TRANSLATION_OUTPUT_EVENT, (event: Event) => {
+		const detail = (event as CustomEvent<Partial<NativeTranslationOutputEventDetail>>).detail;
+
+		if (typeof detail?.translationOutput !== 'string') {
+			return;
+		}
+
+		cursorLabel.textContent = detail.translationOutput;
+	});
+}
+
+function renderMainWindow(): void {
+	void import('../../01_webapp/main');
+}
 
 if (window.location.hash === '#overlay') {
 	renderOverlayWindow();
