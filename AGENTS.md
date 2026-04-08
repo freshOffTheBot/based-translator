@@ -1,6 +1,5 @@
 
 # BASED TRANSLATOR
-
 01. Speech-to-text + translation app using the OpenAI API. No server-side storage - everything stays in user's browser.
 02. Users bring their own OpenAI token, and everything stays in the user's browser.
 03. It uses npm, plain TypeScript/CSS/html, and Vite.
@@ -15,26 +14,54 @@
 
 
 
-## 1. Project Structure
-
-01. `src/`: the folder contains all project source files.
-02. `src/01_webapp/`: the folder that contains the web app source files that form the foundation of based-translator.
-03. `src/02_electron/`: the folder that contains the Electron source files that contain the logic for building based-translator as a native app (TODO).
+## 1. Project Architecture & Structure
+- This section explains the project architecture and the structure.
 
 
 
+### 1-1. Project Architecture - Principle
+01. The architecture is heavily inspired by:
+	01-01. Domain driven design.
+	01-02. Functional programming.
+	01-03. Sandboxed architecture.
+	01-04. MVVM architecture (i.e., AngularJS).
 
 
-### 1-1. Project Root
 
+### 1-2. Common Folders & Files
+01. `common/`: (project root) A folder that contains service logic that is used across the entire project.
+02. `<domain>/common/`: A folder that contains service logic that is shared only within a specific domain.
+03. `<domain>.service.ts`: The file responsible for the business logic of a specific domain, mainly handling APIs.
+04. `<domain>.constant.ts`: The file that contains contant variables for a specific domain - values that do not change.
+05. The common files only contain business logic related to its specific domain, and does not include any logic from outside that domain (sandboxing).
+
+
+
+### 1-3. Component Folders & Files
+01. `component/`: (project root) A folder that contains components that are used across the entire project.
+02. `<domain>/component/`: A folder that contains components that are shared only within a specific domain.
+03. `<domain>.html`: The HTML file for a specific domain.
+04. `<domain>.scss`: The style file for a specific domain.
+05. `<domain>.model.ts`: The file that contains models used in a specific domain.
+06. `<domain>.component.ts`: The controller file responsible for controlling the view of a specific domain.
+07. `<domain>.scss` files define styles that are used only within their corresponding `<domain>.html` files.
+08. The view is rendered based on the `<domain>.model.ts` files.
+	08-01. Just like in functional programming, if the same model is passed into the controller, the output view will always be the same.
+09. The controller file manipulates `<domain>.html` file to update the view, and initialize the `<domain>.html` based on the passed-in model.
+	09-01. Similar to AngularJS, it can be used in a MVVM-like pattern.
+
+
+
+### 1-4. Project Root Folders & Files
 01. `.editorconfig`: project coding style.
+02. `package.json`: the root package.json that controls sub-projects (the webapp, Electron, ...).
+03. `src/`: the folder contains all project source files.
+04. `src/01_webapp/`: the folder that contains the web app source files that form the foundation of based-translator.
+05. `src/02_electron/`: the folder that contains the Electron source files that contain the logic for building based-translator as a native app (TODO).
 
 
 
-
-
-### 1-2. Web App
-
+### 1-5. Web App
 01. `src/01_webapp/package.json`: for npm.
 02. `src/01_webapp/tsconfig.json`: for TypeScript.
 03. `src/01_webapp/vite.config.ts`: for Vite.
@@ -48,15 +75,38 @@
 	05-05. `src/01_webapp/component/tab/tab.component.scss`: tab component SCSS file.
 06. `src/01_webapp/dev/dev.html`: dev docs for all components.
 	06-01. This page shows atomic component and its HTML code.
-07. `src/01_webapp/main.scss`: the main SCSS entry file.
-08. `src/01_webapp/main.ts`: the main TypeScript entry file.
+07. `src/01_webapp/app/`: The folder that contains the based-translator app logic.
+	07-01. `app.html`: The main wrapper of the based-translator app.
+	07-02. `app.scss`: The based-translator style logic.
+	07-03. `app.component.ts`: The main based-translator's controller.
+08. `src/01_webapp/app/common/`:
+	08-01. `app-state.service.ts`: The logic handling the based-translator app's state.
+09. `src/01_webapp/app/component/recording`:
+	09-01. `app-recording.html`: The based-translator's Recording section view file.
+	09-02. `app-recording.scss`: The based-translator's Recording section style file, only applies for `app-recording.html`.
+	09-03. `app-recording.model.ts`: The based-translator's Recording section model file.
+	09-04. `app-recording.component.ts`: The controller file responsible for updating the view by manipulating `app-recording.html` based on `app-recording.model.ts`.
+10. `src/01_webapp/app/component/config`:
+	10-01. `app-config.html`: The based-translator's Configuration section view file.
+	10-02. `app-config.scss`: The based-translator's Configuration section style file, only applies for `app-config.html`.
+	10-03. `app-config.model.ts`: The based-translator's Configuration section model file.
+	10-04. `app-config.component.ts`: The controller file responsible for updating the view by manipulating `app-config.html` based on `app-config.model.ts`.
+11. `src/01_webapp/common/localStorage`:
+	11-01. `localStorage.constant.ts`: The local storage related constant variables.
+	11-02. `localStorage.service.ts`: The local storage logic.
+12. `src/01_webapp/common/openai`:
+	12-01. `openai.constant.ts`: The OpenAI related constant variables.
+	12-02. `openai.service.ts`: The OpenAI API service logic.
+13. `src/01_webapp/common/recording-mic`:
+	13-01. `recording-mic.service.ts`: Recording audio logic through the browser's microphone (i.e., `MediaRecorder`).
+14. `src/01_webapp/home`:
+	14-01. `home.html`: The HTML file that is served when accessing the root URL (e.g., `localhost:9999`).
+	14-02. `home.scss`: The style file used in `home.html`.
+	14-03. `home.component.ts`: The controller file that manipulates `home.html`.
 
 
 
-
-
-### 1-3. Electron
-
+### 1-6. Electron
 01. TODO: Add a feature where a translated text follows the mouse cursor globally.
 
 
@@ -70,17 +120,13 @@
 
 
 ## 2. UI/UX
-
 01. The below ASCII wireframes are a visual spec as well as a layout guide.
 02. Dark theme.
 03. Compact design components.
 
 
 
-
-
 ### 2-1. On Startup
-
 ```text
 +--------------------------------------------+
 |  BASED TRANSLATOR                          |
@@ -117,10 +163,7 @@
 
 
 
-
-
 ### 2-2. Recording tab
-
 ```text
 +--------------------------------------------+
 |  BASED TRANSLATOR                          |
@@ -158,10 +201,7 @@
 
 
 
-
-
 ### 2-3. Configuration tab
-
 ```text
 +--------------------------------------------+
 |  BASED TRANSLATOR                          |
@@ -212,7 +252,6 @@
 
 
 ## 3. Logic Flow
-
 ```text
 function onClickStartRecordingButton() {
 	if (microphone not allowed) {
@@ -278,7 +317,6 @@ function onClickStartRecordingButton() {
 
 
 ## 4. Rules
-
 01. Use simple and easy-to-understand codes.
 02. Use single-source-of-truth approach.
 03. Great code structure is easy-to-delete.
@@ -297,7 +335,6 @@ function onClickStartRecordingButton() {
 
 
 ## 5. Build / Run / Test
-
 01. Build: `$ npm run build`
 02. Run: `$ npm run dev`
 03. Test: No test needed because this is a simple project.
@@ -313,16 +350,12 @@ function onClickStartRecordingButton() {
 
 
 ## 6. OpenAI APIs
-
 01. The project uses OpenAI's APIs.
 02. After transcription succeeds, the project sends another request to OpenAI Responses API to translate text.
 
 
 
-
-
 ### 6-1. Speech-To-Text API
-
 01. Example code from the official document:
 
 ```js
@@ -345,8 +378,6 @@ console.log(transcription.text);
 
 
 
-
-
 ### 6-2. Text Generation API (Translation)
 
 01. Example code from the official document:
@@ -365,3 +396,7 @@ console.log(response.output_text);
 ```
 
 02. `input` is built from translation template + transcription.
+
+
+
+
