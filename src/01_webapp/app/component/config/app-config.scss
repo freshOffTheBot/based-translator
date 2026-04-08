@@ -1,0 +1,11 @@
+@use '../../../common/scss/app.variable.scss' as appVariable;
+
+.app-form-control-compact {
+	min-height: 6rem;
+	font-size: appVariable.$font-size-350;
+	line-height: 1.55;
+}
+
+.app-help-text {
+	font-size: appVariable.$font-size-300;
+}

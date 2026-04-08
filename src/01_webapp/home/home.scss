@@ -1,0 +1,27 @@
+@use '../common/scss/app.variable.scss' as appVariable;
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	background: appVariable.$color-black-400;
+}
+
+body {
+	margin: 0;
+	background: radial-gradient(circle at top, #34363c 0%, transparent 30%), linear-gradient(180deg, #070707 0%, #1C1D20 100%);
+	color: appVariable.$color-white-90;
+	font-family: appVariable.$fontMono;
+	font-size: appVariable.$font-size-450;
+	line-height: 1.6;
+}
+
+code,
+pre {
+	font-family: appVariable.$fontMono;
+}
+
+#app {
+	min-height: 100vh;
+}

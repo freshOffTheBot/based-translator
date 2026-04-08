@@ -1,0 +1,53 @@
+<main class="app-shell">
+	<section class="c-card app-card">
+		<header class="app-card-header">
+			<h1 class="c-card-title app-hero-title">BASED TRANSLATOR</h1>
+			<p class="c-card-text app-hero-text">
+				Speech-to-text + translation app using the OpenAI API.<br>No server-side storage - everything stays in your browser.
+			</p>
+		</header>
+
+		<section class="c-tab app-tab-shell" aria-label="Translator views">
+			<div class="c-tab-list app-tab-list" role="tablist" aria-label="Translator views">
+				<button
+					id="recording-tab"
+					class="c-tab-button"
+					type="button"
+					role="tab"
+					aria-selected="true"
+					aria-controls="recording-panel"
+				>
+					Recording
+				</button>
+				<button
+					id="configuration-tab"
+					class="c-tab-button"
+					type="button"
+					role="tab"
+					aria-selected="false"
+					aria-controls="configuration-panel"
+				>
+					Configuration
+				</button>
+			</div>
+
+			<section
+				id="recording-panel"
+				class="c-tab-panel app-panel"
+				role="tabpanel"
+				aria-labelledby="recording-tab"
+			>
+				<div id="app-recording-root"></div>
+			</section>
+
+			<section
+				id="configuration-panel"
+				class="c-tab-panel app-panel hidden"
+				role="tabpanel"
+				aria-labelledby="configuration-tab"
+			>
+				<div id="app-config-root"></div>
+			</section>
+		</section>
+	</section>
+</main>

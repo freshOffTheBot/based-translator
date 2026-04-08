@@ -1,0 +1,110 @@
+@use '../common/scss/app.variable.scss' as appVariable;
+
+.app-shell {
+	display: grid;
+	width: min(100%, 48rem);
+	margin: 0 auto;
+	padding: appVariable.$spacing-700 appVariable.$spacing-500;
+	gap: appVariable.$spacing-500;
+}
+
+.app-card {
+	position: relative;
+	overflow: hidden;
+	gap: appVariable.$spacing-500;
+	border-color: appVariable.$color-white-20;
+	background:
+		linear-gradient(180deg, rgba(255, 255, 255, .03) 0%, rgba(255, 255, 255, 0) 12%),
+		linear-gradient(180deg, appVariable.$color-slate-700 0%, appVariable.$color-dark-600 100%);
+	box-shadow:
+		0 1.5rem 4rem rgba(0, 0, 0, .35),
+		inset 0 .0625rem 0 rgba(255, 255, 255, .04);
+}
+
+.app-card::before {
+	content: '';
+	position: absolute;
+	inset: 0 auto auto 0;
+	width: 100%;
+	height: .125rem;
+	background: linear-gradient(90deg, appVariable.$color-green-400 0%, transparent 100%);
+}
+
+.app-card-header {
+	display: grid;
+	gap: appVariable.$spacing-300;
+	padding-bottom: appVariable.$spacing-500;
+	border-bottom: 1px solid appVariable.$color-white-10;
+}
+
+.app-hero-title {
+	color: appVariable.$color-white-500;
+	font-family: appVariable.$fontPixel;
+	font-size: appVariable.$font-size-900;
+	font-weight: appVariable.$font-weight;
+	letter-spacing: appVariable.$letter-spacing-400;
+}
+
+.app-hero-text {
+	max-width: 40rem;
+	color: appVariable.$color-white-80;
+	font-size: appVariable.$font-size-300;
+	line-height: 1.7;
+}
+
+.app-tab-shell {
+	gap: appVariable.$spacing-400;
+}
+
+.app-tab-list {
+	padding: .25rem;
+	border-radius: appVariable.$border-radius-700;
+	background:
+		linear-gradient(180deg, rgba(255, 255, 255, .02) 0%, rgba(255, 255, 255, 0) 100%),
+		appVariable.$color-black-20;
+}
+
+.app-panel {
+	padding: appVariable.$spacing-500;
+	border-radius: appVariable.$border-radius-700;
+	background:
+		linear-gradient(180deg, rgba(255, 255, 255, .02) 0%, rgba(255, 255, 255, 0) 100%),
+		appVariable.$color-black-20;
+}
+
+.app-tab-panel-stack {
+	display: grid;
+	gap: appVariable.$spacing-500;
+}
+
+.app-panel-header {
+	padding-bottom: appVariable.$spacing-400;
+	border-bottom: 1px solid appVariable.$color-white-10;
+}
+
+.app-section-title {
+	color: appVariable.$color-white-500;
+	font-family: appVariable.$fontPixel;
+	font-size: appVariable.$font-size-700;
+	font-weight: appVariable.$font-weight;
+	letter-spacing: appVariable.$letter-spacing-300;
+}
+
+.hidden {
+	display: none;
+}
+
+@media (max-width: 47.99rem) {
+	.app-shell {
+		padding: appVariable.$spacing-600 appVariable.$spacing-400;
+	}
+
+	.app-card {
+		padding: appVariable.$spacing-400;
+	}
+
+	.app-card-header,
+	.app-panel {
+		padding-bottom: appVariable.$spacing-400;
+	}
+}

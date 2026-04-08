@@ -1,0 +1,44 @@
+<div class="app-tab-panel-stack">
+	<header class="app-panel-header">
+		<h2 class="c-card-title app-section-title">Configuration</h2>
+	</header>
+
+	<form class="c-form">
+		<div class="c-form-field">
+			<label class="c-form-label" for="api-key-input">OpenAI API key:</label>
+			<input
+				id="api-key-input"
+				class="c-form-control"
+				type="password"
+				placeholder="sk-..."
+				autocomplete="off"
+				spellcheck="false"
+			/>
+			<p class="c-form-help app-help-text">Stored only in your browser. Never sent to any server. You’re SAFU!</p>
+		</div>
+
+		<div class="c-form-field">
+			<label class="c-form-label" for="transcription-prompt-input">Transcription Prompt:</label>
+			<textarea
+				id="transcription-prompt-input"
+				class="c-form-control app-form-control-compact"
+				rows="3"
+				placeholder="Use this to help catch tricky words like names, acronyms, brands, or niche terms."
+			></textarea>
+			<p class="c-form-help app-help-text">Fren, NEET, Based, Cringe, NPC, ...</p>
+		</div>
+
+		<div class="c-form-field">
+			<label class="c-form-label" for="translation-template-input">Translation Template:</label>
+			<textarea
+				id="translation-template-input"
+				class="c-form-control app-form-control-compact"
+				rows="3"
+				placeholder="Translate {{transcription}} into English."
+			></textarea>
+			<p class="c-form-help app-help-text">
+				Must include <code class="c-text-inline-code">{{transcription}}</code>.
+			</p>
+		</div>
+	</form>
+</div>

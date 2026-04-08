@@ -1,0 +1,25 @@
+<div class="app-tab-panel-stack">
+	<header class="app-panel-header">
+		<h2 class="c-card-title app-section-title">Recording</h2>
+	</header>
+
+	<div id="recording-actions" class="app-actions app-actions-centered">
+		<button id="record-button" type="button" class="c-button app-record-button">Start Recording</button>
+		<button id="cancel-button" type="button" class="c-button c-button-danger hidden">Cancel</button>
+	</div>
+
+	<p class="c-form-status app-status-line">
+		<span class="c-text-muted">Status:</span>
+		<span id="status-text" class="status-text tone-neutral">idle</span>
+	</p>
+
+	<div id="transcription-output-group" class="app-output-group hidden">
+		<p class="c-form-label app-output-title">Transcription Output:</p>
+		<pre id="transcription-output" class="app-output-box" aria-live="polite"></pre>
+	</div>
+
+	<div id="translation-output-group" class="app-output-group hidden">
+		<p class="c-form-label app-output-title">Translation Output:</p>
+		<pre id="translation-output" class="app-output-box" aria-live="polite"></pre>
+	</div>
+</div>
