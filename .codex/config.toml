@@ -1,5 +1,6 @@
 
-sandbox_mode = "read-only"
+# Let's use `workspace-write` instead of `read-only` for faster development
+sandbox_mode = "workspace-write"
 approval_policy = "on-request"
 web_search = "live"
 
