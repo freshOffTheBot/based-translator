@@ -1,7 +1,7 @@
 import { ipcRenderer } from 'electron';
 import { NATIVE_TRANSLATION_OUTPUT_EVENT } from '../../01_webapp/common/native-event/native-event.constant';
 import type { NativeTranslationOutputEventDetail } from '../../01_webapp/common/native-event/native-event.model';
-import { NATIVE_TRANSLATION_OUTPUT_IPC_CHANNEL } from './native-translation.constant';
+import { NATIVE_TRANSLATION_OUTPUT_IPC_CHANNEL } from './app/app.constant';
 
 
 /**

@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain, screen } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
-import { NATIVE_TRANSLATION_OUTPUT_IPC_CHANNEL } from './native-translation.constant';
+import { NATIVE_TRANSLATION_OUTPUT_IPC_CHANNEL } from './app/app.constant';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
