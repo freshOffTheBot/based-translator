@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain, screen } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
-import { NATIVE_TRANSLATION_OUTPUT_IPC_CHANNEL } from './app/app.constant';
+import { bindMouseCursorFollowerIpcEvents, closeMouseCursorFollowerWindow, createMouseCursorFollowerWindow, startMouseCursorFollowerTracking, stopMouseCursorFollowerTracking } from './common/mouseCursorFollower/mouseCursorFollower.service';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
@@ -13,21 +13,7 @@ const MAIN_WINDOW_DIMENSIONS = {
 	height: 600,
 };
 
-const OVERLAY_WINDOW_DIMENSIONS = {
-	width: 360,
-	height: 160,
-};
-
-const CURSOR_OFFSET = {
-	x: 18,
-	y: 20,
-};
-
-const CURSOR_POLL_INTERVAL_MS = 16;
-
 let mainWindow: BrowserWindow | null = null;
-let overlayWindow: BrowserWindow | null = null;
-let cursorTracker: NodeJS.Timeout | null = null;
 
 const getRendererEntryPoint = () =>
 	path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`);
@@ -50,73 +36,6 @@ const loadRendererWindow = async (
 	await window.loadFile(getRendererEntryPoint(), { hash });
 };
 
-const getOverlayPosition = (cursorPoint: Electron.Point) => {
-	const display = screen.getDisplayNearestPoint(cursorPoint);
-	const { x, y, width, height } = display.workArea;
-
-	const nextX = Math.min(
-		Math.max(cursorPoint.x + CURSOR_OFFSET.x, x),
-		x + width - OVERLAY_WINDOW_DIMENSIONS.width,
-	);
-	const nextY = Math.min(
-		Math.max(cursorPoint.y + CURSOR_OFFSET.y, y),
-		y + height - OVERLAY_WINDOW_DIMENSIONS.height,
-	);
-
-	return { x: nextX, y: nextY };
-};
-
-const syncOverlayPosition = () => {
-	if (!overlayWindow || overlayWindow.isDestroyed()) {
-		return;
-	}
-
-	const cursorPoint = screen.getCursorScreenPoint();
-	const nextPosition = getOverlayPosition(cursorPoint);
-	const [currentX, currentY] = overlayWindow.getPosition();
-
-	if (currentX === nextPosition.x && currentY === nextPosition.y) {
-		return;
-	}
-
-	overlayWindow.setPosition(nextPosition.x, nextPosition.y, false);
-};
-
-const stopCursorTracking = () => {
-	if (!cursorTracker) {
-		return;
-	}
-
-	clearInterval(cursorTracker);
-	cursorTracker = null;
-};
-
-const startCursorTracking = () => {
-	stopCursorTracking();
-	syncOverlayPosition();
-	cursorTracker = setInterval(syncOverlayPosition, CURSOR_POLL_INTERVAL_MS);
-};
-
-const showOverlayWindow = () => {
-	if (!overlayWindow || overlayWindow.isDestroyed()) {
-		return;
-	}
-
-	syncOverlayPosition();
-	overlayWindow.showInactive();
-};
-
-const bindNativeTranslationEvents = () => {
-	ipcMain.on(NATIVE_TRANSLATION_OUTPUT_IPC_CHANNEL, (_event, translationOutput: string) => {
-		if (!translationOutput || !overlayWindow || overlayWindow.isDestroyed()) {
-			return;
-		}
-
-		overlayWindow.webContents.send(NATIVE_TRANSLATION_OUTPUT_IPC_CHANNEL, translationOutput);
-		showOverlayWindow();
-	});
-};
-
 const createMainWindow = async () => {
 	mainWindow = new BrowserWindow({
 		...MAIN_WINDOW_DIMENSIONS,
@@ -129,62 +48,27 @@ const createMainWindow = async () => {
 
 	mainWindow.on('closed', () => {
 		mainWindow = null;
-
-		if (overlayWindow && !overlayWindow.isDestroyed()) {
-			overlayWindow.close();
-		}
+		closeMouseCursorFollowerWindow();
 	});
 
 	await loadRendererWindow(mainWindow);
 };
 
-const createOverlayWindow = async () => {
-	overlayWindow = new BrowserWindow({
-		...OVERLAY_WINDOW_DIMENSIONS,
-		frame: false,
-		transparent: true,
-		backgroundColor: '#00000000',
-		resizable: false,
-		movable: false,
-		minimizable: false,
-		maximizable: false,
-		fullscreenable: false,
-		focusable: false,
-		skipTaskbar: true,
-		hasShadow: false,
-		show: false,
-		webPreferences: {
-			preload: path.join(__dirname, 'preload.js'),
-		},
-	});
-
-	overlayWindow.setIgnoreMouseEvents(true, { forward: true });
-	overlayWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
-	overlayWindow.setAlwaysOnTop(true, 'screen-saver', 1);
-
-	overlayWindow.once('ready-to-show', () => {
-		syncOverlayPosition();
-	});
-
-	overlayWindow.on('closed', () => {
-		overlayWindow = null;
-		stopCursorTracking();
-	});
-
-	await loadRendererWindow(overlayWindow, 'overlay');
-};
-
 const createWindows = async () => {
 	await createMainWindow();
-	await createOverlayWindow();
-	startCursorTracking();
+	await createMouseCursorFollowerWindow({
+		createBrowserWindow: (windowOptions) => new BrowserWindow(windowOptions),
+		loadRendererWindow,
+		preloadPath: path.join(__dirname, 'preload.js'),
+	});
+	startMouseCursorFollowerTracking(screen);
 };
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-	bindNativeTranslationEvents();
+	bindMouseCursorFollowerIpcEvents(ipcMain);
 	void createWindows();
 });
 
@@ -192,7 +76,7 @@ app.on('ready', () => {
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
-	stopCursorTracking();
+	stopMouseCursorFollowerTracking();
 
 	if (process.platform !== 'darwin') {
 		app.quit();
