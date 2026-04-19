@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain, Menu, screen } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
+import { APP_MAIN_WINDOW_HEIGHT, APP_MAIN_WINDOW_MIN_HEIGHT, APP_MAIN_WINDOW_MIN_WIDTH, APP_MAIN_WINDOW_WIDTH } from './app/app.constant';
 import { bindMouseCursorFollowerIpcEvents, closeMouseCursorFollowerWindow, createMouseCursorFollowerWindow, startMouseCursorFollowerTracking, stopMouseCursorFollowerTracking } from './common/mouseCursorFollower/mouseCursorFollower.service';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -14,12 +15,6 @@ if (started) {
 if (!MAIN_WINDOW_VITE_DEV_SERVER_URL) {
 	Menu.setApplicationMenu(null);
 }
-
-
-const MAIN_WINDOW_DIMENSIONS = {
-	width: 800,
-	height: 600,
-};
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -46,9 +41,10 @@ const loadRendererWindow = async (
 
 const createMainWindow = async () => {
 	mainWindow = new BrowserWindow({
-		...MAIN_WINDOW_DIMENSIONS,
-		minWidth: 640,
-		minHeight: 480,
+		width: APP_MAIN_WINDOW_WIDTH,
+		height: APP_MAIN_WINDOW_HEIGHT,
+		minWidth: APP_MAIN_WINDOW_MIN_WIDTH,
+		minHeight: APP_MAIN_WINDOW_MIN_HEIGHT,
 		webPreferences: {
 			preload: path.join(__dirname, 'preload.js'),
 		},
