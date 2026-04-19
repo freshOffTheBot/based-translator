@@ -9,7 +9,7 @@ $font-weight-black: 800;
 
 @font-face {
 	font-family: 'fixedsys-css';
-	src: url('../../asset/font/fixedsys-css/fsex300-webfont.woff') format('woff');
+	src: url('@webapp_asset/font/fixedsys-css/fsex300-webfont.woff') format('woff');
 	font-display: swap;
 	font-style: normal;
 	font-weight: $font-weight;
@@ -21,7 +21,7 @@ $font-weight-black: 800;
 
 @font-face {
 	font-family: 'jetbrains-mono';
-	src: url('../../asset/font/jetbrains-mono/JetBrainsMono-Medium.ttf') format('truetype');
+	src: url('@webapp_asset/font/jetbrains-mono/JetBrainsMono-Medium.ttf') format('truetype');
 	font-display: swap;
 	font-style: normal;
 	font-weight: $font-weight;
@@ -31,7 +31,7 @@ $font-weight-black: 800;
 
 @font-face {
 	font-family: 'jetbrains-mono';
-	src: url('../../asset/font/jetbrains-mono/JetBrainsMono-MediumItalic.ttf') format('truetype');
+	src: url('@webapp_asset/font/jetbrains-mono/JetBrainsMono-MediumItalic.ttf') format('truetype');
 	font-display: swap;
 	font-style: italic;
 	font-weight: $font-weight;

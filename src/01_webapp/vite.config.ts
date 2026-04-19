@@ -1,4 +1,5 @@
 
+import path from 'node:path';
 import { defineConfig } from 'vite';
 
 
@@ -11,6 +12,15 @@ export default defineConfig({
 	server: {
 		host: '0.0.0.0',
 		port: 9999,
+	},
+	resolve: {
+		alias: {
+			// Use custom alias `@webapp_asset` so shared assets resolve from one stable path.
+			// - We want this because the Electron renderer loads webapp SCSS from a different folder, so relative paths like `../../asset/...` can break when Vite builds the app.
+			// - Example: `url('@webapp_asset/font/fixedsys-css/fsex300-webfont.woff')`.
+			// - Related file: `src/02_electron/vite.renderer.config.ts`
+			'@webapp_asset': path.resolve(__dirname, '../01_webapp/asset'),
+		},
 	},
 	build: {
 		outDir: 'dist',
