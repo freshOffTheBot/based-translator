@@ -90,44 +90,50 @@
 01. `src/01_webapp/package.json`: for npm.
 02. `src/01_webapp/tsconfig.json`: for TypeScript.
 03. `src/01_webapp/vite.config.ts`: for Vite.
-04. `src/01_webapp/common`: the folder contains globally-used files.
-	04-01. `src/01_webapp/common/scss/app.variable.scss`: global SCSS variables.
-05. `src/01_webapp/component`: the folder contains component files.
-	05-01. `src/01_webapp/component/typography/typography.component.scss`: text-related components SCSS file.
-	05-02. `src/01_webapp/component/button/button.component.scss`: button component SCSS file.
-	05-03. `src/01_webapp/component/card/card.component.scss`: card component SCSS file.
-	05-04. `src/01_webapp/component/form/form.component.scss`: form component SCSS file.
-	05-05. `src/01_webapp/component/tab/tab.component.scss`: tab component SCSS file.
-06. `src/01_webapp/dev/dev.html`: dev docs for all components.
-	06-01. This page shows atomic component and its HTML code.
-07. `src/01_webapp/app/`: The folder that contains the based-translator app logic.
-	07-01. `app.html`: The main wrapper of the based-translator app.
-	07-02. `app.scss`: The based-translator style logic.
-	07-03. `app.component.ts`: The main based-translator's controller.
-08. `src/01_webapp/app/common/`:
-	08-01. `app-state.service.ts`: The logic handling the based-translator app's state.
-09. `src/01_webapp/app/component/recording`:
-	09-01. `app-recording.html`: The based-translator's Recording section view file.
-	09-02. `app-recording.scss`: The based-translator's Recording section style file, only applies for `app-recording.html`.
-	09-03. `app-recording.model.ts`: The based-translator's Recording section model file.
-	09-04. `app-recording.component.ts`: The controller file responsible for updating the view by manipulating `app-recording.html` based on `app-recording.model.ts`.
-10. `src/01_webapp/app/component/config`:
-	10-01. `app-config.html`: The based-translator's Configuration section view file.
-	10-02. `app-config.scss`: The based-translator's Configuration section style file, only applies for `app-config.html`.
-	10-03. `app-config.model.ts`: The based-translator's Configuration section model file.
-	10-04. `app-config.component.ts`: The controller file responsible for updating the view by manipulating `app-config.html` based on `app-config.model.ts`.
-11. `src/01_webapp/common/localStorage`:
-	11-01. `localStorage.constant.ts`: The local storage related constant variables.
-	11-02. `localStorage.service.ts`: The local storage logic.
-12. `src/01_webapp/common/openai`:
-	12-01. `openai.constant.ts`: The OpenAI related constant variables.
-	12-02. `openai.service.ts`: The OpenAI API service logic.
-13. `src/01_webapp/common/recording-mic`:
-	13-01. `recording-mic.service.ts`: Recording audio logic through the browser's microphone (i.e., `MediaRecorder`).
-14. `src/01_webapp/home`:
-	14-01. `home.html`: The HTML file that is served when accessing the root URL (e.g., `localhost:9999`).
-	14-02. `home.scss`: The style file used in `home.html`.
-	14-03. `home.component.ts`: The controller file that manipulates `home.html`.
+04. `src/01_webapp/main.ts`: The webapp entry point file that starts the Home controller.
+05. `src/01_webapp/common`: the folder contains globally-used files.
+	05-01. `src/01_webapp/common/scss/app.variable.scss`: global SCSS variables.
+06. `src/01_webapp/component`: the folder contains component files.
+	06-01. `src/01_webapp/component/typography/typography.component.scss`: text-related components SCSS file.
+	06-02. `src/01_webapp/component/button/button.component.scss`: button component SCSS file.
+	06-03. `src/01_webapp/component/card/card.component.scss`: card component SCSS file.
+	06-04. `src/01_webapp/component/form/form.component.scss`: form component SCSS file.
+	06-05. `src/01_webapp/component/tab/tab.component.scss`: tab component SCSS file.
+07. `src/01_webapp/dev/dev.html`: dev docs for all components.
+	07-01. This page shows atomic component and its HTML code.
+08. `src/01_webapp/dev/dev.ts`: The dev docs entry file that loads the dev page styles.
+09. `src/01_webapp/app/`: The folder that contains the based-translator app logic.
+	09-01. `app.html`: The main wrapper of the based-translator app.
+	09-02. `app.scss`: The based-translator style logic.
+	09-03. `app.component.ts`: The main based-translator's controller.
+10. `src/01_webapp/app/common/`:
+	10-01. `app-state.service.ts`: The logic handling the based-translator app's state.
+11. `src/01_webapp/app/component/recording`:
+	11-01. `app-recording.html`: The based-translator's Recording section view file.
+	11-02. `app-recording.scss`: The based-translator's Recording section style file, only applies for `app-recording.html`.
+	11-03. `app-recording.model.ts`: The based-translator's Recording section model file.
+	11-04. `app-recording.component.ts`: The controller file responsible for updating the view by manipulating `app-recording.html` based on `app-recording.model.ts`.
+12. `src/01_webapp/app/component/config`:
+	12-01. `app-config.html`: The based-translator's Configuration section view file.
+	12-02. `app-config.scss`: The based-translator's Configuration section style file, only applies for `app-config.html`.
+	12-03. `app-config.model.ts`: The based-translator's Configuration section model file.
+	12-04. `app-config.component.ts`: The controller file responsible for updating the view by manipulating `app-config.html` based on `app-config.model.ts`.
+13. `src/01_webapp/common/localStorage`:
+	13-01. `localStorage.constant.ts`: The local storage related constant variables.
+	13-02. `localStorage.service.ts`: The local storage logic.
+14. `src/01_webapp/common/openai`:
+	14-01. `openai.constant.ts`: The OpenAI related constant variables.
+	14-02. `openai.service.ts`: The OpenAI API service logic.
+15. `src/01_webapp/common/recording-mic`:
+	15-01. `recording-mic.service.ts`: Recording audio logic through the browser's microphone (i.e., `MediaRecorder`).
+16. `src/01_webapp/common/native-event`:
+	16-01. `native-event.constant.ts`: The DOM CustomEvent names used to notify native wrappers.
+	16-02. `native-event.model.ts`: The payload models used by the native DOM CustomEvents.
+	16-03. `native-event.service.ts`: The logic that dispatches DOM CustomEvents for native wrappers.
+17. `src/01_webapp/home`:
+	17-01. `home.html`: The HTML file that is served when accessing the root URL (e.g., `localhost:9999`).
+	17-02. `home.scss`: The style file used in `home.html`.
+	17-03. `home.component.ts`: The controller file that manipulates `home.html`.
 
 
 
@@ -443,7 +449,6 @@ console.log(response.output_text);
 ```
 
 02. `input` is built from translation template + transcription.
-
 
 
 

@@ -1,16 +1,19 @@
 
+/**
+ * # OPENAI SERVICE
+ * - Creates browser-side OpenAI clients from the user's API key.
+ * - Builds the speech-to-text request file and the translation request input.
+ * - Keeps OpenAI SDK calls out of UI controllers and state files.
+ * - This service only knows about OpenAI request details, not DOM rendering.
+ */
+
 import OpenAI from 'openai';
 import { DEFAULT_TRANSLATION_TEMPLATE, TRANSCRIPTION_MODEL, TRANSLATION_MODEL, TRANSLATION_PLACEHOLDER } from './openai.constant';
 
 
 /**
- * # OPENAI SERVICE
- * - Creates browser-side OpenAI clients from the user's API key.
- * - Builds the speech-to-text request file and the translation request input.
- * - Keeps OpenAI API calls out of UI controllers.
+ * Creates a browser-safe OpenAI client from the user's own API key.
  */
-
-
 export function createOpenAIClient(apiKey: string): OpenAI {
 	return new OpenAI({
 		apiKey,
@@ -19,7 +22,9 @@ export function createOpenAIClient(apiKey: string): OpenAI {
 }
 
 /**
- * Validates that the translation template can receive the transcription text.
+ * Validates the translation template before the app starts the request flow.
+ * - Falls back to the default template when the input is blank.
+ * - Throws if `{{transcription}}` is missing, because the second request depends on it.
  */
 export function getValidatedTranslationTemplate(template: string): string {
 	const safeTemplate = template.trim() || DEFAULT_TRANSLATION_TEMPLATE;
@@ -33,6 +38,8 @@ export function getValidatedTranslationTemplate(template: string): string {
 
 /**
  * Inserts the finished transcription into the user's translation template.
+ * - Input example: `Translate {{transcription}} into English.`
+ * - Output example: `Translate hola fren into English.`
  */
 export function buildTranslationInput(template: string, transcript: string): string {
 	// Keep translation request format in one place.
@@ -42,7 +49,7 @@ export function buildTranslationInput(template: string, transcript: string): str
 }
 
 /**
- * Converts the recorded browser audio blob into a File accepted by OpenAI uploads.
+ * Converts the recorded browser Blob into a File object accepted by OpenAI uploads.
  */
 export function buildAudioFile(audioBlob: Blob): File {
 	const audioType = normalizeAudioMimeType(audioBlob.type || 'audio/webm');
@@ -50,7 +57,7 @@ export function buildAudioFile(audioBlob: Blob): File {
 }
 
 /**
- * Sends recorded audio to the transcription API and returns plain text.
+ * Sends recorded audio to `openai.audio.transcriptions.create` and returns plain text.
  */
 export async function transcribeAudio(openai: OpenAI, audioFile: File, prompt: string): Promise<string> {
 	const transcriptionText = await openai.audio.transcriptions.create({
@@ -64,7 +71,7 @@ export async function transcribeAudio(openai: OpenAI, audioFile: File, prompt: s
 }
 
 /**
- * Sends the prepared translation prompt to the Responses API.
+ * Sends the prepared translation input to `openai.responses.create`.
  */
 export async function translateText(openai: OpenAI, input: string): Promise<string> {
 	const response = await openai.responses.create({
@@ -76,7 +83,7 @@ export async function translateText(openai: OpenAI, input: string): Promise<stri
 }
 
 /**
- * Builds a filename with an extension that matches the normalized MIME type.
+ * Builds a filename with an extension that matches the normalized audio MIME type.
  */
 function buildAudioFileName(mimeType: string): string {
 	const extension = mimeType.split('/')[1] || 'webm';

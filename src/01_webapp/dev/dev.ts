@@ -1,9 +1,8 @@
 
-import './dev.scss';
-
-
 /**
  * # DEV ENTRY
- * - Loads the component documentation styles for the dev docs page.
- * - This file has no controller logic because the dev page is static HTML.
+ * - Entry file for the local component docs page at `/dev`.
+ * - The dev page is static HTML, so this file only loads its stylesheet bundle.
  */
+
+import './dev.scss';

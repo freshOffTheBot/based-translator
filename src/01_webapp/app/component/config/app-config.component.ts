@@ -1,34 +1,51 @@
 
+/**
+ * # APP CONFIG COMPONENT
+ * - Owns the Configuration tab DOM.
+ * - Sends input changes up to the app component through event callbacks.
+ * - Renders config values from `AppConfigModel`.
+ * - This component is stateless. The app state service owns the real values.
+ */
+
 import appConfigHtml from './app-config.html?raw';
 import type { AppConfigModel } from './app-config.model';
 
 
 /**
- * # APP CONFIG COMPONENT
- * - Owns the Configuration tab DOM.
- * - Sends input changes up to the app component through event callbacks.
- * - Renders config values from AppConfigModel.
+ * ## App Config Events
+ * - The parent app owns persistence and business logic.
+ * - This component only forwards user input upward.
  */
-
-
 interface AppConfigEvents {
 	// Called when the API key input changes.
 	onApiKeyInput: (apiKey: string) => void;
+
 	// Called when the transcription prompt textarea changes.
 	onTranscriptionPromptInput: (transcriptionPrompt: string) => void;
+
 	// Called when the translation template textarea changes.
 	onTranslationTemplateInput: (translationTemplate: string) => void;
 }
 
+/**
+ * ## App Config Elements
+ * - Required DOM nodes used by the Configuration controller.
+ */
 interface AppConfigElements {
 	// API key input element.
 	apiKeyInput: HTMLInputElement;
+
 	// Transcription prompt textarea element.
 	transcriptionPromptInput: HTMLTextAreaElement;
+
 	// Translation template textarea element.
 	translationTemplateInput: HTMLTextAreaElement;
 }
 
+/**
+ * ## App Config Component
+ * - Public controller surface returned to the parent app.
+ */
 export interface AppConfigComponent {
 	// Updates the Configuration tab from the latest app model.
 	render: (model: AppConfigModel) => void;
@@ -43,6 +60,7 @@ export function initializeAppConfigComponent(root: HTMLElement, events: AppConfi
 	const view = getAppConfigElements(root);
 
 	view.apiKeyInput.addEventListener('input', () => {
+		// Trim the API key so accidental spaces do not get stored in browser state.
 		events.onApiKeyInput(view.apiKeyInput.value.trim());
 	});
 
@@ -63,6 +81,7 @@ export function initializeAppConfigComponent(root: HTMLElement, events: AppConfi
 			view.transcriptionPromptInput.value = model.transcriptionPrompt;
 			view.translationTemplateInput.value = model.translationTemplate;
 
+			// Lock config while transcription + translation are in progress as one combined flow.
 			view.apiKeyInput.disabled = model.isDisabled;
 			view.transcriptionPromptInput.disabled = model.isDisabled;
 			view.translationTemplateInput.disabled = model.isDisabled;

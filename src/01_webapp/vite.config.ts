@@ -1,12 +1,19 @@
 
+/**
+ * # VITE CONFIG
+ * - Configures the webapp dev server and build output.
+ * - Keeps the local app URL stable on port `9999`.
+ * - Adds the `/dev` route for the static component docs page.
+ */
+
 import path from 'node:path';
 import { defineConfig } from 'vite';
 
 
 /**
- * # VITE CONFIG
- * - Configures the local webapp dev server and production build output.
- * - Adds a small dev-only route so `/dev` opens the component docs page.
+ * ## Vite Config
+ * - The webapp uses plain TypeScript, HTML, CSS, and Vite.
+ * - This config only handles webapp concerns. Electron has its own build config.
  */
 export default defineConfig({
 	server: {
@@ -36,7 +43,7 @@ export default defineConfig({
 			name: 'dev-route',
 
 			/**
-			 * Registers local dev middleware before Vite serves files.
+			 * Registers a tiny dev-only route before Vite serves files.
 			 */
 			configureServer(server) {
 				server.middlewares.use((request: any, _response, next) => {
@@ -47,7 +54,7 @@ export default defineConfig({
 						return;
 					}
 
-					// Keep the dev docs page on the expected URL while serving the src HTML file.
+					// Keep `/dev` simple for frens while still serving the source HTML file.
 					if (requestUrl === '/dev' || requestUrl === '/dev.html') {
 						request.url = './dev/dev.html';
 					}

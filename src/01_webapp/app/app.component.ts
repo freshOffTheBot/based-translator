@@ -1,4 +1,12 @@
 
+/**
+ * # APP COMPONENT
+ * - Owns the main based-translator app shell.
+ * - Coordinates tabs, recording, transcription, translation, and config persistence.
+ * - Treats transcription + translation as one combined request flow for the UI.
+ * - Passes model objects down to stateless child components for rendering.
+ */
+
 import { buildAudioFile, buildTranslationInput, createOpenAIClient, getValidatedTranslationTemplate, transcribeAudio, translateText } from '../common/openai/openai.service';
 import { cancelMicRecording, startMicRecording, stopMicRecordingAndCreateBlob } from '../common/recording-mic/recording-mic.service';
 import { clearOutputs, createAppState, setActiveTab, setErrorStatus, setPhase, setRecordingSession, setStatus, setTranscriptionOutput, setTranslationOutput, type AppState } from './common/app-state.service';
@@ -10,37 +18,43 @@ import appHtml from './app.html?raw';
 
 
 /**
- * # APP COMPONENT
- * - Owns the main based-translator app shell.
- * - Coordinates tabs, recording, transcription, translation, and config persistence.
- * - Passes model objects down to child components for rendering.
+ * ## App Elements
+ * - Required DOM nodes for the app shell.
  */
-
-
 interface AppElements {
 	// Tab button that opens the Recording panel.
 	recordingTabButton: HTMLButtonElement;
+
 	// Tab button that opens the Configuration panel.
 	configurationTabButton: HTMLButtonElement;
+
 	// Recording panel container.
 	recordingPanel: HTMLElement;
+
 	// Configuration panel container.
 	configurationPanel: HTMLElement;
+
 	// Mount point for the Recording component.
 	recordingRoot: HTMLElement;
+
 	// Mount point for the Configuration component.
 	configRoot: HTMLElement;
 }
 
+/**
+ * ## App Component Parts
+ * - Child controllers mounted inside the app shell.
+ */
 interface AppComponentParts {
 	// Configuration tab controller.
 	config: AppConfigComponent;
+
 	// Recording tab controller.
 	recording: AppRecordingComponent;
 }
 
 /**
- * Initializes the main app controller and renders the first view.
+ * Renders the app shell, mounts child components, and wires the main flow together.
  */
 export function initializeAppComponent(root: HTMLElement): void {
 	const state = createAppState();
@@ -54,7 +68,7 @@ export function initializeAppComponent(root: HTMLElement): void {
 	render();
 
 	/**
-	 * Validates config, asks for microphone access, and starts the recording session.
+	 * Validates config, asks for microphone access, and starts a fresh recording session.
 	 */
 	async function startRecording(): Promise<void> {
 		if (state.phase === 'transcribing' || state.phase === 'translating') {
@@ -70,9 +84,12 @@ export function initializeAppComponent(root: HTMLElement): void {
 		}
 
 		try {
+			// Ask for microphone access only after config is valid.
 			const recordingSession = await startMicRecording();
 
 			setRecordingSession(state, recordingSession);
+
+			// Starting a new recording resets the old output boxes.
 			clearOutputs(state);
 			setStatus(state, 'recording', 'info');
 			setPhase(state, 'recording');
@@ -83,7 +100,7 @@ export function initializeAppComponent(root: HTMLElement): void {
 	}
 
 	/**
-	 * Cancels the active recording and returns the app to idle.
+	 * Cancels the active recording, drops the captured audio, and returns the app to idle.
 	 */
 	function cancelRecording(): void {
 		cancelMicRecording(state.recordingSession);
@@ -95,6 +112,7 @@ export function initializeAppComponent(root: HTMLElement): void {
 
 	/**
 	 * Stops the active recording and starts the OpenAI request flow.
+	 * - The UI moves into `transcribing` before the audio Blob is built.
 	 */
 	async function finishRecording(): Promise<void> {
 		if (!state.recordingSession) {
@@ -108,6 +126,7 @@ export function initializeAppComponent(root: HTMLElement): void {
 
 			const audioBlob = await stopMicRecordingAndCreateBlob(state.recordingSession);
 
+			// Clear the live session before network requests start.
 			setRecordingSession(state, null);
 
 			await transcribeAndTranslate(audioBlob);
@@ -120,6 +139,10 @@ export function initializeAppComponent(root: HTMLElement): void {
 
 	/**
 	 * Sends recorded audio to OpenAI, then translates the transcription result.
+	 * - This is intentionally one chained flow:
+	 *   - Speech-to-text first.
+	 *   - Translation second.
+	 * - Config stays disabled during both request phases.
 	 */
 	async function transcribeAndTranslate(audioBlob: Blob): Promise<void> {
 		if (!state.apiKey) {
@@ -143,10 +166,13 @@ export function initializeAppComponent(root: HTMLElement): void {
 			render();
 
 			// Build the translation input only after transcription output has been saved.
+			// This keeps `{{transcription}}` replacement based on the same state the UI shows.
 			const translationInput = buildTranslationInput(state.translationTemplate, state.transcriptionOutput);
 			const translationOutput = await translateText(openai, translationInput);
 
 			setTranslationOutput(state, translationOutput);
+
+			// Native wrappers can listen for the final translated text without importing app code.
 			dispatchNativeTranslationOutputEvent(translationOutput);
 			setPhase(state, 'success');
 			setStatus(state, 'done', 'success');
@@ -170,6 +196,7 @@ export function initializeAppComponent(root: HTMLElement): void {
 	function render(): void {
 		renderAppTabs(view, state);
 
+		// While either request is running, the whole transcription + translation flow is busy.
 		const isRequestBusy = state.phase === 'transcribing' || state.phase === 'translating';
 
 		parts.recording.render({
@@ -189,7 +216,7 @@ export function initializeAppComponent(root: HTMLElement): void {
 	}
 
 	/**
-	 * Connects app-level tab buttons to state changes.
+	 * Connects tab buttons to the app state.
 	 */
 	function bindAppEvents(viewElements: AppElements, appState: AppState, renderApp: () => void): void {
 		viewElements.recordingTabButton.addEventListener('click', () => {
@@ -213,6 +240,7 @@ export function initializeAppComponent(root: HTMLElement): void {
 		return {
 			recording: initializeAppRecordingComponent(viewElements.recordingRoot, {
 				onRecordButtonClick: async () => {
+					// The same button starts recording in idle/success/error and finishes while recording.
 					if (appState.phase === 'recording') {
 						await finishRecording();
 						return;
@@ -226,6 +254,7 @@ export function initializeAppComponent(root: HTMLElement): void {
 			}),
 			config: initializeAppConfigComponent(viewElements.configRoot, {
 				onApiKeyInput: (apiKey: string) => {
+					// Persist config immediately so refresh keeps the user's browser-only settings.
 					appState.apiKey = apiKey;
 					saveApiKey(appState.apiKey);
 				},
@@ -248,6 +277,7 @@ export function initializeAppComponent(root: HTMLElement): void {
 function renderAppTabs(view: AppElements, state: AppState): void {
 	const isRecordingTabActive = state.activeTab === 'recording';
 
+	// Button state and panel visibility stay in sync from the same `activeTab` value.
 	view.recordingTabButton.classList.toggle('c-tab-button-active', isRecordingTabActive);
 	view.recordingTabButton.setAttribute('aria-selected', String(isRecordingTabActive));
 	view.configurationTabButton.classList.toggle('c-tab-button-active', !isRecordingTabActive);

@@ -1,42 +1,62 @@
 
+/**
+ * # APP RECORDING COMPONENT
+ * - Owns the Recording tab DOM.
+ * - Sends record and cancel button clicks up to the app component.
+ * - Renders recording status and output text from `AppRecordingModel`.
+ * - This component is stateless. The app state service owns the real flow state.
+ */
+
 import appRecordingHtml from './app-recording.html?raw';
 import type { AppRecordingModel } from './app-recording.model';
 
 
 /**
- * # APP RECORDING COMPONENT
- * - Owns the Recording tab DOM.
- * - Sends record and cancel button clicks up to the app component.
- * - Renders recording status and output text from AppRecordingModel.
+ * ## App Recording Events
+ * - The parent app owns recording, transcription, translation, and errors.
  */
-
-
 interface AppRecordingEvents {
 	// Called when the Start or Finish Recording button is clicked.
 	onRecordButtonClick: () => void | Promise<void>;
+
 	// Called when the Cancel button is clicked.
 	onCancelButtonClick: () => void;
 }
 
+/**
+ * ## App Recording Elements
+ * - Required DOM nodes used by the Recording controller.
+ */
 interface AppRecordingElements {
 	// Start or Finish Recording button.
 	recordButton: HTMLButtonElement;
+
 	// Cancel button shown only while recording.
 	cancelButton: HTMLButtonElement;
+
 	// Status text shown under the action buttons.
 	statusText: HTMLElement;
+
 	// Wrapper around the recording action buttons.
 	recordingActions: HTMLElement;
+
 	// Wrapper around the transcription output box.
 	transcriptionOutputGroup: HTMLElement;
+
 	// Wrapper around the translation output box.
 	translationOutputGroup: HTMLElement;
+
 	// Text container for transcription output.
 	transcriptionOutput: HTMLElement;
+
 	// Text container for translation output.
 	translationOutput: HTMLElement;
 }
 
+/**
+ * ## App Recording Component
+ * - Public controller surface returned to the parent app.
+ */
 export interface AppRecordingComponent {
 	// Updates the Recording tab from the latest app model.
 	render: (model: AppRecordingModel) => void;
@@ -66,6 +86,9 @@ export function initializeAppRecordingComponent(root: HTMLElement, events: AppRe
 			const isRecording = model.phase === 'recording';
 			const isRequestBusy = model.phase === 'transcribing' || model.phase === 'translating';
 
+			// One button changes meaning by phase:
+			// - `Start Recording` while idle/success/error.
+			// - `Finish Recording` while actively recording.
 			view.recordButton.textContent = isRecording ? 'Finish Recording' : 'Start Recording';
 			view.recordButton.disabled = isRequestBusy;
 			view.cancelButton.classList.toggle('hidden', !isRecording);
