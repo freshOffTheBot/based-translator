@@ -138,22 +138,27 @@
 
 
 ### 2-3. Electron
-01. `src/02_electron/src/app/`: The folder that contains the Electron app logic.
-	01-01. `app.constant.ts`: The main Electron app related constant variables.
-	01-02. `app.helper.ts`: The helper file for the main Electron app.
-02. `src/02_electron/src/main.ts`:The main entry point file of the Electron app.
-03. `src/02_electron/src/preload.ts`: The main Electron file that runs before the web page is loaded into the browser window.
-	03-01. It has access to both DOM APIs and Node.js environment, and is often used to expose privileged APIs to the renderer via the `contextBridge` API.
-	03-02. It bridges webapp DOM CustomEvents to Electron IPC.
-	03-03. It keeps Electron APIs out of the shared webapp source.
-04. `src/02_electron/src/renderer.ts`: The main Electron file that is responsible for displaying graphical content.
-05. `src/02_electron/src/index.css`: The main Electron style file.
-06. `src/02_electron/src/common/mouseCursorFollower`:
-	06-01. `mouseCursorFollower.component.ts`: The controller file responsible for updating the view by manipulating `mouseCursorFollower.html`, using variables in `mouseCursorFollower.service.ts`.
-	06-02. `mouseCursorFollower.constant.ts`: The mouse-cursor-follower related constant variables.
-	06-03. `mouseCursorFollower.html`: The mouse-cursor-follower view file.
-	06-04. `mouseCursorFollower.scss`: The mouse-cursor-follower style file, only applies for `mouseCursorFollower.html`.
-	06-05. `mouseCursorFollower.service.ts`: The mouse-cursor-follower service logic.
+01. `src/02_electron/forge.config.ts`: The Electron Forge config file for packaging and Vite integration.
+02. `src/02_electron/vite.main.config.ts`: The Vite config file for the Electron main-process bundle.
+03. `src/02_electron/vite.preload.config.ts`: The Vite config file for the Electron preload bundle.
+04. `src/02_electron/vite.renderer.config.ts`: The Vite config file for the Electron renderer bundle.
+05. `src/02_electron/forge.env.d.ts`: The type declaration file for Electron Forge Vite environment variables.
+06. `src/02_electron/src/app/`: The folder that contains the Electron app logic.
+	06-01. `app.constant.ts`: The main Electron app related constant variables.
+	06-02. `app.helper.ts`: The helper file for the main Electron app.
+07. `src/02_electron/src/main.ts`:The main entry point file of the Electron app.
+08. `src/02_electron/src/preload.ts`: The main Electron file that runs before the web page is loaded into the browser window.
+	08-01. It has access to both DOM APIs and Node.js environment, and is often used to expose privileged APIs to the renderer via the `contextBridge` API.
+	08-02. It bridges webapp DOM CustomEvents to Electron IPC.
+	08-03. It keeps Electron APIs out of the shared webapp source.
+09. `src/02_electron/src/renderer.ts`: The main Electron file that is responsible for displaying graphical content.
+10. `src/02_electron/src/index.css`: The main Electron style file.
+11. `src/02_electron/src/common/mouseCursorFollower`:
+	11-01. `mouseCursorFollower.component.ts`: The controller file responsible for updating the view by manipulating `mouseCursorFollower.html`, using variables in `mouseCursorFollower.service.ts`.
+	11-02. `mouseCursorFollower.constant.ts`: The mouse-cursor-follower related constant variables.
+	11-03. `mouseCursorFollower.html`: The mouse-cursor-follower view file.
+	11-04. `mouseCursorFollower.scss`: The mouse-cursor-follower style file, only applies for `mouseCursorFollower.html`.
+	11-05. `mouseCursorFollower.service.ts`: The mouse-cursor-follower service logic.
 
 
 
@@ -449,6 +454,5 @@ console.log(response.output_text);
 ```
 
 02. `input` is built from translation template + transcription.
-
 
 

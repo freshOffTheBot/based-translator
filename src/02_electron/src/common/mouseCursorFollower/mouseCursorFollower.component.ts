@@ -1,3 +1,9 @@
+/**
+ * # MOUSE CURSOR FOLLOWER COMPONENT
+ * - Owns the overlay DOM shown near the mouse cursor.
+ * - Updates the label whenever the native translation event arrives.
+ */
+
 // eslint-disable-next-line import/no-unresolved
 import mouseCursorFollowerHtml from './mouseCursorFollower.html?raw';
 import './mouseCursorFollower.scss';
@@ -7,9 +13,7 @@ import { MOUSE_CURSOR_FOLLOWER_LABEL_SELECTOR } from './mouseCursorFollower.cons
 
 
 /**
- * # MOUSE CURSOR FOLLOWER COMPONENT
- * - Owns the overlay DOM shown near the mouse cursor.
- * - Updates the label whenever the native translation event arrives.
+ * Renders the overlay UI and listens for translated-text events.
  */
 export function initializeMouseCursorFollowerComponent(root: HTMLElement): void {
 	root.innerHTML = mouseCursorFollowerHtml;
@@ -22,6 +26,7 @@ export function initializeMouseCursorFollowerComponent(root: HTMLElement): void 
 	}
 
 	window.addEventListener(NATIVE_TRANSLATION_OUTPUT_EVENT, (event: Event) => {
+		// The shared webapp and the overlay both use the same DOM event contract.
 		const detail = (event as CustomEvent<Partial<NativeTranslationOutputEventDetail>>).detail;
 
 		if (typeof detail?.translationOutput !== 'string') {

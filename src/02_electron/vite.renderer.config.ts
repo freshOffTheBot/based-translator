@@ -1,11 +1,22 @@
 
+/**
+ * # VITE RENDERER CONFIG
+ * - Vite config for the Electron renderer bundle.
+ * - Allows the Electron renderer to reuse shared webapp assets and source files.
+ */
+
 import path from 'node:path';
 import { defineConfig } from 'vite';
 
-// https://vitejs.dev/config
+
+/**
+ * ## Vite Renderer Config
+ * - The Electron renderer imports from `src/01_webapp`, so the dev server must allow that path.
+ */
 export default defineConfig({
 	server: {
 		fs: {
+			// Allow the renderer bundle to read the shared webapp source tree in dev.
 			allow: ['.', '../01_webapp'],
 		},
 	},

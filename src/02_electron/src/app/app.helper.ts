@@ -1,21 +1,16 @@
+/**
+ * # APP HELPER
+ * - Shared Electron helpers used by multiple entrypoints.
+ * - Keeps repeated BrowserWindow security settings in one place.
+ */
+
 import type { WebPreferences } from 'electron';
 
 
 /**
  * Builds the shared Electron `webPreferences` used by this app.
- *
- * This helper keeps the Electron renderer security defaults in one place.
- * We use it so every window starts with the same secure baseline and only
- * customizes the preload script path when needed.
- *
- * Even though modern Electron already defaults some of these values, we still
- * set them explicitly so the app's security posture is easy to see in code and
- * does not change silently if Electron defaults or app code change later.
- * 
- * Example:
- * 		const browserWindow = new BrowserWindow({
- * 			webPreferences: createAppWebPreferences(path.join(__dirname, 'preload.js')),
- * 		});
+ * - Every window gets the same secure baseline.
+ * - Only the preload script path changes per window.
  */
 export function createAppWebPreferences(preloadPath: string): WebPreferences {
 	return {

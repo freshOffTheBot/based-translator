@@ -1,3 +1,11 @@
+
+/**
+ * # ELECTRON MAIN
+ * - Owns the Electron main-process startup flow.
+ * - Creates the main window, creates the overlay window, and wires native IPC.
+ * - Keeps the basic Electron app runnable even if optional feature folders are removed.
+ */
+
 import { app, BrowserWindow, ipcMain, Menu, screen } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
@@ -5,7 +13,8 @@ import { APP_MAIN_WINDOW_HEIGHT, APP_MAIN_WINDOW_MIN_HEIGHT, APP_MAIN_WINDOW_MIN
 import { createAppWebPreferences } from './app/app.helper';
 import { bindMouseCursorFollowerIpcEvents, closeMouseCursorFollowerWindow, createMouseCursorFollowerWindow, startMouseCursorFollowerTracking, stopMouseCursorFollowerTracking } from './common/mouseCursorFollower/mouseCursorFollower.service';
 
-// Handle creating/removing shortcuts on Windows when installing/uninstalling.
+
+// Exit early during Windows install/uninstall events handled by squirrel startup.
 if (started) {
 	app.quit();
 }
@@ -17,11 +26,19 @@ if (!MAIN_WINDOW_VITE_DEV_SERVER_URL) {
 	Menu.setApplicationMenu(null);
 }
 
+// Single reference to the main app window while it is open.
 let mainWindow: BrowserWindow | null = null;
 
+/**
+ * Resolves the packaged renderer HTML path used outside the Vite dev server.
+ */
 const getRendererEntryPoint = () =>
 	path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`);
 
+/**
+ * Loads either the Vite dev URL or the packaged renderer file.
+ * - `hash` is used to boot the overlay window instead of the main webapp route.
+ */
 const loadRendererWindow = async (
 	window: BrowserWindow,
 	hash?: string,
@@ -40,6 +57,9 @@ const loadRendererWindow = async (
 	await window.loadFile(getRendererEntryPoint(), { hash });
 };
 
+/**
+ * Creates the main Electron window that hosts the shared webapp.
+ */
 const createMainWindow = async () => {
 	mainWindow = new BrowserWindow({
 		width: APP_MAIN_WINDOW_WIDTH,
@@ -50,6 +70,7 @@ const createMainWindow = async () => {
 	});
 
 	mainWindow.on('closed', () => {
+		// Clear the main window reference and close the optional overlay window too.
 		mainWindow = null;
 		closeMouseCursorFollowerWindow();
 	});
@@ -57,6 +78,9 @@ const createMainWindow = async () => {
 	await loadRendererWindow(mainWindow);
 };
 
+/**
+ * Creates all native windows needed by the app, then starts cursor tracking.
+ */
 const createWindows = async () => {
 	await createMainWindow();
 	await createMouseCursorFollowerWindow({
@@ -67,17 +91,14 @@ const createWindows = async () => {
 	startMouseCursorFollowerTracking(screen);
 };
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
+// Wait for Electron to finish booting before touching browser-window APIs.
 app.on('ready', () => {
 	bindMouseCursorFollowerIpcEvents(ipcMain);
 	void createWindows();
 });
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
+// Stop the overlay tracker for every platform.
+// - On macOS, keep the app alive until the user quits explicitly.
 app.on('window-all-closed', () => {
 	stopMouseCursorFollowerTracking();
 
@@ -86,13 +107,9 @@ app.on('window-all-closed', () => {
 	}
 });
 
+// Re-create windows on macOS when the dock icon is clicked and no window is open.
 app.on('activate', () => {
-	// On OS X it's common to re-create a window in the app when the
-	// dock icon is clicked and there are no other windows open.
 	if (BrowserWindow.getAllWindows().length === 0) {
 		void createWindows();
 	}
 });
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
