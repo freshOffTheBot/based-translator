@@ -144,3 +144,5 @@ vite.config.ts.timestamp-*
 
 # CUSTOM
 .state
+src/02_electron/.vite
+src/02_electron/out
