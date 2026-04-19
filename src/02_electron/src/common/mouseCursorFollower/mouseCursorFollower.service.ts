@@ -1,6 +1,7 @@
 import { NATIVE_TRANSLATION_OUTPUT_EVENT } from '../../../../01_webapp/common/native-event/native-event.constant';
 import type { NativeTranslationOutputEventDetail } from '../../../../01_webapp/common/native-event/native-event.model';
 import { NATIVE_TRANSLATION_OUTPUT_IPC_CHANNEL, OVERLAY_WINDOW_HASH } from '../../app/app.constant';
+import { createAppWebPreferences } from '../../app/app.helper';
 import { MOUSE_CURSOR_FOLLOWER_CURSOR_OFFSET, MOUSE_CURSOR_FOLLOWER_CURSOR_POLL_INTERVAL_MS, MOUSE_CURSOR_FOLLOWER_WINDOW_DIMENSIONS } from './mouseCursorFollower.constant';
 import type { BrowserWindow, BrowserWindowConstructorOptions, IpcMain, IpcRenderer, Point, Screen } from 'electron';
 
@@ -39,9 +40,7 @@ export async function createMouseCursorFollowerWindow(
 		skipTaskbar: true,
 		hasShadow: false,
 		show: false,
-		webPreferences: {
-			preload: options.preloadPath,
-		},
+		webPreferences: createAppWebPreferences(options.preloadPath),
 	});
 
 	overlayWindow.setIgnoreMouseEvents(true, { forward: true });
