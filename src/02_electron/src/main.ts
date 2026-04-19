@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, screen } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu, screen } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
 import { bindMouseCursorFollowerIpcEvents, closeMouseCursorFollowerWindow, createMouseCursorFollowerWindow, startMouseCursorFollowerTracking, stopMouseCursorFollowerTracking } from './common/mouseCursorFollower/mouseCursorFollower.service';
@@ -7,6 +7,14 @@ import { bindMouseCursorFollowerIpcEvents, closeMouseCursorFollowerWindow, creat
 if (started) {
 	app.quit();
 }
+
+
+// Disable Electron's default application menu during main-process bootstrap.
+// - Call this before app.on('ready') so Electron does not install its default application menu.
+if (!MAIN_WINDOW_VITE_DEV_SERVER_URL) {
+	Menu.setApplicationMenu(null);
+}
+
 
 const MAIN_WINDOW_DIMENSIONS = {
 	width: 800,
