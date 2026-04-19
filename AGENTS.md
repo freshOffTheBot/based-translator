@@ -52,16 +52,41 @@
 
 
 
-### 1-4. Project Root Folders & Files
+### 1-4. Components In Common Folder (`common/`) vs. Components In Component Folder (`component/`)
+01. A folder `common/` can contain a component when the component exists only once on the screen, not multiple times.
+	01-01. On the other hand, if a component can exist multiple times on the screen, then the component belongs to a component folder (`component/`).
+02. Components in common folder (`common/`) are stateful.
+	02-01. A stateful component is consisted with these files: `.component.ts`, `.html`, `.scss` and `.service.ts`.
+	02-02. The variables of a stateful component are located in `.service.ts` (stateful variables).
+03. Components in component folder (`component/`) are stateless.
+	03-01. As the above description, if the input (`.model.ts`) is the same, then the output (`.html`) is always the same.
+	03-02. A stateless component does not have `.service.ts`.
+
+
+
+
+
+---
+
+
+
+
+
+## 2. Project Folders & Files
+- This section explains the project folders and files.
+
+
+
+### 2-1. Project Root Folders & Files
 01. `.editorconfig`: project coding style.
 02. `package.json`: the root package.json that controls sub-projects (the webapp, Electron, ...).
 03. `src/`: the folder contains all project source files.
 04. `src/01_webapp/`: the folder that contains the web app source files that form the foundation of based-translator.
-05. `src/02_electron/`: the folder that contains the Electron source files that contain the logic for building based-translator as a native app (TODO).
+05. `src/02_electron/`: the folder that contains the Electron source files that contain the logic for building based-translator as a native app.
 
 
 
-### 1-5. Web App
+### 2-2. Web App
 01. `src/01_webapp/package.json`: for npm.
 02. `src/01_webapp/tsconfig.json`: for TypeScript.
 03. `src/01_webapp/vite.config.ts`: for Vite.
@@ -106,8 +131,30 @@
 
 
 
-### 1-6. Electron
-01. TODO: Add a feature where a translated text follows the mouse cursor globally.
+### 2-3. Electron
+01. `src/02_electron/src/app/`: The folder that contains the Electron app logic.
+	01-01. `app.constant.ts`: The main Electron app related constant variables.
+	01-02. `app.helper.ts`: The helper file for the main Electron app.
+02. `src/02_electron/src/main.ts`:The main entry point file of the Electron app.
+03. `src/02_electron/src/preload.ts`: The main Electron file that runs before the web page is loaded into the browser window.
+	03-01. It has access to both DOM APIs and Node.js environment, and is often used to expose privileged APIs to the renderer via the `contextBridge` API.
+	03-02. It bridges webapp DOM CustomEvents to Electron IPC.
+	03-03. It keeps Electron APIs out of the shared webapp source.
+04. `src/02_electron/src/renderer.ts`: The main Electron file that is responsible for displaying graphical content.
+05. `src/02_electron/src/index.css`: The main Electron style file.
+06. `src/02_electron/src/common/mouseCursorFollower`:
+	06-01. `mouseCursorFollower.component.ts`: The controller file responsible for updating the view by manipulating `mouseCursorFollower.html`, using variables in `mouseCursorFollower.service.ts`.
+	06-02. `mouseCursorFollower.constant.ts`: The mouse-cursor-follower related constant variables.
+	06-03. `mouseCursorFollower.html`: The mouse-cursor-follower view file.
+	06-04. `mouseCursorFollower.scss`: The mouse-cursor-follower style file, only applies for `mouseCursorFollower.html`.
+	06-05. `mouseCursorFollower.service.ts`: The mouse-cursor-follower service logic.
+
+
+
+#### 2-4. Notes For Electron
+01. The main Electron files (`src/02_electron/src/main.ts`, `src/02_electron/src/preload.ts`, `src/02_electron/src/renderer.ts` and `src/02_electron/src/index.css`) must contain the basic Electron app logic.
+	01-01. If the folder `src/02_electron/src/common` and the folder `src/02_electron/src/component` are removed, the Electron app must be still runnable as vanilla.
+02. Since this is Linux environment (no GUI), do not build the app. I will do it by myself.
 
 
 
@@ -119,14 +166,14 @@
 
 
 
-## 2. UI/UX
+## 3. UI/UX
 01. The below ASCII wireframes are a visual spec as well as a layout guide.
 02. Dark theme.
 03. Compact design components.
 
 
 
-### 2-1. On Startup
+### 3-1. On Startup
 ```text
 +--------------------------------------------+
 |  BASED TRANSLATOR                          |
@@ -163,7 +210,7 @@
 
 
 
-### 2-2. Recording tab
+### 3-2. Recording tab
 ```text
 +--------------------------------------------+
 |  BASED TRANSLATOR                          |
@@ -201,7 +248,7 @@
 
 
 
-### 2-3. Configuration tab
+### 3-3. Configuration tab
 ```text
 +--------------------------------------------+
 |  BASED TRANSLATOR                          |
@@ -251,7 +298,7 @@
 
 
 
-## 3. Logic Flow
+## 4. Logic Flow
 ```text
 function onClickStartRecordingButton() {
 	if (microphone not allowed) {
@@ -316,7 +363,7 @@ function onClickStartRecordingButton() {
 
 
 
-## 4. Rules
+## 5. Rules
 01. Use simple and easy-to-understand codes.
 02. Use single-source-of-truth approach.
 03. Great code structure is easy-to-delete.
@@ -334,7 +381,7 @@ function onClickStartRecordingButton() {
 
 
 
-## 5. Build / Run / Test
+## 6. Build / Run / Test
 01. Build: `$ npm run build`
 02. Run: `$ npm run dev`
 03. Test: No test needed because this is a simple project.
@@ -349,13 +396,13 @@ function onClickStartRecordingButton() {
 
 
 
-## 6. OpenAI APIs
+## 7. OpenAI APIs
 01. The project uses OpenAI's APIs.
 02. After transcription succeeds, the project sends another request to OpenAI Responses API to translate text.
 
 
 
-### 6-1. Speech-To-Text API
+### 7-1. Speech-To-Text API
 01. Example code from the official document:
 
 ```js
@@ -378,7 +425,7 @@ console.log(transcription.text);
 
 
 
-### 6-2. Text Generation API (Translation)
+### 7-2. Text Generation API (Translation)
 
 01. Example code from the official document:
 
