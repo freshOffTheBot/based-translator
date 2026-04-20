@@ -1,4 +1,5 @@
 {
+	// The default config of `$ npm create vite@8.3.0 myapp -- --template vanilla-ts`
 	"compilerOptions": {
 		"target": "ES2022",
 		"useDefineForClassFields": true,

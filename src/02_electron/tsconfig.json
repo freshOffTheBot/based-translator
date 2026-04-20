@@ -1,14 +1,16 @@
 {
+	// The default config of `$ npx create-electron-app@7.11.1 myapp --template=vite-typescript`
 	"compilerOptions": {
 		"target": "ESNext",
-		"module": "Node16",
+		"module": "commonjs",
 		"allowJs": true,
 		"skipLibCheck": true,
 		"esModuleInterop": true,
 		"noImplicitAny": true,
 		"sourceMap": true,
+		"baseUrl": ".",
 		"outDir": "dist",
-		"moduleResolution": "node16",
+		"moduleResolution": "node",
 		"resolveJsonModule": true
 	}
 }
