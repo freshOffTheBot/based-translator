@@ -85,6 +85,11 @@ export function initializeAppRecordingComponent(root: HTMLElement, events: AppRe
 		render(model: AppRecordingModel): void {
 			const isRecording = model.phase === 'recording';
 			const isRequestBusy = model.phase === 'transcribing' || model.phase === 'translating';
+			const hasStartedFlow =
+				model.phase === 'recording' ||
+				model.phase === 'transcribing' ||
+				model.phase === 'translating' ||
+				model.phase === 'success';
 
 			// One button changes meaning by phase:
 			// - `Start Recording` while idle/success/error.
@@ -99,9 +104,9 @@ export function initializeAppRecordingComponent(root: HTMLElement, events: AppRe
 			view.transcriptionOutput.textContent = model.transcriptionOutput;
 			view.translationOutput.textContent = model.translationOutput;
 
-			// Keep output boxes hidden on startup, then show them while recording or after results exist.
+			// Keep output boxes hidden on startup, then show them for the full recording/request flow.
 			const shouldShowOutputs =
-				isRecording || Boolean(model.transcriptionOutput.trim()) || Boolean(model.translationOutput.trim());
+				hasStartedFlow || Boolean(model.transcriptionOutput.trim()) || Boolean(model.translationOutput.trim());
 
 			view.transcriptionOutputGroup.classList.toggle('hidden', !shouldShowOutputs);
 			view.translationOutputGroup.classList.toggle('hidden', !shouldShowOutputs);
