@@ -1,7 +1,7 @@
 # BASED TRANSLATOR
 
 <p align="center">
-	<img src="docs/v0.4.0.png" width="800" alt="BASED TRANSLATOR screenshot">
+	<img src="01_release/v0.4.0/v0.4.0.png" width="800" alt="BASED TRANSLATOR screenshot">
 </p>
 
 Speech-to-text + translation app using the OpenAI API.
@@ -36,13 +36,12 @@ This project is built by Codex, Codex only.
 
 
 ## Project Structure
-01. `app-changes/`: versioned notes and prompts for major app changes.
-02. `docs/`: screenshots and simple visual docs for the project.
-03. `src/01_webapp/`: standalone web app built with plain TypeScript, HTML, CSS, and Vite.
-04. `src/02_electron/`: Electron wrapper for packaging and native desktop behavior.
-05. `.editorconfig`: shared formatting rules for the repo.
-06. `AGENTS.md`: project instructions for Codex, including architecture, rules, and workflow notes.
-07. `package.json`: root command entry that controls the web app and Electron app scripts.
+01. `01_release/`: screenshots, versioned notes and prompts for major app changes.
+02. `src/01_webapp/`: standalone web app built with plain TypeScript, HTML, CSS, and Vite.
+03. `src/02_electron/`: Electron wrapper for packaging and native desktop behavior.
+04. `.editorconfig`: shared formatting rules for the repo.
+05. `AGENTS.md`: project instructions for Codex, including architecture, rules, and workflow notes.
+06. `package.json`: root command entry that controls the web app and Electron app scripts.
 
 
 
