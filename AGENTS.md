@@ -393,9 +393,11 @@ function onClickStartRecordingButton() {
 
 
 ## 6. Build / Run / Test
-01. Build: `$ npm run build`
-02. Run: `$ npm run dev`
+01. Build the web app: `$ npm run webapp:build`
+02. Run the web app dev server: `$ npm run webapp:dev`
 03. Test: No test needed because this is a simple project.
+04. For the Electron app, no build process needed because the current dev environment is Linux.
+	04-01. We build the Electron app manually in a Windows environment.
 
 
 
