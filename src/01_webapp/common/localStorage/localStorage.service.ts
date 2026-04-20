@@ -6,8 +6,8 @@
  * - Provides defaults for optional prompt fields when nothing has been saved yet.
  */
 
+import { DEFAULT_TRANSCRIPTION_PROMPT, DEFAULT_TRANSLATION_TEMPLATE } from '../../app/app.constant';
 import { STORAGE_KEY_API, STORAGE_KEY_TRANSCRIPTION_PROMPT, STORAGE_KEY_TRANSLATION_TEMPLATE } from './localStorage.constant';
-import { DEFAULT_TRANSCRIPTION_PROMPT, DEFAULT_TRANSLATION_TEMPLATE } from '../openai/openai.constant';
 
 
 /**

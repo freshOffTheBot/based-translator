@@ -8,7 +8,8 @@
  */
 
 import OpenAI from 'openai';
-import { DEFAULT_TRANSLATION_TEMPLATE, TRANSCRIPTION_MODEL, TRANSLATION_MODEL, TRANSLATION_PLACEHOLDER } from './openai.constant';
+import { DEFAULT_TRANSLATION_TEMPLATE, TRANSLATION_PLACEHOLDER } from '../../app/app.constant';
+import { TRANSCRIPTION_MODEL, TRANSLATION_MODEL } from './openai.constant';
 
 
 /**
