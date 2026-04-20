@@ -96,7 +96,6 @@ export function initializeAppRecordingComponent(root: HTMLElement, events: AppRe
 
 			view.statusText.textContent = model.statusMessage;
 			view.statusText.className = `status-text tone-${model.statusTone}`;
-			view.recordingActions.classList.toggle('app-actions-centered', !isRecording);
 			view.transcriptionOutput.textContent = model.transcriptionOutput;
 			view.translationOutput.textContent = model.translationOutput;
 
