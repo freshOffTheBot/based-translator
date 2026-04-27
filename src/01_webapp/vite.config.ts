@@ -16,6 +16,9 @@ import { defineConfig } from 'vite';
  * - This config only handles webapp concerns. Electron has its own build config.
  */
 export default defineConfig({
+	define: {
+		__APP_RUNTIME__: JSON.stringify('webapp'),
+	},
 	server: {
 		host: '0.0.0.0',
 		port: 9999,

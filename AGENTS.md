@@ -90,9 +90,12 @@
 01. `src/01_webapp/package.json`: for npm.
 02. `src/01_webapp/tsconfig.json`: for TypeScript.
 03. `src/01_webapp/vite.config.ts`: for Vite.
+	03-01. Defines `__APP_RUNTIME__` as `webapp` for standalone webapp builds.
 04. `src/01_webapp/main.ts`: The webapp entry point file that starts the Home controller.
 05. `src/01_webapp/common`: the folder contains globally-used files.
 	05-01. `src/01_webapp/common/scss/app.variable.scss`: global SCSS variables.
+	05-02. `src/01_webapp/common/env/env.helper.ts`: Build-time environment helper logic.
+	05-03. `src/01_webapp/common/env/env.d.ts`: Type declaration for the Vite `__APP_RUNTIME__` build-time value.
 06. `src/01_webapp/component`: the folder contains component files.
 	06-01. `src/01_webapp/component/typography/typography.component.scss`: text-related components SCSS file.
 	06-02. `src/01_webapp/component/button/button.component.scss`: button component SCSS file.
@@ -143,6 +146,7 @@
 02. `src/02_electron/vite.main.config.ts`: The Vite config file for the Electron main-process bundle.
 03. `src/02_electron/vite.preload.config.ts`: The Vite config file for the Electron preload bundle.
 04. `src/02_electron/vite.renderer.config.ts`: The Vite config file for the Electron renderer bundle.
+	04-01. Defines `__APP_RUNTIME__` as `electron` for native app renderer builds.
 05. `src/02_electron/forge.env.d.ts`: The type declaration file for Electron Forge Vite environment variables.
 06. `src/02_electron/src/app/`: The folder that contains the Electron app logic.
 	06-01. `app.constant.ts`: The main Electron app related constant variables.
@@ -457,5 +461,4 @@ console.log(response.output_text);
 ```
 
 02. `input` is built from translation template + transcription.
-
 

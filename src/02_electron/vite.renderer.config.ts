@@ -14,6 +14,9 @@ import { defineConfig } from 'vite';
  * - The Electron renderer imports from `src/01_webapp`, so the dev server must allow that path.
  */
 export default defineConfig({
+	define: {
+		__APP_RUNTIME__: JSON.stringify('electron'),
+	},
 	server: {
 		fs: {
 			// Allow the renderer bundle to read the shared webapp source tree in dev.
