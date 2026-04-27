@@ -1,0 +1,110 @@
+@use '../../common/scss/app.variable.scss' as appVariable;
+
+.c-collapse {
+	border: 1px solid appVariable.$color-white-10;
+	border-radius: appVariable.$border-radius-800;
+	background: linear-gradient(180deg, appVariable.$color-slate-700 0%, appVariable.$color-dark-600 100%);
+	box-shadow: 0 1.25rem 3rem appVariable.$color-black-20;
+	color: appVariable.$color-white-90;
+	overflow: hidden;
+
+	&[open] {
+		border-color: appVariable.$color-white-20;
+	}
+}
+
+.c-collapse-trigger {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: appVariable.$spacing-400;
+	cursor: pointer;
+	padding: appVariable.$spacing-500;
+	list-style: none;
+	transition: background-color 160ms ease, box-shadow 160ms ease;
+
+	&::-webkit-details-marker {
+		display: none;
+	}
+
+	&:hover {
+		background: appVariable.$color-black-20;
+	}
+
+	&:focus-visible {
+		outline: none;
+		box-shadow: inset 0 0 0 .1875rem appVariable.$color-blue-50;
+	}
+}
+
+.c-collapse-trigger-copy {
+	display: grid;
+	gap: appVariable.$spacing-300;
+	min-width: 0;
+}
+
+.c-collapse-title {
+	margin: 0;
+	color: appVariable.$color-white-500;
+	font-size: appVariable.$font-size-500;
+	font-weight: appVariable.$font-weight-bold;
+	line-height: 1.4;
+}
+
+.c-collapse-meta {
+	margin: 0;
+	color: appVariable.$color-white-60;
+	font-size: appVariable.$font-size-350;
+	line-height: 1.5;
+}
+
+.c-collapse-indicator {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	width: 2rem;
+	height: 2rem;
+	border: 1px solid appVariable.$color-green-600;
+	border-radius: 999px;
+	background: linear-gradient(180deg, appVariable.$color-green-800 0%, appVariable.$color-green-900 100%);
+	box-shadow: inset 0 .0625rem 0 appVariable.$color-green-50;
+	color: appVariable.$color-white-500;
+	font-size: appVariable.$font-size-700;
+	line-height: 1;
+	transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.c-collapse-content {
+	display: grid;
+	gap: appVariable.$spacing-400;
+	padding: 0 appVariable.$spacing-500 appVariable.$spacing-500;
+	border-top: 1px solid appVariable.$color-white-10;
+	color: appVariable.$color-white-80;
+}
+
+.c-collapse-content > :first-child {
+	margin-top: appVariable.$spacing-500;
+}
+
+.c-collapse-content > :last-child {
+	margin-bottom: 0;
+}
+
+.c-collapse[open] .c-collapse-trigger {
+	background: appVariable.$color-black-20;
+}
+
+.c-collapse-trigger:hover .c-collapse-indicator,
+.c-collapse-trigger:focus-visible .c-collapse-indicator {
+	box-shadow:
+		inset 0 .0625rem 0 appVariable.$color-green-50,
+		0 0 0 .1875rem appVariable.$color-green-50;
+}
+
+.c-collapse[open] .c-collapse-indicator {
+	transform: rotate(45deg);
+	border-color: appVariable.$color-green-600;
+	background: appVariable.$color-green-900;
+	box-shadow: none;
+}

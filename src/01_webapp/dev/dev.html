@@ -371,6 +371,75 @@
 				</div>
 			</div>
 		</section>
+
+		<section class="dev-section" aria-labelledby="collapse-title">
+			<h2 class="dev-section-title" id="collapse-title">Components &gt; Collapse</h2>
+			<p class="dev-section-text">
+				Collapse uses semantic <code class="c-text-inline-code">details</code> and
+				<code class="c-text-inline-code">summary</code> markup, so it toggles open and closed with no
+				JavaScript while keeping the same compact dark surface language.
+			</p>
+
+			<div class="dev-example">
+				<div class="dev-example-preview">
+					<div class="dev-stack">
+						<details class="c-collapse">
+							<summary class="c-collapse-trigger">
+								<div class="c-collapse-trigger-copy">
+									<h3 class="c-collapse-title">Closed by default</h3>
+									<p class="c-collapse-meta">Use this for optional setup notes or advanced hints.</p>
+								</div>
+								<span class="c-collapse-indicator" aria-hidden="true">+</span>
+							</summary>
+							<div class="c-collapse-content">
+								<p class="c-card-text">
+									The body stays hidden until the user opens the section. This works well for helper
+									copy that should stay available without taking over the layout.
+								</p>
+							</div>
+						</details>
+
+						<details class="c-collapse" open>
+							<summary class="c-collapse-trigger">
+								<div class="c-collapse-trigger-copy">
+									<h3 class="c-collapse-title">Open state example</h3>
+									<p class="c-collapse-meta">The open state uses the native <code class="c-text-inline-code">open</code> attribute.</p>
+								</div>
+								<span class="c-collapse-indicator" aria-hidden="true">+</span>
+							</summary>
+							<div class="c-collapse-content">
+								<p class="c-card-text">
+									Compose the body with existing shared text and card utility styles, or keep it plain
+									if the content is simple.
+								</p>
+								<div class="c-card-surface-muted">
+									<div class="c-card-meta">
+										<span>Semantic HTML</span>
+										<span>SCSS only</span>
+										<span>No JS required</span>
+									</div>
+								</div>
+							</div>
+						</details>
+					</div>
+				</div>
+				<div class="dev-example-code">
+<pre><code>&lt;details class="c-collapse"&gt;
+	&lt;summary class="c-collapse-trigger"&gt;
+		&lt;div class="c-collapse-trigger-copy"&gt;
+			&lt;h3 class="c-collapse-title"&gt;Section title&lt;/h3&gt;
+			&lt;p class="c-collapse-meta"&gt;Short supporting text.&lt;/p&gt;
+		&lt;/div&gt;
+		&lt;span class="c-collapse-indicator" aria-hidden="true"&gt;+&lt;/span&gt;
+	&lt;/summary&gt;
+
+	&lt;div class="c-collapse-content"&gt;
+		&lt;p class="c-card-text"&gt;Collapsed content goes here.&lt;/p&gt;
+	&lt;/div&gt;
+&lt;/details&gt;</code></pre>
+				</div>
+			</div>
+		</section>
 	</main>
 
 	<script type="module" src="/dev/dev.ts"></script>

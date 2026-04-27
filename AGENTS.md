@@ -99,6 +99,7 @@
 	06-03. `src/01_webapp/component/card/card.component.scss`: card component SCSS file.
 	06-04. `src/01_webapp/component/form/form.component.scss`: form component SCSS file.
 	06-05. `src/01_webapp/component/tab/tab.component.scss`: tab component SCSS file.
+	06-06. `src/01_webapp/component/collapse/collapse.component.scss`: collapse component SCSS file.
 07. `src/01_webapp/dev/dev.html`: dev docs for all components.
 	07-01. This page shows atomic component and its HTML code.
 08. `src/01_webapp/dev/dev.ts`: The dev docs entry file that loads the dev page styles.
