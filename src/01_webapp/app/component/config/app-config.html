@@ -40,5 +40,35 @@
 				Must include <code class="c-text-inline-code">{{transcription}}</code>.
 			</p>
 		</div>
+
+		<details id="native-feature-collapse" class="c-collapse app-native-feature-collapse">
+			<summary class="c-collapse-trigger">
+				<div class="c-collapse-trigger-copy">
+					<h3 class="c-collapse-title">Exclusive Native App Features</h3>
+					<p class="c-collapse-meta">Settings in this section are available when you use the native app.</p>
+				</div>
+				<span class="c-collapse-indicator" aria-hidden="true">+</span>
+			</summary>
+
+			<div class="c-collapse-content">
+				<div class="c-form-field">
+					<label class="c-form-label" for="mouse-cursor-follower-hide-timeout-input">Hide Mouse-Cursor Translation After:</label>
+					<select id="mouse-cursor-follower-hide-timeout-input" class="c-form-control">
+						<option value="disabled">Do not hide</option>
+						<option value="5000">5 sec</option>
+						<option value="10000">10 sec</option>
+						<option value="20000">20 sec</option>
+						<option value="30000">30 sec</option>
+						<option value="60000">1 min</option>
+					</select>
+					<p class="c-form-help app-help-text">
+						After translation finishes, the translated text appears near your mouse cursor, so you can keep reading without looking back at the native app. This setting controls how long it stays visible.
+					</p>
+					<p id="mouse-cursor-follower-webapp-warning" class="c-form-status c-form-status-danger app-help-text hidden">
+						Available in the native app. This web app setting is disabled because mouse-cursor translation needs the native app.
+					</p>
+				</div>
+			</div>
+		</details>
 	</form>
 </div>

@@ -9,9 +9,9 @@
 
 import { buildAudioFile, buildTranslationInput, createOpenAIClient, getValidatedTranslationTemplate, transcribeAudio, translateText } from '../common/openai/openai.service';
 import { cancelMicRecording, startMicRecording, stopMicRecordingAndCreateBlob } from '../common/recording-mic/recording-mic.service';
-import { clearOutputs, createAppState, setActiveTab, setErrorStatus, setPhase, setRecordingSession, setStatus, setTranscriptionOutput, setTranslationOutput, type AppState } from './common/app-state.service';
-import { saveApiKey, saveTranscriptionPrompt, saveTranslationTemplate } from '../common/localStorage/localStorage.service';
-import { dispatchNativeTranslationOutputEvent } from '../common/native-event/native-event.service';
+import { clearOutputs, createAppState, setActiveTab, setErrorStatus, setMouseCursorFollowerHideTimeoutMs, setPhase, setRecordingSession, setStatus, setTranscriptionOutput, setTranslationOutput, type AppState } from './common/app-state.service';
+import { saveApiKey, saveMouseCursorFollowerHideTimeoutMs, saveTranscriptionPrompt, saveTranslationTemplate } from '../common/localStorage/localStorage.service';
+import { dispatchNativeMouseCursorFollowerClearEvent, dispatchNativeTranslationOutputEvent } from '../common/native-event/native-event.service';
 import { initializeAppConfigComponent, type AppConfigComponent } from './component/config/app-config.component';
 import { initializeAppRecordingComponent, type AppRecordingComponent } from './component/recording/app-recording.component';
 import appHtml from './app.html?raw';
@@ -58,6 +58,7 @@ interface AppComponentParts {
  */
 export function initializeAppComponent(root: HTMLElement): void {
 	const state = createAppState();
+	let mouseCursorFollowerHideTimer: number | null = null;
 
 	root.innerHTML = appHtml;
 
@@ -174,6 +175,7 @@ export function initializeAppComponent(root: HTMLElement): void {
 
 			// Native wrappers can listen for the final translated text without importing app code.
 			dispatchNativeTranslationOutputEvent(translationOutput);
+			startMouseCursorFollowerHideTimer();
 			setPhase(state, 'success');
 			setStatus(state, 'done', 'success');
 			render();
@@ -211,6 +213,7 @@ export function initializeAppComponent(root: HTMLElement): void {
 			apiKey: state.apiKey,
 			transcriptionPrompt: state.transcriptionPrompt,
 			translationTemplate: state.translationTemplate,
+			mouseCursorFollowerHideTimeoutMs: state.mouseCursorFollowerHideTimeoutMs,
 			isDisabled: isRequestBusy,
 		});
 	}
@@ -266,8 +269,40 @@ export function initializeAppComponent(root: HTMLElement): void {
 					appState.translationTemplate = translationTemplate;
 					saveTranslationTemplate(appState.translationTemplate);
 				},
+				onMouseCursorFollowerHideTimeoutInput: (timeoutMs) => {
+					setMouseCursorFollowerHideTimeoutMs(appState, timeoutMs);
+					saveMouseCursorFollowerHideTimeoutMs(appState.mouseCursorFollowerHideTimeoutMs);
+				},
 			}),
 		};
+	}
+
+	/**
+	 * Starts a fresh native-label hide timer after each completed translation.
+	 */
+	function startMouseCursorFollowerHideTimer(): void {
+		clearMouseCursorFollowerHideTimer();
+
+		if (state.mouseCursorFollowerHideTimeoutMs === null) {
+			return;
+		}
+
+		mouseCursorFollowerHideTimer = window.setTimeout(() => {
+			dispatchNativeMouseCursorFollowerClearEvent();
+			mouseCursorFollowerHideTimer = null;
+		}, state.mouseCursorFollowerHideTimeoutMs);
+	}
+
+	/**
+	 * Clears the previous native-label hide timer before the next translation schedules one.
+	 */
+	function clearMouseCursorFollowerHideTimer(): void {
+		if (mouseCursorFollowerHideTimer === null) {
+			return;
+		}
+
+		window.clearTimeout(mouseCursorFollowerHideTimer);
+		mouseCursorFollowerHideTimer = null;
 	}
 }
 

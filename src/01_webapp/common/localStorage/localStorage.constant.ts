@@ -21,3 +21,6 @@ export const STORAGE_KEY_TRANSCRIPTION_PROMPT = 'based-translator.transcription-
 
 // Template used to build the translation request after transcription.
 export const STORAGE_KEY_TRANSLATION_TEMPLATE = 'based-translator.translation-template';
+
+// Native mouse-cursor-follower hide timeout selected by the user.
+export const STORAGE_KEY_MOUSE_CURSOR_FOLLOWER_HIDE_TIMEOUT_MS = 'based-translator.mouse-cursor-follower-hide-timeout-ms';

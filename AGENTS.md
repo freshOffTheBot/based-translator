@@ -306,6 +306,35 @@
 
 
 
+### 3-4. Exclusive native app features
+01. At the end of the Configuration tab, show a collapse component for native app exclusive features.
+	01-01. Add a bit more space above the collapse component because the section is a different context from OpenAI config.
+	01-02. Title: `Exclusive Native App Features`
+	01-03. Meta description: `Settings in this section are available when you use the native app.`
+02. If built as a web app, then default is close for the collapse component.
+	02-01. Disable the dropdown form.
+	02-02. Show the warning message: `Available in the native app. This web app setting is disabled because mouse-cursor translation needs the native app.`
+03. If built as a native app (Electron), then default is open for the collapse component.
+04. Mouse-cursor translation timeout dropdown:
+	04-01. Label: `Hide Mouse-Cursor Translation After:`
+	04-02. `Do not hide`: do not hide the mouse-cursor translation.
+	04-03. `5 sec`: hide the mouse-cursor translation after 5 seconds.
+	04-04. `10 sec`: hide the mouse-cursor translation after 10 seconds (default).
+	04-05. `20 sec`: hide the mouse-cursor translation after 20 seconds.
+	04-06. `30 sec`: hide the mouse-cursor translation after 30 seconds.
+	04-07. `1 min`: hide the mouse-cursor translation after 60 seconds.
+05. Under the dropdown, show the extra-small label: `After translation finishes, the translated text appears near your mouse cursor, so you can keep reading without looking back at the native app. This setting controls how long it stays visible.`
+06. The mouse-cursor translation timeout is stored in `localStorage`.
+07. The timeout logic stays in the webapp.
+	07-01. When a new translation arrives, clear any previous hide timer and start a new timer based on the latest timeout value.
+	07-02. After the timeout, dispatch `NATIVE_MOUSE_CURSOR_FOLLOWER_CLEAR_EVENT`.
+08. The Electron app handles `NATIVE_MOUSE_CURSOR_FOLLOWER_CLEAR_EVENT`.
+	08-01. The Electron app hides the mouse-cursor-follower window.
+	08-02. The Electron app does not clear the label text when hiding the mouse-cursor-follower window.
+	08-03. Use `NATIVE_MOUSE_CURSOR_FOLLOWER_CLEAR_IPC_CHANNEL` for the Electron IPC command.
+
+
+
 
 
 ---
@@ -461,4 +490,3 @@ console.log(response.output_text);
 ```
 
 02. `input` is built from translation template + transcription.
-

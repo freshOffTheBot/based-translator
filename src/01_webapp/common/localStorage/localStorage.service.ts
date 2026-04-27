@@ -6,8 +6,16 @@
  * - Provides defaults for optional prompt fields when nothing has been saved yet.
  */
 
-import { DEFAULT_TRANSCRIPTION_PROMPT, DEFAULT_TRANSLATION_TEMPLATE } from '../../app/app.constant';
-import { STORAGE_KEY_API, STORAGE_KEY_TRANSCRIPTION_PROMPT, STORAGE_KEY_TRANSLATION_TEMPLATE } from './localStorage.constant';
+import {
+	DEFAULT_MOUSE_CURSOR_FOLLOWER_HIDE_TIMEOUT_MS,
+	DEFAULT_TRANSCRIPTION_PROMPT,
+	DEFAULT_TRANSLATION_TEMPLATE,
+	MOUSE_CURSOR_FOLLOWER_HIDE_TIMEOUT_DISABLED_VALUE,
+	MOUSE_CURSOR_FOLLOWER_HIDE_TIMEOUT_MS_VALUES,
+	type EnabledMouseCursorFollowerHideTimeoutMs,
+	type MouseCursorFollowerHideTimeoutMs,
+} from '../../app/app.constant';
+import { STORAGE_KEY_API, STORAGE_KEY_MOUSE_CURSOR_FOLLOWER_HIDE_TIMEOUT_MS, STORAGE_KEY_TRANSCRIPTION_PROMPT, STORAGE_KEY_TRANSLATION_TEMPLATE } from './localStorage.constant';
 
 
 /**
@@ -50,4 +58,40 @@ export function loadTranslationTemplate(): string {
  */
 export function saveTranslationTemplate(template: string): void {
 	localStorage.setItem(STORAGE_KEY_TRANSLATION_TEMPLATE, template);
+}
+
+/**
+ * Reads the native mouse-cursor-follower hide timeout, or falls back to the default.
+ */
+export function loadMouseCursorFollowerHideTimeoutMs(): MouseCursorFollowerHideTimeoutMs {
+	const savedValue = localStorage.getItem(STORAGE_KEY_MOUSE_CURSOR_FOLLOWER_HIDE_TIMEOUT_MS);
+
+	if (savedValue === MOUSE_CURSOR_FOLLOWER_HIDE_TIMEOUT_DISABLED_VALUE) {
+		return null;
+	}
+
+	const timeoutMs = Number(savedValue);
+
+	if (isEnabledMouseCursorFollowerHideTimeoutMs(timeoutMs)) {
+		return timeoutMs;
+	}
+
+	return DEFAULT_MOUSE_CURSOR_FOLLOWER_HIDE_TIMEOUT_MS;
+}
+
+/**
+ * Saves the native mouse-cursor-follower hide timeout in browser storage only.
+ */
+export function saveMouseCursorFollowerHideTimeoutMs(timeoutMs: MouseCursorFollowerHideTimeoutMs): void {
+	localStorage.setItem(
+		STORAGE_KEY_MOUSE_CURSOR_FOLLOWER_HIDE_TIMEOUT_MS,
+		timeoutMs === null ? MOUSE_CURSOR_FOLLOWER_HIDE_TIMEOUT_DISABLED_VALUE : String(timeoutMs),
+	);
+}
+
+/**
+ * Checks that a stored timeout is one of the enabled options supported by the app.
+ */
+function isEnabledMouseCursorFollowerHideTimeoutMs(value: number): value is EnabledMouseCursorFollowerHideTimeoutMs {
+	return MOUSE_CURSOR_FOLLOWER_HIDE_TIMEOUT_MS_VALUES.includes(value as EnabledMouseCursorFollowerHideTimeoutMs);
 }

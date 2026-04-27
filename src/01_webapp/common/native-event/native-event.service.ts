@@ -6,7 +6,7 @@
  * - This keeps the shared webapp source portable and sandboxed.
  */
 
-import { NATIVE_TRANSLATION_OUTPUT_EVENT } from './native-event.constant';
+import { NATIVE_MOUSE_CURSOR_FOLLOWER_CLEAR_EVENT, NATIVE_TRANSLATION_OUTPUT_EVENT } from './native-event.constant';
 import type { NativeTranslationOutputEventDetail } from './native-event.model';
 
 
@@ -20,6 +20,15 @@ export function dispatchNativeTranslationOutputEvent(translationOutput: string):
 			translationOutput,
 		},
 	});
+
+	window.dispatchEvent(event);
+}
+
+/**
+ * Sends an explicit command for hiding the native mouse-cursor-follower label.
+ */
+export function dispatchNativeMouseCursorFollowerClearEvent(): void {
+	const event = new CustomEvent(NATIVE_MOUSE_CURSOR_FOLLOWER_CLEAR_EVENT);
 
 	window.dispatchEvent(event);
 }

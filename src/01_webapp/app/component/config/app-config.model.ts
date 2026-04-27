@@ -5,6 +5,8 @@
  * - The config component is stateless, so rendering depends only on this model.
  */
 
+import type { MouseCursorFollowerHideTimeoutMs } from '../../app.constant';
+
 
 /**
  * ## App Config Model
@@ -19,6 +21,9 @@ export interface AppConfigModel {
 
 	// Template used to build the translation request from the transcription.
 	translationTemplate: string;
+
+	// Native mouse-cursor-follower timeout after each translation.
+	mouseCursorFollowerHideTimeoutMs: MouseCursorFollowerHideTimeoutMs;
 
 	// True when config inputs should be locked during OpenAI requests.
 	isDisabled: boolean;

@@ -33,5 +33,8 @@ export const APP_MAIN_WINDOW_MIN_HEIGHT = 480;
 // IPC channel that carries final translation output inside Electron.
 export const NATIVE_TRANSLATION_OUTPUT_IPC_CHANNEL = 'based-translator:native-translation-output';
 
+// IPC channel that explicitly hides the mouse-cursor-follower label inside Electron.
+export const NATIVE_MOUSE_CURSOR_FOLLOWER_CLEAR_IPC_CHANNEL = 'based-translator:native-mouse-cursor-follower-clear';
+
 // Hash used to boot the overlay renderer instead of the shared webapp.
 export const OVERLAY_WINDOW_HASH = 'overlay';

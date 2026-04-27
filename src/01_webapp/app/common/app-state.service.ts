@@ -7,8 +7,9 @@
  * - This service is the single source of truth for app-level state.
  */
 
-import { loadApiKey, loadTranscriptionPrompt, loadTranslationTemplate } from '../../common/localStorage/localStorage.service';
+import { loadApiKey, loadMouseCursorFollowerHideTimeoutMs, loadTranscriptionPrompt, loadTranslationTemplate } from '../../common/localStorage/localStorage.service';
 import type { RecordingMicSession } from '../../common/recording-mic/recording-mic.service';
+import type { MouseCursorFollowerHideTimeoutMs } from '../app.constant';
 
 
 /**
@@ -34,6 +35,9 @@ export interface AppState {
 
 	// Template used to build the translation request input.
 	translationTemplate: string;
+
+	// Native mouse-cursor-follower timeout after each translation.
+	mouseCursorFollowerHideTimeoutMs: MouseCursorFollowerHideTimeoutMs;
 
 	// Currently selected app tab.
 	activeTab: AppTab;
@@ -65,6 +69,7 @@ export function createAppState(): AppState {
 		apiKey: loadApiKey(),
 		transcriptionPrompt: loadTranscriptionPrompt(),
 		translationTemplate: loadTranslationTemplate(),
+		mouseCursorFollowerHideTimeoutMs: loadMouseCursorFollowerHideTimeoutMs(),
 		// The app opens on the Recording tab by default.
 		activeTab: 'recording',
 		// Startup state matches the idle UI spec.
@@ -126,6 +131,16 @@ export function setTranscriptionOutput(state: AppState, transcriptionOutput: str
  */
 export function setTranslationOutput(state: AppState, translationOutput: string): void {
 	state.translationOutput = translationOutput;
+}
+
+/**
+ * Saves the native mouse-cursor-follower hide timeout.
+ */
+export function setMouseCursorFollowerHideTimeoutMs(
+	state: AppState,
+	mouseCursorFollowerHideTimeoutMs: MouseCursorFollowerHideTimeoutMs,
+): void {
+	state.mouseCursorFollowerHideTimeoutMs = mouseCursorFollowerHideTimeoutMs;
 }
 
 /**

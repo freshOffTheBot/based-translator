@@ -4,9 +4,9 @@
  * - Bridges translated text between Electron IPC and DOM CustomEvents.
  */
 
-import { NATIVE_TRANSLATION_OUTPUT_EVENT } from '../../../../01_webapp/common/native-event/native-event.constant';
+import { NATIVE_MOUSE_CURSOR_FOLLOWER_CLEAR_EVENT, NATIVE_TRANSLATION_OUTPUT_EVENT } from '../../../../01_webapp/common/native-event/native-event.constant';
 import type { NativeTranslationOutputEventDetail } from '../../../../01_webapp/common/native-event/native-event.model';
-import { NATIVE_TRANSLATION_OUTPUT_IPC_CHANNEL, OVERLAY_WINDOW_HASH } from '../../app/app.constant';
+import { NATIVE_MOUSE_CURSOR_FOLLOWER_CLEAR_IPC_CHANNEL, NATIVE_TRANSLATION_OUTPUT_IPC_CHANNEL, OVERLAY_WINDOW_HASH } from '../../app/app.constant';
 import { createAppWebPreferences } from '../../app/app.helper';
 import { MOUSE_CURSOR_FOLLOWER_CURSOR_OFFSET, MOUSE_CURSOR_FOLLOWER_CURSOR_POLL_INTERVAL_MS, MOUSE_CURSOR_FOLLOWER_WINDOW_DIMENSIONS } from './mouseCursorFollower.constant';
 import type { BrowserWindow, BrowserWindowConstructorOptions, IpcMain, IpcRenderer, Point, Screen } from 'electron';
@@ -93,13 +93,21 @@ export function closeMouseCursorFollowerWindow(): void {
  */
 export function bindMouseCursorFollowerIpcEvents(ipcMain: IpcMain): void {
 	ipcMain.on(NATIVE_TRANSLATION_OUTPUT_IPC_CHANNEL, (_event, translationOutput: string) => {
-		if (!translationOutput || !overlayWindow || overlayWindow.isDestroyed()) {
+		if (!translationOutput) {
+			return;
+		}
+
+		if (!overlayWindow || overlayWindow.isDestroyed()) {
 			return;
 		}
 
 		// Send the final translation into the overlay renderer, then reveal the window.
 		overlayWindow.webContents.send(NATIVE_TRANSLATION_OUTPUT_IPC_CHANNEL, translationOutput);
 		showMouseCursorFollowerWindow();
+	});
+
+	ipcMain.on(NATIVE_MOUSE_CURSOR_FOLLOWER_CLEAR_IPC_CHANNEL, () => {
+		hideMouseCursorFollowerWindow();
 	});
 }
 
@@ -139,6 +147,10 @@ export function bindMouseCursorFollowerMainWindowNativeEvents(ipcRenderer: IpcRe
 		}
 
 		ipcRenderer.send(NATIVE_TRANSLATION_OUTPUT_IPC_CHANNEL, event.detail.translationOutput);
+	});
+
+	window.addEventListener(NATIVE_MOUSE_CURSOR_FOLLOWER_CLEAR_EVENT, () => {
+		ipcRenderer.send(NATIVE_MOUSE_CURSOR_FOLLOWER_CLEAR_IPC_CHANNEL);
 	});
 }
 
@@ -218,4 +230,15 @@ function showMouseCursorFollowerWindow(): void {
 
 	syncMouseCursorFollowerPosition();
 	overlayWindow.showInactive();
+}
+
+/**
+ * Hides the overlay window while keeping its renderer state intact.
+ */
+function hideMouseCursorFollowerWindow(): void {
+	if (!overlayWindow || overlayWindow.isDestroyed()) {
+		return;
+	}
+
+	overlayWindow.hide();
 }
