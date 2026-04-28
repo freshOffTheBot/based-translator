@@ -3,6 +3,7 @@
 @use '../component/button/button.component.scss';
 @use '../component/card/card.component.scss';
 @use '../component/collapse/collapse.component.scss';
+@use '../component/dropdown/dropdown.scss';
 @use '../component/form/form.component.scss';
 @use '../component/tab/tab.component.scss';
 @use '../component/typography/typography.component.scss';
@@ -133,6 +134,10 @@ pre {
 	border-radius: appVariable.$border-radius-900;
 	background: linear-gradient(180deg, appVariable.$color-slate-700 0%, appVariable.$color-dark-600 100%);
 	overflow: hidden;
+}
+
+.dev-example-overflow-visible {
+	overflow: visible;
 }
 
 .dev-example-preview,

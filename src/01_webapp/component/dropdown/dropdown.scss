@@ -1,0 +1,170 @@
+@use '../../common/scss/app.variable.scss' as appVariable;
+
+.c-dropdown {
+	position: relative;
+	display: inline-flex;
+	color: appVariable.$color-white-90;
+}
+
+.c-dropdown-trigger {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: .5rem;
+	cursor: pointer;
+	min-height: 2.5rem;
+	padding: 0 1rem;
+	border: 1px solid appVariable.$color-white-10;
+	border-radius: appVariable.$border-radius-700;
+	background: linear-gradient(180deg, appVariable.$color-slate-600 0%, appVariable.$color-slate-700 100%);
+	color: appVariable.$color-white-90;
+	font: inherit;
+	font-size: appVariable.$font-size-400;
+	font-weight: appVariable.$font-weight-bold;
+	text-decoration: none;
+	transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease, color 160ms ease;
+
+	&::after {
+		content: '';
+		width: .45rem;
+		height: .45rem;
+		border-right: .125rem solid currentColor;
+		border-bottom: .125rem solid currentColor;
+		transform: translateY(-.125rem) rotate(45deg);
+		transform-origin: center;
+		transition: transform 160ms ease;
+	}
+
+	&:hover {
+		transform: translateY(-1px);
+		border-color: appVariable.$color-white-20;
+		color: appVariable.$color-white-500;
+	}
+
+	&:focus-visible {
+		outline: none;
+		border-color: appVariable.$color-blue-400;
+		box-shadow: 0 0 0 .1875rem appVariable.$color-blue-50;
+		color: appVariable.$color-white-500;
+	}
+}
+
+.c-dropdown-content {
+	position: absolute;
+	z-index: 30;
+	top: calc(100% + appVariable.$spacing-300);
+	left: 0;
+	opacity: 0;
+	transform: translateY(-.375rem) scale(.98);
+	transform-origin: top left;
+	pointer-events: none;
+	transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.c-dropdown-content[hidden] {
+	display: none;
+}
+
+.c-dropdown-menu,
+.c-dropdown-box {
+	border: 1px solid appVariable.$color-white-10;
+	border-radius: appVariable.$border-radius-700;
+	background: linear-gradient(180deg, appVariable.$color-slate-700 0%, appVariable.$color-dark-600 100%);
+	box-shadow: 0 1rem 2.5rem appVariable.$color-black-40;
+}
+
+.c-dropdown-menu {
+	display: grid;
+	gap: .125rem;
+	min-width: 12rem;
+	margin: 0;
+	padding: .375rem;
+	list-style: none;
+}
+
+.c-dropdown-box {
+	display: grid;
+	gap: appVariable.$spacing-400;
+	width: min(18rem, calc(100vw - 2rem));
+	padding: appVariable.$spacing-500;
+}
+
+.c-dropdown-item {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	min-height: 2.25rem;
+	padding: .5rem .625rem;
+	border: 0;
+	border-radius: appVariable.$border-radius-600;
+	background: transparent;
+	color: appVariable.$color-white-80;
+	cursor: pointer;
+	font: inherit;
+	font-size: appVariable.$font-size-400;
+	line-height: 1.4;
+	text-align: left;
+	text-decoration: none;
+	transition: background-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
+
+	&:hover {
+		background: appVariable.$color-black-20;
+		color: appVariable.$color-white-500;
+	}
+
+	&:focus-visible {
+		outline: none;
+		background: appVariable.$color-black-20;
+		box-shadow: inset 0 0 0 .125rem appVariable.$color-blue-400;
+		color: appVariable.$color-white-500;
+	}
+
+	&:disabled,
+	&[aria-disabled='true'] {
+		cursor: not-allowed;
+		color: appVariable.$color-white-40;
+	}
+}
+
+.c-dropdown-divider {
+	width: 100%;
+	height: 1px;
+	margin: .25rem 0;
+	border: 0;
+	background: appVariable.$color-white-10;
+}
+
+.c-dropdown-title {
+	margin: 0;
+	color: appVariable.$color-white-500;
+	font-size: appVariable.$font-size-500;
+	font-weight: appVariable.$font-weight-bold;
+	line-height: 1.4;
+}
+
+.c-dropdown-text {
+	margin: 0;
+	color: appVariable.$color-white-60;
+	font-size: appVariable.$font-size-400;
+	line-height: 1.6;
+}
+
+.c-dropdown-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: appVariable.$spacing-300;
+}
+
+.c-dropdown-open .c-dropdown-trigger::after {
+	transform: translateY(.125rem) rotate(225deg);
+}
+
+.c-dropdown-open .c-dropdown-content {
+	opacity: 1;
+	transform: translateY(0) scale(1);
+	pointer-events: auto;
+}
+
+.c-dropdown-closing .c-dropdown-content {
+	pointer-events: none;
+}

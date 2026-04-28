@@ -440,6 +440,115 @@
 				</div>
 			</div>
 		</section>
+
+		<section class="dev-section" aria-labelledby="dropdown-title">
+			<h2 class="dev-section-title" id="dropdown-title">Components &gt; Dropdown</h2>
+			<p class="dev-section-text">
+				Dropdowns start with hidden content, then the controller reveals the panel on trigger click and closes
+				it on outside click, Escape, or menu item click.
+			</p>
+
+			<div class="dev-example-grid">
+				<article class="dev-example dev-example-overflow-visible">
+					<div class="dev-example-preview">
+						<div class="c-dropdown">
+							<button class="c-dropdown-trigger" type="button" aria-haspopup="true" aria-expanded="false">
+								Actions
+							</button>
+
+							<ul class="c-dropdown-content c-dropdown-menu" hidden>
+								<li><button class="c-dropdown-item" type="button">Copy transcription</button></li>
+								<li><button class="c-dropdown-item" type="button">Copy translation</button></li>
+								<li><hr class="c-dropdown-divider" /></li>
+								<li><button class="c-dropdown-item" type="button">Reset output</button></li>
+							</ul>
+						</div>
+					</div>
+					<div class="dev-example-code">
+<pre><code>&lt;div class="c-dropdown"&gt;
+	&lt;button class="c-dropdown-trigger" type="button" aria-haspopup="true" aria-expanded="false"&gt;
+		Actions
+	&lt;/button&gt;
+
+	&lt;ul class="c-dropdown-content c-dropdown-menu" hidden&gt;
+		&lt;li&gt;&lt;button class="c-dropdown-item" type="button"&gt;Copy transcription&lt;/button&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;button class="c-dropdown-item" type="button"&gt;Copy translation&lt;/button&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;hr class="c-dropdown-divider" /&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;button class="c-dropdown-item" type="button"&gt;Reset output&lt;/button&gt;&lt;/li&gt;
+	&lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+					</div>
+				</article>
+
+				<article class="dev-example dev-example-overflow-visible">
+					<div class="dev-example-preview">
+						<div class="c-dropdown">
+							<a class="c-dropdown-trigger" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+								Resources
+							</a>
+
+							<ul class="c-dropdown-content c-dropdown-menu" hidden>
+								<li><a class="c-dropdown-item" href="#">Open docs</a></li>
+								<li><a class="c-dropdown-item" href="#">View changelog</a></li>
+								<li><a class="c-dropdown-item" href="#">Contact support</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="dev-example-code">
+<pre><code>&lt;div class="c-dropdown"&gt;
+	&lt;a class="c-dropdown-trigger" href="#" role="button" aria-haspopup="true" aria-expanded="false"&gt;
+		Resources
+	&lt;/a&gt;
+
+	&lt;ul class="c-dropdown-content c-dropdown-menu" hidden&gt;
+		&lt;li&gt;&lt;a class="c-dropdown-item" href="#"&gt;Open docs&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a class="c-dropdown-item" href="#"&gt;View changelog&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a class="c-dropdown-item" href="#"&gt;Contact support&lt;/a&gt;&lt;/li&gt;
+	&lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+					</div>
+				</article>
+
+				<article class="dev-example dev-example-overflow-visible">
+					<div class="dev-example-preview">
+						<div class="c-dropdown">
+							<button class="c-dropdown-trigger" type="button" aria-haspopup="true" aria-expanded="false">
+								Box Content
+							</button>
+
+							<div class="c-dropdown-content c-dropdown-box" hidden>
+								<h3 class="c-dropdown-title">Translation helper</h3>
+								<p class="c-dropdown-text">
+									Use box dropdowns for helper copy, forms, and regular buttons that should stay open.
+								</p>
+								<div class="c-dropdown-actions">
+									<button class="c-button" type="button">Keep open</button>
+									<button class="c-button c-button-ghost" type="button">Preview</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="dev-example-code">
+<pre><code>&lt;div class="c-dropdown"&gt;
+	&lt;button class="c-dropdown-trigger" type="button" aria-haspopup="true" aria-expanded="false"&gt;
+		Box Content
+	&lt;/button&gt;
+
+	&lt;div class="c-dropdown-content c-dropdown-box" hidden&gt;
+		&lt;h3 class="c-dropdown-title"&gt;Translation helper&lt;/h3&gt;
+		&lt;p class="c-dropdown-text"&gt;
+			Use box dropdowns for helper copy, forms, and regular buttons that should stay open.
+		&lt;/p&gt;
+		&lt;div class="c-dropdown-actions"&gt;
+			&lt;button class="c-button" type="button"&gt;Keep open&lt;/button&gt;
+			&lt;button class="c-button c-button-ghost" type="button"&gt;Preview&lt;/button&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+					</div>
+				</article>
+			</div>
+		</section>
 	</main>
 
 	<script type="module" src="/dev/dev.ts"></script>
