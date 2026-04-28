@@ -72,12 +72,118 @@
 
 
 
-## 2. Project Folders & Files
+## 2. Coding Styles
+- This section explains the coding style used in the project.
+
+
+
+### 2-1. TS Coding Styles
+01. ..TODO..
+
+
+
+### 2-2. HTML Coding Styles
+01. ..TODO..
+
+
+
+### 2-3. SCSS Coding Styles
+01. Use dash (`-`) only for CSS classes (no underscore).
+02. For a common component, use CSS class format; `.c-<component>-*`.
+	02-01. Use the prefix `.c-` for a component.
+	02-02. Use the base CSS class name; `.c-<component>`.
+	02-03. Use the sub CSS class name; `.c-<component>-*` for additional fields (`.c-<component>-` as prefix).
+
+
+
+### 2-4. Comment Coding Styles
+- The format shown in the code block below - including the blank lines - is all valid.
+
+```ts
+
+/**
+ * # FILE COMMENT
+ * - This comment describes the whole file/module.
+ * - Add a blank line before a file comment (the first line of the file).
+ * - Add a blank line after a file comment.
+ * - The title of a file comment must use uppercase.
+ * - A file comment must be located before `import`.
+ */
+
+import { MyDependency } from 'mydependency';
+
+
+/**
+ * ## Section Comment
+ * - A section comment refers to a comment that represents an entire section, wrapped in square brackets.
+ * - It's usually used for categories larger than the file comment, like interface, type or class.
+ * - The title of a section comment must use uppercase for the first letter of each word.
+ * - The title of a section comment can be omitted.
+ */
+interface FooEvents {
+	// Since each field inside an `interface` is important, add an inline comment (`//`) to every field.
+	// - After the field/logic that the comment refers to, insert a blank line to clearly separate it from the next field or logic.
+	// - Keep comments short and concise, but if extra explanation is needed, use list-style markdown like (`-`).
+	fooField: number;
+
+	// This is a simple inline comment.
+	onFooChange: () => void;
+}
+
+
+/**
+ * ## Section Comment
+ * - Since this function is used as a wapper, this is considered as a section comment.
+ */
+export function Foo(): void {
+
+	/**
+	 * A function comment is for a function.
+	 * - A function comment does not use a title - just describe what it does directly.
+	 * - If additional explanation is needed, it's fine to use markdown-style lists.
+	 * - If necessary, include input/output details, and show simple examples.
+	 */
+	function doFoo(): number {
+		// Inline comments in a function are used to explain complex logic.
+		// - After that logic is done, add a blank line to clearly separete it.
+		// - If detailed explanation is needed, use markdown-style lists.
+		// - If it helps explain the sequence, use numbered comments like `// 01. Foo` + `// 02. Bar`.
+		// - If it helps readability, use two blank lines to make the separation between logic even clearer.
+		<logic here..>
+
+
+		// 01. Foo task.
+		<logic there..>
+
+		// 02. Bar task.
+		<logic there..>
+	}
+}
+
+```
+
+01. Use easy and simple English.
+02. It must be instantly understandable at a glance for dev frens.
+	02-01. Remember that comments are for frens of the Net.
+03. When updating the existing comments:
+	03-01. If exisiting comment contains `Related file: ..`, then keep it as-is.
+
+
+
+
+
+---
+
+
+
+
+
+## 3. Project Folders & Files
 - This section explains the project folders and files.
 
 
 
-### 2-1. Project Root Folders & Files
+### 3-1. Project Root Folders & Files
 01. `.editorconfig`: project coding style.
 02. `package.json`: the root package.json that controls sub-projects (the webapp, Electron, ...).
 03. `src/`: the folder contains all project source files.
@@ -86,7 +192,7 @@
 
 
 
-### 2-2. Web App
+### 3-2. Web App
 01. `src/01_webapp/package.json`: for npm.
 02. `src/01_webapp/tsconfig.json`: for TypeScript.
 03. `src/01_webapp/vite.config.ts`: for Vite.
@@ -141,7 +247,7 @@
 
 
 
-### 2-3. Electron
+### 3-3. Electron
 01. `src/02_electron/forge.config.ts`: The Electron Forge config file for packaging and Vite integration.
 02. `src/02_electron/vite.main.config.ts`: The Vite config file for the Electron main-process bundle.
 03. `src/02_electron/vite.preload.config.ts`: The Vite config file for the Electron preload bundle.
@@ -167,7 +273,7 @@
 
 
 
-#### 2-4. Notes For Electron
+#### 3-4. Notes For Electron
 01. The main Electron files (`src/02_electron/src/main.ts`, `src/02_electron/src/preload.ts`, `src/02_electron/src/renderer.ts` and `src/02_electron/src/index.css`) must contain the basic Electron app logic.
 	01-01. If the folder `src/02_electron/src/common` and the folder `src/02_electron/src/component` are removed, the Electron app must be still runnable as vanilla.
 02. Since this is Linux environment (no GUI), do not build the app. I will do it by myself.
@@ -182,14 +288,14 @@
 
 
 
-## 3. UI/UX
+## 4. UI/UX
 01. The below ASCII wireframes are a visual spec as well as a layout guide.
 02. Dark theme.
 03. Compact design components.
 
 
 
-### 3-1. On Startup
+### 4-1. On Startup
 ```text
 +--------------------------------------------+
 |  BASED TRANSLATOR                          |
@@ -226,7 +332,7 @@
 
 
 
-### 3-2. Recording tab
+### 4-2. Recording tab
 ```text
 +--------------------------------------------+
 |  BASED TRANSLATOR                          |
@@ -264,7 +370,7 @@
 
 
 
-### 3-3. Configuration tab
+### 4-3. Configuration tab
 ```text
 +--------------------------------------------+
 |  BASED TRANSLATOR                          |
@@ -306,7 +412,7 @@
 
 
 
-### 3-4. Exclusive native app features
+### 4-4. Exclusive native app features
 01. At the end of the Configuration tab, show a collapse component for native app exclusive features.
 	01-01. Add a bit more space above the collapse component because the section is a different context from OpenAI config.
 	01-02. Title: `Exclusive Native App Features`
@@ -343,7 +449,7 @@
 
 
 
-## 4. Logic Flow
+## 5. Logic Flow
 ```text
 function onClickStartRecordingButton() {
 	if (microphone not allowed) {
@@ -408,11 +514,11 @@ function onClickStartRecordingButton() {
 
 
 
-## 5. Rules
-01. Use simple and easy-to-understand codes.
-02. Use single-source-of-truth approach.
-03. Great code structure is easy-to-delete.
-04. Respect the existing code style.
+## 6. Rules
+01. Use simple and easy to understand codes.
+02. Use single source of truth approach.
+03. Great code structure is easy to delete.
+04. Respect the existing code style (`.html`, `.scss`, `.ts`).
 05. Add useful comments so that other dev frens understand the codes super easy.
 06. Add semicolons in the source codes.
 
@@ -426,7 +532,7 @@ function onClickStartRecordingButton() {
 
 
 
-## 6. Build / Run / Test
+## 7. Build / Run / Test
 01. Build the web app: `$ npm run webapp:build`
 02. Run the web app dev server: `$ npm run webapp:dev`
 03. Test: No test needed because this is a simple project.
@@ -443,13 +549,13 @@ function onClickStartRecordingButton() {
 
 
 
-## 7. OpenAI APIs
+## 8. OpenAI APIs
 01. The project uses OpenAI's APIs.
 02. After transcription succeeds, the project sends another request to OpenAI Responses API to translate text.
 
 
 
-### 7-1. Speech-To-Text API
+### 8-1. Speech-To-Text API
 01. Example code from the official document:
 
 ```js
@@ -472,7 +578,7 @@ console.log(transcription.text);
 
 
 
-### 7-2. Text Generation API (Translation)
+### 8-2. Text Generation API (Translation)
 
 01. Example code from the official document:
 
