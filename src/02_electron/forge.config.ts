@@ -24,6 +24,9 @@ const config: ForgeConfig = {
 	packagerConfig: {
 		// Package the app source inside an ASAR archive.
 		asar: true,
+
+		// Windows: 256x256 (.ico), Mac: 1024x1024 (.icns), Linux: 512x512 (.png)
+		icon: '../01_webapp/asset/img/appIcon/appIcon',
 	},
 	rebuildConfig: {},
 	makers: [
