@@ -1,0 +1,127 @@
+@use '../scss/app.variable.scss' as appVariable;
+
+.c-header-shell {
+	position: sticky;
+	z-index: 40;
+	top: 0;
+}
+
+.c-header {
+	width: 100%;
+	border-bottom: 1px solid appVariable.$color-white-10;
+	background:
+		linear-gradient(180deg, rgba(255, 255, 255, .04) 0%, rgba(255, 255, 255, 0) 100%),
+		linear-gradient(90deg, rgba(24, 24, 24, .97) 0%, rgba(20, 20, 20, .98) 48%, rgba(7, 7, 7, .95) 100%);
+	backdrop-filter: blur(.75rem);
+	box-shadow:
+		0 .375rem 1.25rem appVariable.$color-black-40,
+		inset 0 .0625rem 0 rgba(255, 255, 255, .08);
+	color: appVariable.$color-white-80;
+	font-family: appVariable.$fontPixel;
+	font-size: appVariable.$font-size-500;
+	line-height: 1;
+}
+
+.c-header-inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: min(100%, 64rem);
+	min-height: 1.75rem;
+	margin: 0 auto;
+	padding: 0 appVariable.$spacing-500;
+	gap: appVariable.$spacing-400;
+}
+
+.c-header-nav,
+.c-header-actions {
+	display: flex;
+	align-items: center;
+	min-width: 0;
+}
+
+.c-header-actions {
+	justify-content: flex-end;
+}
+
+.c-header-link,
+.c-header-dropdown-trigger,
+.c-header-download-link {
+	color: appVariable.$color-white-80;
+	font-size: appVariable.$font-size-500;
+	line-height: 1.4;
+	text-decoration: none;
+	transition: color 160ms ease, box-shadow 160ms ease;
+
+	&:hover {
+		color: appVariable.$color-white-500;
+	}
+
+	&:focus-visible {
+		outline: none;
+		box-shadow: 0 .125rem 0 appVariable.$color-blue-400;
+		color: appVariable.$color-white-500;
+	}
+}
+
+.c-header-link {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.c-header-dropdown {
+	position: relative;
+	font-size: appVariable.$font-size-500;
+}
+
+.c-header-dropdown-trigger {
+	min-height: auto;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	font-size: appVariable.$font-size-500;
+	font-weight: appVariable.$font-weight;
+	transform: none;
+
+	&::after {
+		display: none;
+	}
+
+	&:hover {
+		transform: none;
+	}
+}
+
+.c-header-dropdown-box {
+	right: 0;
+	left: auto;
+	width: min(18rem, calc(100vw - 2rem));
+	padding: appVariable.$spacing-500;
+	transform-origin: top right;
+}
+
+.c-header-dropdown-text {
+	margin: 0;
+	color: appVariable.$color-white-60;
+	font-size: appVariable.$font-size-500;
+	line-height: 1.5;
+}
+
+.c-header-download-link {
+	justify-content: center;
+	min-height: 2rem;
+	padding: .375rem .5rem;
+	border: 1px solid appVariable.$color-white-10;
+	border-radius: appVariable.$border-radius-500;
+	background: appVariable.$color-black-20;
+	color: appVariable.$color-white-90;
+}
+
+@media (max-width: 47.99rem) {
+	.c-header-inner {
+		min-height: 1.625rem;
+		padding: 0 appVariable.$spacing-400;
+	}
+}

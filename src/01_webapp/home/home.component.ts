@@ -7,6 +7,7 @@
  */
 
 import { initializeAppComponent } from '../app/app.component';
+import { initializeHeaderComponent } from '../common/header/header.component';
 import homeHtml from './home.html?raw';
 
 
@@ -22,12 +23,14 @@ export function initializeHome(): void {
 
 	appRoot.innerHTML = homeHtml;
 
-	// The app is mounted inside the home shell so the page can keep its own layout wrapper.
+	// Page-level components are mounted before the app so shared behavior can initialize once after startup.
+	const homeHeaderRoot = appRoot.querySelector<HTMLElement>('#home-header');
 	const homeAppRoot = appRoot.querySelector<HTMLElement>('#home-app');
 
-	if (!homeAppRoot) {
+	if (!homeHeaderRoot || !homeAppRoot) {
 		throw new Error('Home app container not found.');
 	}
 
+	initializeHeaderComponent(homeHeaderRoot);
 	initializeAppComponent(homeAppRoot);
 }
