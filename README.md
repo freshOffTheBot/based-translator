@@ -7,7 +7,7 @@
 Speech-to-text + translation app using the OpenAI API.
 No server-side storage - everything stays in user's browser.
 
-This project is built by Codex, Codex only.
+This project is built by Codex CLI, Codex CLI only.
 
 
 
