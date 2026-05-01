@@ -23,5 +23,11 @@ pre {
 }
 
 #app {
+	display: flex;
+	flex-direction: column;
 	min-height: 100vh;
+}
+
+#home-app {
+	flex: 1 0 auto;
 }

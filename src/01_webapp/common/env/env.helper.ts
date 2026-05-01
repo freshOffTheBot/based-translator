@@ -14,3 +14,10 @@ export type AppRuntime = 'webapp' | 'electron';
 export function isBuiltAsWebapp(): boolean {
 	return __APP_RUNTIME__ === 'webapp';
 }
+
+/**
+ * Returns the root package version injected during build.
+ */
+export function getAppVersion(): string {
+	return __APP_VERSION__;
+}

@@ -6,7 +6,19 @@
  */
 
 import path from 'node:path';
+import fs from 'node:fs';
 import { defineConfig } from 'vite';
+
+
+/**
+ * Reads the app version from the root package file so every runtime shows the same version.
+ */
+function getRootPackageVersion(): string {
+	const packageJsonPath = path.resolve(__dirname, '../../package.json');
+	const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8')) as { version?: string };
+
+	return packageJson.version ?? '0.0.0';
+}
 
 
 /**
@@ -16,6 +28,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
 	define: {
 		__APP_RUNTIME__: JSON.stringify('electron'),
+		__APP_VERSION__: JSON.stringify(getRootPackageVersion()),
 	},
 	server: {
 		fs: {
