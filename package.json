@@ -1,6 +1,6 @@
 {
 	"name": "based-translator",
-	"version": "0.0.0",
+	"version": "0.5.0",
 	"description": "A speech-to-text web app using OpenAI audio transcriptions API.",
 	"private": true,
 	"scripts": {
