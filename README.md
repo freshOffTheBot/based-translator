@@ -1,7 +1,7 @@
 # BASED TRANSLATOR
 
 <p align="center">
-	<img src="01_release/v0.4.0/v0.4.0.png" width="800" alt="BASED TRANSLATOR screenshot">
+	<img src="01_release/v0.5.0/v0.5.0.png" width="800" alt="BASED TRANSLATOR screenshot">
 </p>
 
 Speech-to-text + translation app using the OpenAI API.
